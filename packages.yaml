@@ -1,0 +1,125 @@
+mrs_uav_system:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/mrs_uav_system
+  unstable_ref: 1.5
+  stable_ref: release
+
+mrs_uav_core:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/mrs_uav_core
+  unstable_ref: master
+  stable_ref: release
+
+mrs_uav_gazebo_simulation:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/mrs_uav_gazebo_simulation
+  unstable_ref: master
+  stable_ref: release
+
+mrs_msgs:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/mrs_msgs
+  unstable_ref: hw_api
+  stable_ref: release
+
+mrs_lib:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/mrs_lib
+  unstable_ref: hw_api
+  stable_ref: release
+
+mrs_uav_managers:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/mrs_uav_managers
+  unstable_ref: hw_api
+  stable_ref: release
+
+mrs_bumper:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/mrs_bumper
+  unstable_ref: hw_api
+  stable_ref: release
+
+mrs_multirotor_simulator:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/mrs_multirotor_simulator
+  unstable_ref: master
+  stable_ref: release
+
+mrs_uav_controllers:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/mrs_uav_controllers
+  unstable_ref: hw_api
+  stable_ref: release
+
+mrs_uav_autostart:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/mrs_uav_autostart
+  unstable_ref: master
+  stable_ref: release
+
+mrs_uav_hw_api:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/mrs_uav_hw_api
+  unstable_ref: master
+  stable_ref: release
+
+mrs_uav_state_estimators:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/mrs_uav_state_estimators
+  unstable_ref: master
+  stable_ref: release
+
+mrs_uav_deployment:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/mrs_uav_deployment
+  unstable_ref: master
+  stable_ref: release
+
+mrs_uav_status:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/mrs_uav_status
+  unstable_ref: hw_api
+  stable_ref: release
+
+mrs_uav_testing:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/mrs_uav_testing
+  unstable_ref: hw_api
+  stable_ref: release
+
+mrs_uav_trackers:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/mrs_uav_trackers
+  unstable_ref: hw_api
+  stable_ref: release
+
+mrs_uav_px4_api:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/mrs_uav_px4_api
+  unstable_ref: master
+  stable_ref: release
+
+mrs_rviz_plugins:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/mrs_rviz_plugins
+  unstable_ref: hw_api
+  stable_ref: release
+
+mrs_uav_trajectory_generation:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/mrs_uav_trajectory_generation
+  unstable_ref: hw_api
+  stable_ref: release
+
+px4_sitl_gazebo:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/px4_sitl_gazebo
+  unstable_ref: firmware_1.13.2-deb
+  stable_ref: release
+
+mrs_gazebo_common_resources:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/mrs_gazebo_common_resources
+  unstable_ref: hw_api
+  stable_ref: release

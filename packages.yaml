@@ -82,12 +82,6 @@ mrs_uav_status:
   unstable_ref: hw_api
   stable_ref: release
 
-mrs_uav_testing:
-  architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/mrs_uav_testing
-  unstable_ref: hw_api
-  stable_ref: release
-
 mrs_uav_trackers:
   architecture: [amd64, arm64]
   source: https://github.com/ctu-mrs/mrs_uav_trackers

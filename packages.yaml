@@ -10,6 +10,12 @@ mrs_uav_core:
   unstable_ref: master
   stable_ref: release
 
+mrs_uav_modules:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/mrs_uav_modules
+  unstable_ref: master
+  stable_ref: release
+
 mrs_uav_gazebo_simulation:
   architecture: [amd64, arm64]
   source: https://github.com/ctu-mrs/mrs_uav_gazebo_simulation
@@ -94,6 +100,12 @@ mrs_uav_px4_api:
   unstable_ref: master
   stable_ref: release
 
+mrs_uav_dji_tello_api:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/mrs_uav_dji_tello_api
+  unstable_ref: master
+  stable_ref: release
+
 mrs_rviz_plugins:
   architecture: [amd64, arm64]
   source: https://github.com/ctu-mrs/mrs_rviz_plugins
@@ -106,14 +118,26 @@ mrs_uav_trajectory_generation:
   unstable_ref: hw_api
   stable_ref: release
 
-px4_sitl_gazebo:
+mrs_serial:
   architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/px4_sitl_gazebo
-  unstable_ref: firmware_1.13.2-deb
+  source: https://github.com/ctu-mrs/mrs_serial
+  unstable_ref: hw_api
   stable_ref: release
 
-mrs_gazebo_common_resources:
+mrs_uav_path_loader:
   architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/mrs_gazebo_common_resources
+  source: https://github.com/ctu-mrs/mrs_uav_path_loader
+  unstable_ref: hw_api
+  stable_ref: release
+
+mrs_uav_trajectory_loader:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/mrs_uav_trajectory_loader
+  unstable_ref: hw_api
+  stable_ref: release
+
+mrs_utils:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/mrs_utils
   unstable_ref: hw_api
   stable_ref: release

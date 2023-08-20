@@ -126,13 +126,13 @@ mrs_serial:
 
 mrs_uav_path_loader:
   architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/mrs_uav_path_loader
+  source: https://github.com/ctu-mrs/path_loader
   unstable_ref: hw_api
   stable_ref: release
 
 mrs_uav_trajectory_loader:
   architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/mrs_uav_trajectory_loader
+  source: https://github.com/ctu-mrs/trajectory_loader
   unstable_ref: hw_api
   stable_ref: release
 

@@ -103,7 +103,7 @@ for PACKAGE in $BUILD_ORDER; do
     echo "Github SHA $HAS_TAG not detecting, going to build it"
 
     epoch=1
-    build_flag=$(date +%Y%m%d.%H%M%S)~git_$SHA
+    build_flag=$(date +%Y%m%d.%H%M%S)~git-$SHA
 
     sed -i "s/(/($epoch:/" ./debian/changelog
     sed -i "s/)/.${build_flag})/" ./debian/changelog

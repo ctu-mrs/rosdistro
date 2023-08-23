@@ -92,20 +92,42 @@ for PACKAGE in $BUILD_ORDER; do
   export DEB_BUILD_OPTIONS="parallel=`nproc`"
   bloom-generate rosdebian --os-name ubuntu --os-version focal --ros-distro noetic
 
-  epoch=1
-  build_flag=$(date +%Y%m%d.%H%M%S)
+  SHA=$(git rev-parse --short HEAD)
 
-  sed -i "s/(/($epoch:/" ./debian/changelog
-  sed -i "s/)/.${build_flag})/" ./debian/changelog
+  FUTURE_DEB_NAME=ros-noetic-$(echo $PACKAGE  | sed 's/_/-/g')
 
-  fakeroot debian/rules "binary --parallel"
+  HAS_TAG=$(apt-cache policy $FUTURE_DEB_NAME | grep Candidate | grep git_$SHA | wc -l)
 
-  DEB_NAME=$(dpkg --field ../*.deb | grep Package | awk '{print $2}')
-  mv ../*.deb $ARTIFACTS_FOLDER
+  if [ -e $ARTIFACTS_FOLDER/compile_further.txt ] || [[ "$HAS_TAG" == "0" ]]; then
 
-  echo "$PACKAGE:
-  ubuntu: [$DEB_NAME]
-" >> $ROSDEP_FILE
+    echo "Github SHA $HAS_TAG not detecting, going to build it"
+
+    epoch=1
+    build_flag=$(date +%Y%m%d.%H%M%S)~git_$SHA
+
+    sed -i "s/(/($epoch:/" ./debian/changelog
+    sed -i "s/)/.${build_flag})/" ./debian/changelog
+
+    fakeroot debian/rules "binary --parallel"
+
+    DEB_NAME=$(dpkg --field ../*.deb | grep Package | awk '{print $2}')
+    mv ../*.deb $ARTIFACTS_FOLDER
+
+    echo "$PACKAGE:
+    ubuntu: [$DEB_NAME]
+  " >> $ROSDEP_FILE
+
+    echo "1" >> $ARTIFACTS_FOLDER/compile_further.txt
+
+  else
+
+    echo "Github SHA $HAS_TAG detected, not going to build it"
+
+    echo "$PACKAGE:
+    ubuntu: [$FUTURE_DEB_NAME]
+  " >> $ROSDEP_FILE
+
+  fi
 
 done
 

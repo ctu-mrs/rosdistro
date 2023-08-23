@@ -87,11 +87,6 @@ for PACKAGE in $BUILD_ORDER; do
   echo "$0: cding to '$PKG_PATH'"
   cd $PKG_PATH
 
-  rosdep install -y -v --rosdistro=noetic --from-paths ./
-
-  export DEB_BUILD_OPTIONS="parallel=`nproc`"
-  bloom-generate rosdebian --os-name ubuntu --os-version focal --ros-distro noetic
-
   SHA=$(git rev-parse --short HEAD)
 
   FUTURE_DEB_NAME=ros-noetic-$(echo $PACKAGE  | sed 's/_/-/g')
@@ -102,6 +97,11 @@ for PACKAGE in $BUILD_ORDER; do
 
     echo "Github SHA $HAS_TAG not detecting, going to build it"
 
+    rosdep install -y -v --rosdistro=noetic --from-paths ./
+
+    export DEB_BUILD_OPTIONS="parallel=`nproc`"
+    bloom-generate rosdebian --os-name ubuntu --os-version focal --ros-distro noetic
+
     epoch=1
     build_flag=$(date +%Y%m%d.%H%M%S)~git-$SHA
 
@@ -110,12 +110,17 @@ for PACKAGE in $BUILD_ORDER; do
 
     fakeroot debian/rules "binary --parallel"
 
+    sudo apt-get -y install --allow-downgrades ../*.deb
     DEB_NAME=$(dpkg --field ../*.deb | grep Package | awk '{print $2}')
     mv ../*.deb $ARTIFACTS_FOLDER
 
     echo "$PACKAGE:
     ubuntu: [$DEB_NAME]
   " >> $ROSDEP_FILE
+
+    rosdep update
+
+    source /opt/ros/noetic/setup.bash
 
     echo "1" >> $ARTIFACTS_FOLDER/compile_further.txt
 

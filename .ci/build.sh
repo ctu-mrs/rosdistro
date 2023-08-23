@@ -91,7 +91,7 @@ for PACKAGE in $BUILD_ORDER; do
 
   FUTURE_DEB_NAME=ros-noetic-$(echo $PACKAGE  | sed 's/_/-/g')
 
-  HAS_TAG=$(apt-cache policy $FUTURE_DEB_NAME | grep Candidate | grep git_$SHA | wc -l)
+  HAS_TAG=$(apt-cache policy $FUTURE_DEB_NAME | grep Candidate | grep "git-$SHA" | wc -l)
 
   if [ -e $ARTIFACTS_FOLDER/compile_further.txt ] || [[ "$HAS_TAG" == "0" ]]; then
 

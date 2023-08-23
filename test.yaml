@@ -1,0 +1,29 @@
+dummy_ros_package:
+  architecture: [amd64]
+  source: https://github.com/ctu-mrs/dummy_ros_package
+  unstable_ref: master
+  stable_ref: release
+
+dummy2_ros_package:
+  architecture: [amd64]
+  source: https://github.com/ctu-mrs/dummy2_ros_package
+  unstable_ref: master
+  stable_ref: release
+
+dummy3_ros_package:
+  architecture: [amd64]
+  source: https://github.com/ctu-mrs/dummy3_ros_package
+  unstable_ref: master
+  stable_ref: release
+
+dummy4_ros_package:
+  architecture: [amd64]
+  source: https://github.com/ctu-mrs/dummy4_ros_package
+  unstable_ref: master
+  stable_ref: release
+
+dummy5_ros_package:
+  architecture: [amd64]
+  source: https://github.com/ctu-mrs/dummy5_ros_package
+  unstable_ref: master
+  stable_ref: release

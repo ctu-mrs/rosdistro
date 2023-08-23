@@ -3,8 +3,8 @@ name: unstable-amd64
 on:
   workflow_dispatch:
 
-  schedule:
-    - cron:  '0 20 * * *' # every day at 10pm UTC+2
+  # schedule:
+  #   - cron:  '0 20 * * *' # every day at 10pm UTC+2
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -17,7 +17,7 @@ jobs:
       - id: execute
         run: |
           mkdir -p /tmp/artifacts
-          touch /tmp/artifacts/generated_amd64.yaml
+          touch /tmp/artifacts/generated_amd64_testing.yaml
       - name: Save artifacts
         uses: actions/upload-artifact@v3
         with:

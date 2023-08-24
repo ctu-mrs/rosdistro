@@ -8,7 +8,7 @@ trap 'echo "$0: \"${last_command}\" command failed with exit code $?"' ERR
 VARIANT=$1
 PACKAGE_NAME=$2
 WORKSPACE=/tmp/workspace
-YAML_FILE=test.yaml
+YAML_FILE=package.yaml
 ARTIFACTS_FOLDER=/tmp/artifacts
 
 sudo apt-get -y install dpkg-dev
@@ -65,7 +65,7 @@ echo "$0: catking reported following topological build order:"
 echo "$BUILD_ORDER"
 echo ""
 
-ROSDEP_FILE=$ARTIFACTS_FOLDER/generated_$ARCH'_testing.yaml'
+ROSDEP_FILE=$ARTIFACTS_FOLDER/generated_$ARCH.yaml
 
 cat $ROSDEP_FILE
 

@@ -96,10 +96,10 @@ for PACKAGE in $BUILD_ORDER; do
   NEW_COMMIT=false
   if [[ "$GIT_SHA_MATCHES" == "0" ]]; then
     echo "$0: new commit detected, going to compile"
-    NEW_COMMIT=true 
+    NEW_COMMIT=true
   fi
 
-  MY_DEPENDENCIES=$(rosdep keys $PACKAGE)
+  MY_DEPENDENCIES=$(catkin list --deps --directory . -u | grep -e "^\s*-" | awk '{print $2}')
 
   DEPENDENCIES_CHANGED=false
   for dep in `echo $MY_DEPENDENCIES`; do
@@ -118,7 +118,7 @@ for PACKAGE in $BUILD_ORDER; do
     FIND_METAPACKAGE=$(cat CMakeLists.txt | grep -e "^catkin_metapackage" | wc -l)
 
     if [ $FIND_METAPACKAGE -ge 1 ]; then
-      echo "$0: this package is a metapackage, not going to install dependencies" 
+      echo "$0: this package is a metapackage, not going to install dependencies"
     else
       rosdep install -y -v --rosdistro=noetic --from-paths ./
     fi

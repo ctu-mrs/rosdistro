@@ -8,7 +8,7 @@ trap 'echo "$0: \"${last_command}\" command failed with exit code $?"' ERR
 VARIANT=$1
 PACKAGE_NAME=$2
 WORKSPACE=/tmp/workspace
-YAML_FILE=packages.yaml
+YAML_FILE=package.yaml
 ARTIFACTS_FOLDER=/tmp/artifacts
 
 sudo apt-get -y install dpkg-dev
@@ -91,13 +91,37 @@ for PACKAGE in $BUILD_ORDER; do
 
   FUTURE_DEB_NAME=ros-noetic-$(echo $PACKAGE  | sed 's/_/-/g')
 
-  HAS_TAG=$(apt-cache policy $FUTURE_DEB_NAME | grep Candidate | grep "git-$SHA" | wc -l)
+  GIT_SHA_MATCHES=$(apt-cache policy $FUTURE_DEB_NAME | grep Candidate | grep "git-$SHA" | wc -l)
 
-  if [ -e $ARTIFACTS_FOLDER/compile_further.txt ] || [[ "$HAS_TAG" == "0" ]]; then
+  NEW_COMMIT=false
+  if [[ "$GIT_SHA_MATCHES" == "0" ]]; then
+    echo "$0: new commit detected, going to compile"
+    NEW_COMMIT=true
+  fi
 
-    echo "Github SHA $HAS_TAG not detecting, going to build it"
+  MY_DEPENDENCIES=$(catkin list --deps --directory . -u | grep -e "^\s*-" | awk '{print $2}')
 
-    rosdep install -y -v --rosdistro=noetic --from-paths ./
+  DEPENDENCIES_CHANGED=false
+  for dep in `echo $MY_DEPENDENCIES`; do
+
+    FOUND=$(cat $ARTIFACTS_FOLDER/compiled.txt | grep $dep | wc -l)
+
+    if [ $FOUND -ge 1 ]; then
+      DEPENDENCIES_CHANGED=true
+      echo "$0: The dependency $dep has been updated, going to compile"
+    fi
+
+  done
+
+  if $DEPENDENCIES_CHANGED || $NEW_COMMIT; then
+
+    FIND_METAPACKAGE=$(cat CMakeLists.txt | grep -e "^catkin_metapackage" | wc -l)
+
+    if [ $FIND_METAPACKAGE -ge 1 ]; then
+      echo "$0: this package is a metapackage, not going to install dependencies"
+    else
+      rosdep install -y -v --rosdistro=noetic --from-paths ./
+    fi
 
     export DEB_BUILD_OPTIONS="parallel=`nproc`"
     bloom-generate rosdebian --os-name ubuntu --os-version focal --ros-distro noetic
@@ -122,11 +146,11 @@ for PACKAGE in $BUILD_ORDER; do
 
     source /opt/ros/noetic/setup.bash
 
-    echo "1" >> $ARTIFACTS_FOLDER/compile_further.txt
+    echo "$PACKAGE" >> $ARTIFACTS_FOLDER/compiled.txt
 
   else
 
-    echo "Github SHA $HAS_TAG detected, not going to build it"
+    echo "$0: not building this package, the newest version is already in the PPA"
 
     echo "$PACKAGE:
     ubuntu: [$FUTURE_DEB_NAME]

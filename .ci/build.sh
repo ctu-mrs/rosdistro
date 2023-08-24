@@ -8,7 +8,7 @@ trap 'echo "$0: \"${last_command}\" command failed with exit code $?"' ERR
 VARIANT=$1
 PACKAGE_NAME=$2
 WORKSPACE=/tmp/workspace
-YAML_FILE=package.yaml
+YAML_FILE=packages.yaml
 ARTIFACTS_FOLDER=/tmp/artifacts
 
 sudo apt-get -y install dpkg-dev

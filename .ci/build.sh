@@ -91,7 +91,11 @@ for PACKAGE in $BUILD_ORDER; do
 
   FUTURE_DEB_NAME=ros-noetic-$(echo $PACKAGE  | sed 's/_/-/g')
 
+  echo "$0: FUTURE_DEB_NAME=$FUTURE_DEB_NAME"
+
   GIT_SHA_MATCHES=$(apt-cache policy $FUTURE_DEB_NAME | grep Candidate | grep "git-$SHA" | wc -l)
+
+  echo "$0: GIT_SHA_MATCHES=$GIT_SHA_MATCHES"
 
   NEW_COMMIT=false
   if [[ "$GIT_SHA_MATCHES" == "0" ]]; then

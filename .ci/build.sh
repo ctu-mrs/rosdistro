@@ -89,7 +89,7 @@ for PACKAGE in $BUILD_ORDER; do
 
   SHA=$(git rev-parse --short HEAD)
 
-  FUTURE_DEB_NAME=ros-noetic-$(echo $PACKAGE  | sed 's/_/-/g')
+  FUTURE_DEB_NAME=ros-noetic-$(echo $PACKAGE | sed 's/_/-/g')
 
   echo "$0: FUTURE_DEB_NAME=$FUTURE_DEB_NAME"
 

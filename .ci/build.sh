@@ -89,9 +89,13 @@ for PACKAGE in $BUILD_ORDER; do
 
   SHA=$(git rev-parse --short HEAD)
 
+  echo "$0: SHA=$SHA"
+
   FUTURE_DEB_NAME=ros-noetic-$(echo $PACKAGE | sed 's/_/-/g')
 
   echo "$0: FUTURE_DEB_NAME=$FUTURE_DEB_NAME"
+
+  apt-cache policy $FUTURE_DEB_NAME
 
   GIT_SHA_MATCHES=$(apt-cache policy $FUTURE_DEB_NAME | grep Candidate | grep "git-$SHA" | wc -l)
 

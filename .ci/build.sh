@@ -115,6 +115,10 @@ for PACKAGE in $BUILD_ORDER; do
 
   if $DEPENDENCIES_CHANGED || $NEW_COMMIT; then
 
+    ## don't run if CATKIN_IGNORE is present
+
+    [ -e $PKG_PATH/CATKIN_IGNORE ] && continue
+
     FIND_METAPACKAGE=$(cat CMakeLists.txt | grep -e "^catkin_metapackage" | wc -l)
 
     if [ $FIND_METAPACKAGE -ge 1 ]; then
@@ -122,6 +126,10 @@ for PACKAGE in $BUILD_ORDER; do
     else
       rosdep install -y -v --rosdistro=noetic --from-paths ./
     fi
+
+    source /opt/ros/noetic/setup.bash
+
+    echo "$0: Running bloom on a package in '$PKG_PATH'"
 
     export DEB_BUILD_OPTIONS="parallel=`nproc`"
     bloom-generate rosdebian --os-name ubuntu --os-version focal --ros-distro noetic

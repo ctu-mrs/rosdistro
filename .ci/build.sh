@@ -68,7 +68,7 @@ echo "$0: catking reported following topological build order:"
 echo "$BUILD_ORDER"
 echo ""
 
-ROSDEP_FILE=$ARTIFACTS_FOLDER/generated_$ARCH\_testing.yaml
+ROSDEP_FILE="$ARTIFACTS_FOLDER/generated_amd64_testing.yaml"
 
 cat $ROSDEP_FILE
 

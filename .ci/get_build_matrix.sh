@@ -10,7 +10,7 @@ DEBUG=false
 VARIANT=$1
 ARCH=$2
 WORKSPACE=/tmp/workspace
-YAML_FILE=test.yaml
+YAML_FILE=packages.yaml
 ARTIFACTS_FOLDER=/tmp/artifacts
 
 ./.ci_scripts/package_build/add_ros_ppa.sh >> /tmp/log.txt 2>&1

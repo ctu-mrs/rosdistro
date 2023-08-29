@@ -178,8 +178,8 @@ echo ""
 cat $ROSDEP_FILE
 echo ""
 
-mv $ARTIFACTS_FOLDER/metapackages/* $ARTIFACTS_FOLDER
-mv $ARTIFACTS_FOLDER/packages/* $ARTIFACTS_FOLDER
+mv $ARTIFACTS_FOLDER/metapackages/* $ARTIFACTS_FOLDER || echo "$0: no metapackages to move"
+mv $ARTIFACTS_FOLDER/packages/* $ARTIFACTS_FOLDER || echo "$0: no packages to move"
 
 rm -rf $ARTIFACTS_FOLDER/metapackages
 rm -rf $ARTIFACTS_FOLDER/packages

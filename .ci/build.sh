@@ -8,7 +8,7 @@ trap 'echo "$0: \"${last_command}\" command failed with exit code $?"' ERR
 VARIANT=$1
 PACKAGE_NAME=$2
 WORKSPACE=/tmp/workspace
-YAML_FILE=package.yaml
+YAML_FILE=test.yaml
 ARTIFACTS_FOLDER=/tmp/artifacts
 
 mkdir -p $ARTIFACTS_FOLDER/metapackages
@@ -68,7 +68,7 @@ echo "$0: catking reported following topological build order:"
 echo "$BUILD_ORDER"
 echo ""
 
-ROSDEP_FILE=$ARTIFACTS_FOLDER/generated_$ARCH.yaml
+ROSDEP_FILE=$ARTIFACTS_FOLDER/generated_$ARCH_testing.yaml
 
 cat $ROSDEP_FILE
 

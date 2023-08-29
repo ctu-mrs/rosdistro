@@ -119,13 +119,7 @@ for PACKAGE in $BUILD_ORDER; do
 
     [ -e $PKG_PATH/CATKIN_IGNORE ] && continue
 
-    FIND_METAPACKAGE=$(cat CMakeLists.txt | grep -e "^catkin_metapackage" | wc -l)
-
-    if [ $FIND_METAPACKAGE -ge 1 ]; then
-      echo "$0: this package is a metapackage, not going to install dependencies"
-    else
-      rosdep install -y -v --rosdistro=noetic --from-paths ./
-    fi
+    rosdep install -y -v --rosdistro=noetic --dependency-types=build --from-paths ./
 
     source /opt/ros/noetic/setup.bash
 

@@ -17,6 +17,7 @@ jobs:
       - id: execute
         run: |
           mkdir -p /tmp/artifacts
+          mkdir -p /tmp/artifacts/metarepositories
           touch /tmp/artifacts/generated_amd64_testing.yaml
           touch /tmp/artifacts/compiled.txt
           echo "0" >> /tmp/artifacts/idx.txt

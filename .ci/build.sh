@@ -37,7 +37,7 @@ echo "$0: this is the $IDX-th job in the pipeline"
 
 for (( a=1 ; a-$IDX ; a=$a+1 )); do
 
-  echo "$0: install artifacts from job $a"
+  echo "$0: installing artifacts from job $a"
 
   sudo apt -y install $ARTIFACTS_FOLDER/$a/*.deb || echo "no artifacts to install"
 
@@ -158,10 +158,12 @@ for PACKAGE in $BUILD_ORDER; do
 
     if [ $FIND_METAPACKAGE -eq 0 ]; then
       sudo apt-get -y install --allow-downgrades ../*.deb
+      echo "$0: moving the artifact to $ARTIFACTS_FOLDER/$IDX/"
+      mv ../*.deb $ARTIFACTS_FOLDER/$IDX/
+    else
+      echo "$0: moving the artifact to $ARTIFACTS_FOLDER/metarepositories"
+      mv ../*.deb $ARTIFACTS_FOLDER/metarepositories
     fi
-
-    echo "$0: moving the artifact to $ARTIFACTS_FOLDER/$IDX/"
-    mv ../*.deb $ARTIFACTS_FOLDER/$IDX/
 
     echo "$PACKAGE:
     ubuntu: [$DEB_NAME]

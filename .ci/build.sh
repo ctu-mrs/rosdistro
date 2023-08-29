@@ -11,6 +11,9 @@ WORKSPACE=/tmp/workspace
 YAML_FILE=package.yaml
 ARTIFACTS_FOLDER=/tmp/artifacts
 
+mkdir -p $ARTIFACTS_FOLDER/metapackages
+mkdir -p $ARTIFACTS_FOLDER/packages
+
 sudo apt-get -y install dpkg-dev
 
 ARCH=$(dpkg-architecture -qDEB_HOST_ARCH)
@@ -31,7 +34,7 @@ REPOS=$(./.ci/get_repo_source.py $YAML_FILE $VARIANT $ARCH $PACKAGE_NAME)
 
 echo "$0: Installing deb packages from the provided artifacts folder"
 
-sudo apt -y install $ARTIFACTS_FOLDER/*.deb || echo "no artifacts to install"
+sudo apt -y install $ARTIFACTS_FOLDER/packages/*.deb || echo "no artifacts to install"
 
 echo "$0: artifacts installed"
 
@@ -136,9 +139,16 @@ for PACKAGE in $BUILD_ORDER; do
 
     fakeroot debian/rules "binary --parallel"
 
-    sudo apt-get -y install --allow-downgrades ../*.deb
+    FIND_METAPACKAGE=$(cat CMakeLists.txt | grep -e "^catkin_metapackage" | wc -l)
+
     DEB_NAME=$(dpkg --field ../*.deb | grep Package | awk '{print $2}')
-    mv ../*.deb $ARTIFACTS_FOLDER
+
+    if [ $FIND_METAPACKAGE -eq 0 ]; then
+      sudo apt-get -y install --allow-downgrades ../*.deb
+      mv ../*.deb $ARTIFACTS_FOLDER/metapackages
+    else
+      mv ../*.deb $ARTIFACTS_FOLDER/packages
+    fi
 
     echo "$PACKAGE:
     ubuntu: [$DEB_NAME]
@@ -167,3 +177,11 @@ echo "$0: the generated rosdep contains:"
 echo ""
 cat $ROSDEP_FILE
 echo ""
+
+mv $ARTIFACTS_FOLDER/metapackages $ARTIFACTS_FOLDER
+mv $ARTIFACTS_FOLDER/packages $ARTIFACTS_FOLDER
+
+rm -rf $ARTIFACTS_FOLDER/metapackages
+rm -rf $ARTIFACTS_FOLDER/packages
+
+rm $ARTIFACTS_FOLDER/compiled.txt

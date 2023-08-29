@@ -19,6 +19,7 @@ jobs:
           mkdir -p /tmp/artifacts
           touch /tmp/artifacts/generated_amd64_testing.yaml
           touch /tmp/artifacts/compiled.txt
+          echo "0" >> /tmp/artifacts/idx.txt
       - name: Save artifacts
         uses: actions/upload-artifact@v3
         with:

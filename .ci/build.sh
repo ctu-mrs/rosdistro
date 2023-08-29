@@ -10,9 +10,7 @@ PACKAGE_NAME=$2
 WORKSPACE=/tmp/workspace
 YAML_FILE=test.yaml
 ARTIFACTS_FOLDER=/tmp/artifacts
-
-mkdir -p $ARTIFACTS_FOLDER/metapackages
-mkdir -p $ARTIFACTS_FOLDER/packages
+IDX_FILE=$ARTIFACTS_FOLDER/idx.txt
 
 sudo apt-get -y install dpkg-dev
 
@@ -32,11 +30,26 @@ sudo pip3 install -U bloom
 
 REPOS=$(./.ci/get_repo_source.py $YAML_FILE $VARIANT $ARCH $PACKAGE_NAME)
 
-echo "$0: Installing deb packages from the provided artifacts folder"
+IDX=`cat "$IDX_FILE"`
+IDX=$(($IDX+1))
 
-sudo apt -y install $ARTIFACTS_FOLDER/packages/*.deb || echo "no artifacts to install"
+echo "$0: this is the $IDX-th job in the pipeline"
+
+for (( a=1 ; a-$IDX ; a=$a+1 )); do
+
+  echo "$0: install artifacts from job $a"
+
+  sudo apt -y install $ARTIFACTS_FOLDER/$a/*.deb || echo "no artifacts to install"
+
+done
 
 echo "$0: artifacts installed"
+
+# create the folder to store this job's artifacts
+mkdir -p $ARTIFACTS_FOLDER/$IDX
+
+# write the new incremented job idx to the shared file
+echo "$IDX" > $IDX_FILE
 
 mkdir -p $WORKSPACE
 
@@ -145,10 +158,10 @@ for PACKAGE in $BUILD_ORDER; do
 
     if [ $FIND_METAPACKAGE -eq 0 ]; then
       sudo apt-get -y install --allow-downgrades ../*.deb
-      mv ../*.deb $ARTIFACTS_FOLDER/metapackages
-    else
-      mv ../*.deb $ARTIFACTS_FOLDER/packages
     fi
+
+    echo "$0: moving the artifact to $ARTIFACTS_FOLDER/$IDX/"
+    mv ../*.deb $ARTIFACTS_FOLDER/$IDX/
 
     echo "$PACKAGE:
     ubuntu: [$DEB_NAME]
@@ -177,11 +190,3 @@ echo "$0: the generated rosdep contains:"
 echo ""
 cat $ROSDEP_FILE
 echo ""
-
-mv $ARTIFACTS_FOLDER/metapackages/* $ARTIFACTS_FOLDER || echo "$0: no metapackages to move"
-mv $ARTIFACTS_FOLDER/packages/* $ARTIFACTS_FOLDER || echo "$0: no packages to move"
-
-rm -rf $ARTIFACTS_FOLDER/metapackages
-rm -rf $ARTIFACTS_FOLDER/packages
-
-rm $ARTIFACTS_FOLDER/compiled.txt

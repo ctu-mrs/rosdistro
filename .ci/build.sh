@@ -39,7 +39,7 @@ for (( a=1 ; a-$IDX ; a=$a+1 )); do
 
   echo "$0: installing artifacts from job $a"
 
-  sudo apt -y install $ARTIFACTS_FOLDER/$a/*.deb || echo "no artifacts to install"
+  sudo apt-get -y install --allow-downgrades $ARTIFACTS_FOLDER/$a/*.deb || echo "no artifacts to install"
 
 done
 

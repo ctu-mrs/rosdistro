@@ -97,7 +97,7 @@ for PACKAGE in $BUILD_ORDER; do
 
   apt-cache policy $FUTURE_DEB_NAME
 
-  GIT_SHA_MATCHES=$(apt-cache policy $FUTURE_DEB_NAME | grep Candidate | grep "git-$SHA" | wc -l)
+  GIT_SHA_MATCHES=$(apt-cache policy $FUTURE_DEB_NAME | grep Candidate | grep "git.$SHA" | wc -l)
 
   echo "$0: GIT_SHA_MATCHES=$GIT_SHA_MATCHES"
 
@@ -134,8 +134,8 @@ for PACKAGE in $BUILD_ORDER; do
     export DEB_BUILD_OPTIONS="parallel=`nproc`"
     bloom-generate rosdebian --os-name ubuntu --os-version focal --ros-distro noetic
 
-    epoch=1
-    build_flag=$(date +%Y%m%d.%H%M%S)~git-$SHA
+    epoch=2
+    build_flag="$(date +%Y%m%d.%H%M%S)~git.$SHA"
 
     sed -i "s/(/($epoch:/" ./debian/changelog
     sed -i "s/)/.${build_flag})/" ./debian/changelog

@@ -8,8 +8,9 @@ trap 'echo "$0: \"${last_command}\" command failed with exit code $?"' ERR
 VARIANT=$1
 PACKAGE_NAME=$2
 WORKSPACE=/tmp/workspace
-YAML_FILE=packages.yaml
+YAML_FILE=test.yaml
 ARTIFACTS_FOLDER=/tmp/artifacts
+IDX_FILE=$ARTIFACTS_FOLDER/idx.txt
 
 sudo apt-get -y install dpkg-dev
 
@@ -29,11 +30,26 @@ sudo pip3 install -U bloom
 
 REPOS=$(./.ci/get_repo_source.py $YAML_FILE $VARIANT $ARCH $PACKAGE_NAME)
 
-echo "$0: Installing deb packages from the provided artifacts folder"
+IDX=`cat "$IDX_FILE"`
+IDX=$(($IDX+1))
 
-sudo apt -y install $ARTIFACTS_FOLDER/*.deb || echo "no artifacts to install"
+echo "$0: this is the $IDX-th job in the pipeline"
+
+for (( a=1 ; a-$IDX ; a=$a+1 )); do
+
+  echo "$0: installing artifacts from job $a"
+
+  sudo apt-get -y install --allow-downgrades $ARTIFACTS_FOLDER/$a/*.deb || echo "no artifacts to install"
+
+done
 
 echo "$0: artifacts installed"
+
+# create the folder to store this job's artifacts
+mkdir -p $ARTIFACTS_FOLDER/$IDX
+
+# write the new incremented job idx to the shared file
+echo "$IDX" > $IDX_FILE
 
 mkdir -p $WORKSPACE
 
@@ -65,7 +81,7 @@ echo "$0: catking reported following topological build order:"
 echo "$BUILD_ORDER"
 echo ""
 
-ROSDEP_FILE=$ARTIFACTS_FOLDER/generated_$ARCH.yaml
+ROSDEP_FILE="$ARTIFACTS_FOLDER/generated_amd64_testing.yaml"
 
 cat $ROSDEP_FILE
 
@@ -91,15 +107,7 @@ for PACKAGE in $BUILD_ORDER; do
 
   echo "$0: SHA=$SHA"
 
-  FUTURE_DEB_NAME=ros-noetic-$(echo $PACKAGE | sed 's/_/-/g')
-
-  echo "$0: FUTURE_DEB_NAME=$FUTURE_DEB_NAME"
-
-  apt-cache policy $FUTURE_DEB_NAME
-
   GIT_SHA_MATCHES=$(apt-cache policy $FUTURE_DEB_NAME | grep Candidate | grep "git.$SHA" | wc -l)
-
-  echo "$0: GIT_SHA_MATCHES=$GIT_SHA_MATCHES"
 
   NEW_COMMIT=false
   if [[ "$GIT_SHA_MATCHES" == "0" ]]; then
@@ -123,13 +131,15 @@ for PACKAGE in $BUILD_ORDER; do
 
   if $DEPENDENCIES_CHANGED || $NEW_COMMIT; then
 
-    FIND_METAPACKAGE=$(cat CMakeLists.txt | grep -e "^catkin_metapackage" | wc -l)
+    ## don't run if CATKIN_IGNORE is present
 
-    if [ $FIND_METAPACKAGE -ge 1 ]; then
-      echo "$0: this package is a metapackage, not going to install dependencies"
-    else
-      rosdep install -y -v --rosdistro=noetic --from-paths ./
-    fi
+    [ -e $PKG_PATH/CATKIN_IGNORE ] && continue
+
+    rosdep install -y -v --rosdistro=noetic --dependency-types=build --from-paths ./
+
+    source /opt/ros/noetic/setup.bash
+
+    echo "$0: Running bloom on a package in '$PKG_PATH'"
 
     export DEB_BUILD_OPTIONS="parallel=`nproc`"
     bloom-generate rosdebian --os-name ubuntu --os-version focal --ros-distro noetic
@@ -142,9 +152,18 @@ for PACKAGE in $BUILD_ORDER; do
 
     fakeroot debian/rules "binary --parallel"
 
-    sudo apt-get -y install --allow-downgrades ../*.deb
+    FIND_METAPACKAGE=$(cat CMakeLists.txt | grep -e "^catkin_metapackage" | wc -l)
+
     DEB_NAME=$(dpkg --field ../*.deb | grep Package | awk '{print $2}')
-    mv ../*.deb $ARTIFACTS_FOLDER
+
+    if [ $FIND_METAPACKAGE -eq 0 ]; then
+      sudo apt-get -y install --allow-downgrades ../*.deb
+      echo "$0: moving the artifact to $ARTIFACTS_FOLDER/$IDX/"
+      mv ../*.deb $ARTIFACTS_FOLDER/$IDX/
+    else
+      echo "$0: moving the artifact to $ARTIFACTS_FOLDER/metarepositories"
+      mv ../*.deb $ARTIFACTS_FOLDER/metarepositories
+    fi
 
     echo "$PACKAGE:
     ubuntu: [$DEB_NAME]

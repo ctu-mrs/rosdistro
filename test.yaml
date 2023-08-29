@@ -27,3 +27,9 @@ dummy5_ros_package:
   source: https://github.com/ctu-mrs/dummy5-ros-package
   unstable_ref: master
   stable_ref: release
+
+dummy_ros_metapackage:
+  architecture: [amd64]
+  source: https://github.com/ctu-mrs/dummy-ros-metapackage
+  unstable_ref: master
+  stable_ref: release

@@ -91,7 +91,7 @@ for PACKAGE in $BUILD_ORDER; do
 
   FUTURE_DEB_NAME=ros-noetic-$(echo $PACKAGE  | sed 's/_/-/g')
 
-  GIT_SHA_MATCHES=$(apt-cache policy $FUTURE_DEB_NAME | grep Candidate | grep "git-$SHA" | wc -l)
+  GIT_SHA_MATCHES=$(apt-cache policy $FUTURE_DEB_NAME | grep Candidate | grep "git.$SHA" | wc -l)
 
   NEW_COMMIT=false
   if [[ "$GIT_SHA_MATCHES" == "0" ]]; then
@@ -126,8 +126,8 @@ for PACKAGE in $BUILD_ORDER; do
     export DEB_BUILD_OPTIONS="parallel=`nproc`"
     bloom-generate rosdebian --os-name ubuntu --os-version focal --ros-distro noetic
 
-    epoch=1
-    build_flag=$(date +%Y%m%d.%H%M%S)~git-$SHA
+    epoch=2
+    build_flag="$(date +%Y%m%d.%H%M%S)~git.$SHA"
 
     sed -i "s/(/($epoch:/" ./debian/changelog
     sed -i "s/)/.${build_flag})/" ./debian/changelog

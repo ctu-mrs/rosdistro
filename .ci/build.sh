@@ -103,6 +103,10 @@ for PACKAGE in $BUILD_ORDER; do
   echo "$0: cding to '$PKG_PATH'"
   cd $PKG_PATH
 
+  FUTURE_DEB_NAME=echo "ros-noetic-$PACKAGE" | sed 's/_/-/g'
+
+  echo "$0: future deb name: $FUTURE_DEB_NAME"
+
   SHA=$(git rev-parse --short HEAD)
 
   echo "$0: SHA=$SHA"

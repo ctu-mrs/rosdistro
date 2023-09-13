@@ -153,3 +153,9 @@ px4_sitl_gazebo:
   source: https://github.com/ctu-mrs/px4_sitl_gazebo
   unstable_ref: firmware_1.13.2-deb
   stable_ref: release
+
+mrs_pcl_tools:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/mrs_pcl_tools
+  unstable_ref: master
+  stable_ref: release

@@ -159,3 +159,33 @@ mrs_pcl_tools:
   source: https://github.com/ctu-mrs/mrs_pcl_tools
   unstable_ref: master
   stable_ref: release
+
+mrs_subt_planning_lib:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/subt_planning_lib
+  unstable_ref: master
+  stable_ref: release
+
+mrs_octomap_tools:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/octomap_tools
+  unstable_ref: 1.5
+  stable_ref: release
+
+mrs_octomap_server:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/mrs_octomap_server
+  unstable_ref: 1.5
+  stable_ref: release
+
+mrs_octomap_planner:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/mrs_octomap_planner
+  unstable_ref: 1.5
+  stable_ref: release
+
+mrs_octomap_mapping_planning:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/mrs_octomap_mapping_planning
+  unstable_ref: 1.5
+  stable_ref: release

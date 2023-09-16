@@ -5,12 +5,14 @@ set -e
 trap 'last_command=$current_command; current_command=$BASH_COMMAND' DEBUG
 trap 'echo "$0: \"${last_command}\" command failed with exit code $?"' ERR
 
-YAML_FILE=$1
+LIST=$1
 VARIANT=$2
 PACKAGE_NAME=$3
 WORKSPACE=/tmp/workspace
 ARTIFACTS_FOLDER=/tmp/artifacts
 IDX_FILE=$ARTIFACTS_FOLDER/idx.txt
+
+YAML_FILE=$LIST.yaml
 
 sudo apt-get -y install dpkg-dev
 
@@ -81,7 +83,7 @@ echo "$0: catking reported following topological build order:"
 echo "$BUILD_ORDER"
 echo ""
 
-ROSDEP_FILE="$ARTIFACTS_FOLDER/generated_$ARCH.yaml"
+ROSDEP_FILE="$ARTIFACTS_FOLDER/generated_$LIST_$ARCH.yaml"
 
 cat $ROSDEP_FILE
 

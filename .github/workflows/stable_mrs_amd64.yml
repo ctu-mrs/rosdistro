@@ -18,7 +18,7 @@ jobs:
         run: |
           mkdir -p /tmp/artifacts
           mkdir -p /tmp/artifacts/metarepositories
-          touch /tmp/artifacts/generated_amd64.yaml
+          touch /tmp/artifacts/generated_mrs_amd64.yaml
           touch /tmp/artifacts/compiled.txt
           echo "0" >> /tmp/artifacts/idx.txt
       - name: Save artifacts
@@ -46,7 +46,7 @@ jobs:
           token: ${{ secrets.PUSH_TOKEN }}
       - id: generate
         run: |
-          JOB_STRATEGY_MATRIX=$(./.ci/get_build_matrix.sh mrs.yaml stable amd64)
+          JOB_STRATEGY_MATRIX=$(./.ci/get_build_matrix.sh mrs stable amd64)
           cat /tmp/log.txt
           echo "packages=$JOB_STRATEGY_MATRIX" >> "$GITHUB_OUTPUT"
 
@@ -77,7 +77,7 @@ jobs:
           token: ${{ secrets.PUSH_TOKEN }}
       - id: build
         run: |
-          .ci/build.sh mrs.yaml stable "${{ matrix.job }}"
+          .ci/build.sh mrs stable "${{ matrix.job }}"
       - name: Save artifacts
         uses: actions/upload-artifact@v3
         with:

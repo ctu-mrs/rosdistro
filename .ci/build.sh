@@ -168,7 +168,8 @@ for PACKAGE in $BUILD_ORDER; do
       mv ../*.deb $ARTIFACTS_FOLDER/$IDX/
     else
       echo "$0: moving the artifact to $ARTIFACTS_FOLDER/metarepositories"
-      mv ../*.deb $ARTIFACTS_FOLDER/metarepositories
+      mkdir -p $ARTIFACTS_FOLDER/metarepositories
+      mv ../*.deb $ARTIFACTS_FOLDER/metarepositories/
     fi
 
     echo "$PACKAGE:

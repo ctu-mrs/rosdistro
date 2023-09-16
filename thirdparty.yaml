@@ -1,41 +1,41 @@
-nlopt:
-  architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/nlopt_ros
-  unstable_ref: hw_api_ci
-  stable_ref: hw_api_ci
-
-ouster_ros:
-  architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/ouster-ros
-  unstable_ref: mrs
-  stable_ref: mrs
-
-mavros:
-  architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/mavros
-  unstable_ref: 1.13.0-deb
-  stable_ref: 1.13.0-deb
-
 px4_sitl_gazebo:
   architecture: [amd64, arm64]
   source: https://github.com/ctu-mrs/px4_sitl_gazebo
   unstable_ref: firmware_1.13.2-deb
   stable_ref: firmware_1.13.2-deb
 
-mav_comm:
-  architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/mav_comm
-  unstable_ref: master
-  stable_ref: master
+# nlopt:
+#   architecture: [amd64, arm64]
+#   source: https://github.com/ctu-mrs/nlopt_ros
+#   unstable_ref: hw_api_ci
+#   stable_ref: hw_api_ci
 
-geometry2:
-  architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/geometry2
-  unstable_ref: warning-fix
-  stable_ref: warning-fix
+# ouster_ros:
+#   architecture: [amd64, arm64]
+#   source: https://github.com/ctu-mrs/ouster-ros
+#   unstable_ref: mrs
+#   stable_ref: mrs
 
-nimbro_network:
-  architecture: [amd64]
-  source: https://github.com/ctu-mrs/nimbro_network
-  unstable_ref: develop
-  stable_ref: develop
+# mavros:
+#   architecture: [amd64, arm64]
+#   source: https://github.com/ctu-mrs/mavros
+#   unstable_ref: 1.13.0-deb
+#   stable_ref: 1.13.0-deb
+
+# mav_comm:
+#   architecture: [amd64, arm64]
+#   source: https://github.com/ctu-mrs/mav_comm
+#   unstable_ref: master
+#   stable_ref: master
+
+# geometry2:
+#   architecture: [amd64, arm64]
+#   source: https://github.com/ctu-mrs/geometry2
+#   unstable_ref: warning-fix
+#   stable_ref: warning-fix
+
+# nimbro_network:
+#   architecture: [amd64]
+#   source: https://github.com/ctu-mrs/nimbro_network
+#   unstable_ref: develop
+#   stable_ref: develop

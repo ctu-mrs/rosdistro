@@ -19,8 +19,8 @@ mavros:
 px4_sitl_gazebo:
   architecture: [amd64, arm64]
   source: https://github.com/ctu-mrs/px4_sitl_gazebo
-  unstable_ref: firmware_1.13.2
-  stable_ref: firmware_1.13.2
+  unstable_ref: firmware_1.13.2-deb
+  stable_ref: firmware_1.13.2-deb
 
 mav_comm:
   architecture: [amd64, arm64]

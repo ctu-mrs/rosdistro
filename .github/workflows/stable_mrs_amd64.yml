@@ -1,4 +1,4 @@
-name: stable-amd64
+name: stable-mrs-amd64
 
 on:
   workflow_dispatch:

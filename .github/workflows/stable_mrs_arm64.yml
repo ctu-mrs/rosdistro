@@ -1,4 +1,4 @@
-name: stable-arm64
+name: stable-mrs-arm64
 
 on:
   workflow_dispatch:

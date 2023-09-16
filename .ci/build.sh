@@ -158,7 +158,7 @@ for PACKAGE in $BUILD_ORDER; do
 
     FIND_METAPACKAGE=$(cat CMakeLists.txt | grep -e "^catkin_metapackage" | wc -l)
 
-    DEB_NAME=$(dpkg --field ../*.deb | grep Package | awk '{print $2}')
+    DEB_NAME=$(dpkg --field ../*.deb | grep "Package:" | head -n 1 | awk '{print $2}')
 
     if [ $FIND_METAPACKAGE -eq 0 ]; then
       sudo apt-get -y install --allow-downgrades ../*.deb

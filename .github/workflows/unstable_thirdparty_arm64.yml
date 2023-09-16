@@ -1,10 +1,7 @@
-name: unstable-mrs-arm64
+name: unstable-thirdparty-arm64
 
 on:
   workflow_dispatch:
-
-  schedule:
-    - cron:  '0 20 * * *' # every day at 10pm UTC+2
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -18,7 +15,7 @@ jobs:
         run: |
           mkdir -p /tmp/artifacts
           mkdir -p /tmp/artifacts/metarepositories
-          touch /tmp/artifacts/generated_mrs_arm64.yaml
+          touch /tmp/artifacts/generated_thirdparty_arm64.yaml
           touch /tmp/artifacts/compiled.txt
           echo "0" >> /tmp/artifacts/idx.txt
       - name: Save artifacts
@@ -46,7 +43,7 @@ jobs:
           token: ${{ secrets.PUSH_TOKEN }}
       - id: generate
         run: |
-          JOB_STRATEGY_MATRIX=$(./.ci/get_build_matrix.sh mrs unstable arm64)
+          JOB_STRATEGY_MATRIX=$(./.ci/get_build_matrix.sh thirdparty unstable arm64)
           cat /tmp/log.txt
           echo "packages=$JOB_STRATEGY_MATRIX" >> "$GITHUB_OUTPUT"
 
@@ -101,7 +98,7 @@ jobs:
 
           # Produce a binary artifact and place it in the mounted volume
           run: |
-            /tmp/repository/.ci/build.sh mrs unstable "${{ matrix.job }}"
+            /tmp/repository/.ci/build.sh thirdparty unstable "${{ matrix.job }}"
 
       - name: Save artifacts
         uses: actions/upload-artifact@v3

@@ -97,9 +97,9 @@ jobs:
           path: /tmp/artifacts/
       - id: execute
         run: |
-          [ -e /tmp/artifacts/compiled.txt ] && rm /tmp/artifacts/compiled.txt
-          [ -e /tmp/artifacts/idx.txt ] && rm /tmp/artifacts/idx.txt
-          [ -e /tmp/artifacts/compile_further.txt ] && rm /tmp/artifacts/compile_further.txt
+          rm /tmp/artifacts/compiled.txt 2> /dev/null || true
+          rm /tmp/artifacts/idx.txt 2> /dev/null || true
+          rm /tmp/artifacts/compile_further.txt 2> /dev/null || true
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0

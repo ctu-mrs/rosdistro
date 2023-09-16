@@ -5,10 +5,10 @@ set -e
 trap 'last_command=$current_command; current_command=$BASH_COMMAND' DEBUG
 trap 'echo "$0: \"${last_command}\" command failed with exit code $?"' ERR
 
-VARIANT=$1
-PACKAGE_NAME=$2
+YAML_FILE=$1
+VARIANT=$2
+PACKAGE_NAME=$3
 WORKSPACE=/tmp/workspace
-YAML_FILE=packages.yaml
 ARTIFACTS_FOLDER=/tmp/artifacts
 IDX_FILE=$ARTIFACTS_FOLDER/idx.txt
 

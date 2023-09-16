@@ -7,10 +7,10 @@ trap 'echo "$0: \"${last_command}\" command failed with exit code $?, log:" && c
 
 DEBUG=false
 
-VARIANT=$1
-ARCH=$2
+YAML_FILE=$1
+VARIANT=$2
+ARCH=$3
 WORKSPACE=/tmp/workspace
-YAML_FILE=packages.yaml
 ARTIFACTS_FOLDER=/tmp/artifacts
 
 ./.ci_scripts/package_build/add_ros_ppa.sh >> /tmp/log.txt 2>&1

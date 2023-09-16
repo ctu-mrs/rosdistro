@@ -1,4 +1,4 @@
-name: unstable-arm64
+name: stable-arm64
 
 on:
   workflow_dispatch:
@@ -46,7 +46,7 @@ jobs:
           token: ${{ secrets.PUSH_TOKEN }}
       - id: generate
         run: |
-          JOB_STRATEGY_MATRIX=$(./.ci/get_build_matrix.sh unstable arm64)
+          JOB_STRATEGY_MATRIX=$(./.ci/get_build_matrix.sh mrs.yaml stable arm64)
           cat /tmp/log.txt
           echo "packages=$JOB_STRATEGY_MATRIX" >> "$GITHUB_OUTPUT"
 
@@ -101,7 +101,7 @@ jobs:
 
           # Produce a binary artifact and place it in the mounted volume
           run: |
-            /tmp/repository/.ci/build.sh unstable "${{ matrix.job }}"
+            /tmp/repository/.ci/build.sh mrs.yaml stable "${{ matrix.job }}"
 
       - name: Save artifacts
         uses: actions/upload-artifact@v3
@@ -120,6 +120,11 @@ jobs:
         with:
           name: artifacts
           path: /tmp/artifacts/
+      - id: execute
+        run: |
+          [ -e /tmp/artifacts/compiled.txt ] && rm /tmp/artifacts/compiled.txt
+          [ -e /tmp/artifacts/idx.txt ] && rm /tmp/artifacts/idx.txt
+          [ -e /tmp/artifacts/compile_further.txt ] && rm /tmp/artifacts/compile_further.txt
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
@@ -132,4 +137,4 @@ jobs:
           path: .ci_scripts
           token: ${{ secrets.PUSH_TOKEN }}
       - name: Deploy
-        run: .ci_scripts/package_build/push_to_ppa.sh unstable /tmp/artifacts
+        run: .ci_scripts/package_build/push_to_ppa.sh stable /tmp/artifacts

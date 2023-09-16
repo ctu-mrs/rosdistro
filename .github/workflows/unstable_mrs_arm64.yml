@@ -1,4 +1,4 @@
-name: unstable-amd64
+name: unstable-mrs-arm64
 
 on:
   workflow_dispatch:
@@ -18,7 +18,7 @@ jobs:
         run: |
           mkdir -p /tmp/artifacts
           mkdir -p /tmp/artifacts/metarepositories
-          touch /tmp/artifacts/generated_amd64.yaml
+          touch /tmp/artifacts/generated_arm64.yaml
           touch /tmp/artifacts/compiled.txt
           echo "0" >> /tmp/artifacts/idx.txt
       - name: Save artifacts
@@ -46,7 +46,7 @@ jobs:
           token: ${{ secrets.PUSH_TOKEN }}
       - id: generate
         run: |
-          JOB_STRATEGY_MATRIX=$(./.ci/get_build_matrix.sh unstable amd64)
+          JOB_STRATEGY_MATRIX=$(./.ci/get_build_matrix.sh mrs.yaml unstable arm64)
           cat /tmp/log.txt
           echo "packages=$JOB_STRATEGY_MATRIX" >> "$GITHUB_OUTPUT"
 
@@ -75,9 +75,34 @@ jobs:
           ref: master
           path: .ci_scripts
           token: ${{ secrets.PUSH_TOKEN }}
-      - id: build
-        run: |
-          .ci/build.sh unstable "${{ matrix.job }}"
+      - uses: ctu-mrs/run-on-arch-action@master
+        name: build
+
+        id: build
+
+        with:
+          arch: aarch64
+          distro: noetic
+
+          githubToken: ${{ github.token }}
+
+          # Create an artifacts directory
+          setup: |
+            mkdir -p "/tmp/artifacts"
+            mkdir -p "/tmp/repository"
+
+          # Mount the artifacts directory as /artifacts in the container
+          dockerRunArgs: |
+            --volume "$PWD:/tmp/repository"
+            --volume "/tmp/artifacts:/tmp/artifacts"
+
+          # The shell to run commands with in the container
+          shell: /bin/sh
+
+          # Produce a binary artifact and place it in the mounted volume
+          run: |
+            /tmp/repository/.ci/build.sh mrs.yaml unstable "${{ matrix.job }}"
+
       - name: Save artifacts
         uses: actions/upload-artifact@v3
         with:
@@ -95,6 +120,11 @@ jobs:
         with:
           name: artifacts
           path: /tmp/artifacts/
+      - id: execute
+        run: |
+          [ -e /tmp/artifacts/compiled.txt ] && rm /tmp/artifacts/compiled.txt
+          [ -e /tmp/artifacts/idx.txt ] && rm /tmp/artifacts/idx.txt
+          [ -e /tmp/artifacts/compile_further.txt ] && rm /tmp/artifacts/compile_further.txt
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0

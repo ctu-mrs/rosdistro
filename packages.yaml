@@ -186,6 +186,6 @@ mrs_octomap_planner:
 
 mrs_octomap_mapping_planning:
   architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/mrs_octomap_mapping_planning
+  source: https://github.com/ctu-mrs/octomap_mapping_planning
   unstable_ref: 1.5
   stable_ref: release

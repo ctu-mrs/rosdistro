@@ -12,7 +12,7 @@ WORKSPACE=/tmp/workspace
 ARTIFACTS_FOLDER=/tmp/artifacts
 IDX_FILE=$ARTIFACTS_FOLDER/idx.txt
 
-YAML_FILE=$LIST.yaml
+YAML_FILE=${LIST}.yaml
 
 sudo apt-get -y install dpkg-dev
 
@@ -83,7 +83,7 @@ echo "$0: catking reported following topological build order:"
 echo "$BUILD_ORDER"
 echo ""
 
-ROSDEP_FILE="$ARTIFACTS_FOLDER/generated_$LIST_$ARCH.yaml"
+ROSDEP_FILE="$ARTIFACTS_FOLDER/generated_${LIST}_${ARCH}.yaml"
 
 cat $ROSDEP_FILE
 

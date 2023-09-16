@@ -37,5 +37,5 @@ geometry2:
 nimbro_network:
   architecture: [amd64]
   source: https://github.com/ctu-mrs/nimbro_network
-  unstable_ref: develop
-  stable_ref: develop
+  unstable_ref: deb
+  stable_ref: deb

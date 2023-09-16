@@ -33,3 +33,9 @@ geometry2:
   source: https://github.com/ctu-mrs/geometry2
   unstable_ref: warning-fix
   stable_ref: warning-fix
+
+nimbro_network:
+  architecture: [amd64]
+  source: https://github.com/ctu-mrs/nimbro_network
+  unstable_ref: develop
+  stable_ref: develop

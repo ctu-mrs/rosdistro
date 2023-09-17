@@ -5,9 +5,9 @@ set -e
 trap 'last_command=$current_command; current_command=$BASH_COMMAND' DEBUG
 trap 'echo "$0: \"${last_command}\" command failed with exit code $?, log:" && cat /tmp/log.txt' ERR
 
-sudo apt-get -y install python3 python3-yaml
+sudo apt-get -y install python3 python3-yaml >> /tmp/log.txt 2>&1
 
-DEBUG=false
+DEBUG=true
 
 LIST=$1
 VARIANT=$2

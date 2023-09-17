@@ -14,6 +14,7 @@ jobs:
       - id: execute
         run: |
           mkdir -p /tmp/artifacts
+          touch /tmp/artifacts/temp.txt
       - name: Save artifacts
         uses: actions/upload-artifact@v3
         with:
@@ -89,9 +90,7 @@ jobs:
           path: /tmp/artifacts/
       - id: execute
         run: |
-          rm /tmp/artifacts/compiled.txt 2> /dev/null || true
-          rm /tmp/artifacts/idx.txt 2> /dev/null || true
-          rm /tmp/artifacts/compile_further.txt 2> /dev/null || true
+          rm /tmp/artifacts/temp.txt 2> /dev/null || true
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0

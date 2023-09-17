@@ -13,5 +13,5 @@ mrs_geographiclib_datasets:
 px4:
   architecture: [amd64, arm64]
   source: https://github.com/ctu-mrs/px4_firmware
-  unstable_ref: v1.13.2-deb
+  unstable_ref: 1.13.2-deb
   stable_ref: mrs_release

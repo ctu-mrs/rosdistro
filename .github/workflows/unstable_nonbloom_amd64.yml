@@ -39,9 +39,8 @@ jobs:
           token: ${{ secrets.PUSH_TOKEN }}
       - id: generate
         run: |
-          ./.ci/get_nonbloom_build_matrix.sh nonbloom unstable amd64
-          # JOB_STRATEGY_MATRIX=$(./.ci/get_nonbloom_build_matrix.sh nonbloom unstable amd64)
-          # echo "packages=$JOB_STRATEGY_MATRIX" >> "$GITHUB_OUTPUT"
+          JOB_STRATEGY_MATRIX=$(./.ci/get_nonbloom_build_matrix.sh nonbloom unstable amd64)
+          echo "packages=$JOB_STRATEGY_MATRIX" >> "$GITHUB_OUTPUT"
 
   build-job:
     needs: generate-jobs

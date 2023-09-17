@@ -1,4 +1,4 @@
-name: unstable-thirdparty-amd64
+name: unstable-nonbloom-amd64
 
 on:
   workflow_dispatch:

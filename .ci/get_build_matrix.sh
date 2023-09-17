@@ -60,7 +60,6 @@ BUILD_ORDER=$(catkin list -u)
 
 FIRST=true
 
-# RESULT='{"matrix": ['
 RESULT='['
 
 $DEBUG && echo "Sorting packages"
@@ -106,7 +105,6 @@ for ROS_PACKAGE in $BUILD_ORDER; do
 
 done
 
-# RESULT="$RESULT]}"
 RESULT="$RESULT]"
 
 echo $RESULT

@@ -7,7 +7,7 @@ trap 'echo "$0: \"${last_command}\" command failed with exit code $?, log:" && c
 
 sudo apt-get -y install python3 python3-yaml >> /tmp/log.txt 2>&1
 
-DEBUG=true
+DEBUG=false
 
 LIST=$1
 VARIANT=$2

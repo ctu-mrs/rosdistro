@@ -13,31 +13,31 @@ ARCH=$3
 
 YAML_FILE=$LIST.yaml
 
-./.ci_scripts/package_build/add_ros_ppa.sh >> /tmp/log.txt 2>&1
-
 REPOS=$(./.ci/parse_yaml.py $YAML_FILE $VARIANT $ARCH)
 
-# RESULT='{"matrix": ['
-RESULT='['
-
 FIRST=true
+
+RESULT="["
+
+shopt -s lastpipe
 
 # clone and checkout
 echo "$REPOS" | while IFS= read -r REPO; do
 
   PACKAGE=$(echo "$REPO" | awk '{print $1}')
 
+  $DEBUG && echo "$PACKAGE"
+
   if $FIRST; then
-    RESULT=$RESULT\"$PACKAGE\"
+    RESULT=${RESULT}\"${PACKAGE}\"
     FIRST=false
   else
-    RESULT="$RESULT, \"$PACKAGE\""
+    RESULT="${RESULT}, \"${PACKAGE}\""
   fi
 
 done
 
-# RESULT="$RESULT]}"
-RESULT="$RESULT]"
+RESULT="${RESULT}]"
 
 echo $RESULT
 

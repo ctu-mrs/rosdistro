@@ -42,5 +42,3 @@ done
 RESULT="${RESULT}]"
 
 echo $RESULT
-
-$DEBUG && echo "Done cloning"

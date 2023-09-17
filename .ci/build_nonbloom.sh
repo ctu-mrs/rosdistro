@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# get the path to this script
+MY_PATH=`dirname "$0"`
+MY_PATH=`( cd "$MY_PATH" && pwd )`
+
 set -e
 
 trap 'last_command=$current_command; current_command=$BASH_COMMAND' DEBUG
@@ -39,5 +43,7 @@ echo "$0: cloning '$URL --depth 1 --branch $BRANCH' into '$PACKAGE'"
 git clone $URL --recurse-submodules --shallow-submodules --depth 1 --branch $BRANCH $PACKAGE
 
 cd $WORK_DIR/$PACKAGE/
+
+cp -r $MY_PATH/../.ci_scripts ./
 
 ./.ci/build_package.sh $ARTIFACTS_FOLDER

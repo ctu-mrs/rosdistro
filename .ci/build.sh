@@ -113,7 +113,7 @@ for PACKAGE in $BUILD_ORDER; do
 
   echo "$0: SHA=$SHA"
 
-  GIT_SHA_MATCHES=$(apt-cache policy $FUTURE_DEB_NAME | grep "^Candidate:" | head -n 1 | grep "git.$SHA" | wc -l)
+  GIT_SHA_MATCHES=$(apt-cache policy $FUTURE_DEB_NAME | grep -e "^Candidate:" | grep "git.${SHA}" | wc -l)
 
   NEW_COMMIT=false
   if [[ "$GIT_SHA_MATCHES" == "0" ]]; then

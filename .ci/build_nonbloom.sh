@@ -14,7 +14,6 @@ VARIANT=$2
 PACKAGE_NAME=$3
 WORK_DIR=/tmp/repo
 ARTIFACTS_FOLDER=/tmp/artifacts
-IDX_FILE=$ARTIFACTS_FOLDER/idx.txt
 
 YAML_FILE=${LIST}.yaml
 
@@ -40,7 +39,7 @@ URL=$(echo "$REPO" | awk '{print $2}')
 BRANCH=$(echo "$REPO" | awk '{print $3}')
 
 echo "$0: cloning '$URL --depth 1 --branch $BRANCH' into '$PACKAGE'"
-git clone $URL --recurse-submodules --shallow-submodules --depth 1 --branch $BRANCH $PACKAGE
+git clone $URL --recurse-submodules --branch $BRANCH $PACKAGE
 
 cd $WORK_DIR/$PACKAGE/
 

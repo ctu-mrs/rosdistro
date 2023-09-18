@@ -21,13 +21,6 @@ sudo apt-get -y install dpkg-dev
 
 ARCH=$(dpkg-architecture -qDEB_HOST_ARCH)
 
-# we already have a docker image with ros for the ARM build
-if [[ "$ARCH" != "arm64" ]]; then
-  curl https://ctu-mrs.github.io/ppa-$VARIANT/add_ros_ppa.sh | bash
-fi
-
-curl https://ctu-mrs.github.io/ppa-$VARIANT/add_ppa.sh | bash
-
 REPO=$(./.ci/get_repo_source.py $YAML_FILE $VARIANT $ARCH $PACKAGE_NAME)
 
 mkdir -p $WORK_DIR
@@ -45,4 +38,5 @@ cd $WORK_DIR/$PACKAGE/
 
 cp -r $MY_PATH/../.ci_scripts ./
 
-./.ci/build_package.sh $ARTIFACTS_FOLDER
+# call the build script within the clone repository
+./.ci/build_package.sh $VARIANT $ARTIFACTS_FOLDER

@@ -30,11 +30,20 @@ def main():
             if build_for in architecture:
 
                 if variant == "stable":
-                    ref = properties['stable_ref'] 
-                else:
-                    ref = properties['unstable_ref'] 
 
-                print("{} {} {}".format(package, url, ref))
+                    try:
+                        ref = properties['stable_ref']
+                        print("{} {} {}".format(package, url, ref))
+                    except:
+                        pass
+
+                else:
+
+                    try:
+                        ref = properties['unstable_ref']
+                        print("{} {} {}".format(package, url, ref))
+                    except:
+                        pass
 
 if __name__ == '__main__':
     main()

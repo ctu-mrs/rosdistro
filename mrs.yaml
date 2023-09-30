@@ -28,6 +28,11 @@ mrs_msgs:
   unstable_ref: hw_api
   stable_ref: release
 
+mrs_modules_msgs:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/mrs_modules_msgs
+  unstable_ref: master
+
 mrs_lib:
   architecture: [amd64, arm64]
   source: https://github.com/ctu-mrs/mrs_lib

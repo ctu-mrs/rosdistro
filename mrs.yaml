@@ -22,6 +22,11 @@ mrs_uav_gazebo_simulation:
   unstable_ref: master
   stable_ref: release
 
+mrs_uav_coppelia_simulation:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/mrs_uav_coppelia_simulation
+  unstable_ref: master
+
 mrs_msgs:
   architecture: [amd64, arm64]
   source: https://github.com/ctu-mrs/mrs_msgs

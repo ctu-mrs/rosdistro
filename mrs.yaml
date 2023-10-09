@@ -136,13 +136,13 @@ mrs_serial:
 
 mrs_uav_path_loader:
   architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/path_loader
+  source: https://github.com/ctu-mrs/mrs_uav_path_loader
   unstable_ref: hw_api
   stable_ref: release
 
 mrs_uav_trajectory_loader:
   architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/trajectory_loader
+  source: https://github.com/ctu-mrs/mrs_uav_trajectory_loader
   unstable_ref: hw_api
   stable_ref: release
 
@@ -166,13 +166,13 @@ mrs_pcl_tools:
 
 mrs_subt_planning_lib:
   architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/subt_planning_lib
+  source: https://github.com/ctu-mrs/mrs_subt_planning_lib
   unstable_ref: master
   stable_ref: release
 
 mrs_octomap_tools:
   architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/octomap_tools
+  source: https://github.com/ctu-mrs/mrs_octomap_tools
   unstable_ref: 1.5
   stable_ref: release
 
@@ -190,6 +190,6 @@ mrs_octomap_planner:
 
 mrs_octomap_mapping_planning:
   architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/octomap_mapping_planning
+  source: https://github.com/ctu-mrs/mrs_octomap_mapping_planning
   unstable_ref: 1.5
   stable_ref: release

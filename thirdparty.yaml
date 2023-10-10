@@ -7,7 +7,7 @@ px4_sitl_gazebo:
 nlopt:
   architecture: [amd64, arm64]
   source: https://github.com/ctu-mrs/nlopt_ros
-  unstable_ref: hw_api_ci
+  unstable_ref: master
   stable_ref: release
 
 ouster_ros:

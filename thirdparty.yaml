@@ -41,7 +41,7 @@ geometry2:
   stable_ref: release
 
 nimbro_network:
-  architecture: [amd64]
+  architecture: [amd64, arm64]
   source: https://github.com/ctu-mrs/nimbro_network
   unstable_ref: develop-deb
   stable_ref: release

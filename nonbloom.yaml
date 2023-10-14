@@ -14,6 +14,7 @@ coppelia_sim_edu:
   architecture: [amd64] # this package is for all architectures
   source: https://github.com/ctu-mrs/coppelia_sim_edu
   unstable_ref: master
+  stable_ref: release
 
 px4:
   architecture: [amd64, arm64]

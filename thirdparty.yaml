@@ -4,13 +4,13 @@ px4_sitl_gazebo:
   unstable_ref: firmware_1.13.2-deb
   stable_ref: release
 
-nlopt:
+nlopt_ros:
   architecture: [amd64, arm64]
   source: https://github.com/ctu-mrs/nlopt_ros
   unstable_ref: master
   stable_ref: release
 
-ouster_ros:
+ouster-ros:
   architecture: [amd64, arm64]
   source: https://github.com/ctu-mrs/ouster-ros
   unstable_ref: mrs

@@ -178,6 +178,12 @@ mrs_uav_gazebo_simulation:
   unstable_ref: master
   stable_ref: release
 
+aloam:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/aloam
+  unstable_ref: master
+  stable_ref: release
+
 mrs_uav_modules:
   architecture: [amd64, arm64]
   source: https://github.com/ctu-mrs/mrs_uav_modules

@@ -45,3 +45,18 @@ nimbro_network:
   source: https://github.com/ctu-mrs/nimbro_network
   unstable_ref: develop-deb
   stable_ref: release
+
+hector_slam:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/hector_slam
+  unstable_ref: master
+
+open_vins:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/open_vins
+  unstable_ref: master
+
+aloam:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/aloam
+  unstable_ref: master

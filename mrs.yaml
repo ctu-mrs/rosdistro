@@ -201,3 +201,38 @@ mrs_uav_system:
   source: https://github.com/ctu-mrs/mrs_uav_system
   unstable_ref: master
   stable_ref: release
+
+mrs_hector_estimator_plugin:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/mrs_hector_estimator_plugin
+  unstable_ref: master
+
+mrs_hector_core:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/mrs_hector_core
+  unstable_ref: master
+
+mrs_open_vins_estimator_plugin:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/mrs_open_vins_estimator_plugin
+  unstable_ref: master
+
+mrs_vins_republisher:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/mrs_vins_republisher
+  unstable_ref: master
+
+mrs_open_vins_core:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/mrs_open_vins_core
+  unstable_ref: master
+
+mrs_aloam_estimator_plugin:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/mrs_aloam_estimator_plugin
+  unstable_ref: master
+
+mrs_aloam_core:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/mrs_aloam_core
+  unstable_ref: master

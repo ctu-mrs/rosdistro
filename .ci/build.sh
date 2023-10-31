@@ -14,6 +14,9 @@ IDX_FILE=$ARTIFACTS_FOLDER/idx.txt
 
 YAML_FILE=${LIST}.yaml
 
+# needed for building open_vins
+export ROS_VERSION=1
+
 sudo apt-get -y install dpkg-dev
 
 ARCH=$(dpkg-architecture -qDEB_HOST_ARCH)

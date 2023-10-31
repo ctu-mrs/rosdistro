@@ -55,8 +55,3 @@ open_vins:
   architecture: [amd64, arm64]
   source: https://github.com/ctu-mrs/open_vins
   unstable_ref: master
-
-aloam:
-  architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/aloam
-  unstable_ref: master

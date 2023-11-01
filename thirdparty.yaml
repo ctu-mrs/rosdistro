@@ -50,8 +50,10 @@ hector_slam:
   architecture: [amd64, arm64]
   source: https://github.com/ctu-mrs/hector_slam
   unstable_ref: master
+  stable_ref: release
 
 open_vins:
   architecture: [amd64, arm64]
   source: https://github.com/ctu-mrs/open_vins
   unstable_ref: master
+  stable_ref: release

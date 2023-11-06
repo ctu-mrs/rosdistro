@@ -226,6 +226,12 @@ mrs_vins_republisher:
   unstable_ref: master
   stable_ref: release
 
+mrs_vins_imu_filter:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/mrs_vins_imu_filter
+  unstable_ref: master
+  stable_ref: release
+
 mrs_open_vins_core:
   architecture: [amd64, arm64]
   source: https://github.com/ctu-mrs/mrs_open_vins_core

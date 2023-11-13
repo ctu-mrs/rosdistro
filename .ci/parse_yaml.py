@@ -28,11 +28,17 @@ def main():
 
             if build_for in architecture:
 
-                stable_ref = ""
-                unstable_ref = ""
+                stable_ref = "none"
+                testing_ref = "none"
+                unstable_ref = "none"
 
                 try:
                     stable_ref = properties['stable_ref']
+                except:
+                    pass
+
+                try:
+                    testing_ref = properties['testing_ref']
                 except:
                     pass
 
@@ -41,7 +47,7 @@ def main():
                 except:
                     pass
 
-                print("{} {} {} {}".format(package, url, stable_ref, unstable_ref))
+                print("{} {} {} {}".format(package, url, stable_ref, testing_ref, unstable_ref))
 
 if __name__ == '__main__':
     main()

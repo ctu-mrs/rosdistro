@@ -44,8 +44,14 @@ echo "$REPOS" | while IFS= read -r REPO; do
 
   if [[ "$VARIANT" == "stable" ]]; then
     BRANCH=$(echo "$REPO" | awk '{print $3}')
-  else
+  elif [[ "$VARIANT" == "testing" ]]; then
     BRANCH=$(echo "$REPO" | awk '{print $4}')
+  else
+    BRANCH=$(echo "$REPO" | awk '{print $5}')
+  fi
+
+  if [[ "$BRANCH" == "none" ]]; then
+    continue
   fi
 
   echo "$0: cloning '$URL --branch $BRANCH' into '$PACKAGE'" >> /tmp/log.txt 2>&1

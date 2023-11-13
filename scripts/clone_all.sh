@@ -1,6 +1,5 @@
 #!/bin/bash
 
-VARIANT=stable
 ARCH=amd64
 LOCATION=~/git/mrs
 
@@ -17,10 +16,11 @@ do
 
   YAML_FILE=../$LIST.yaml
 
-  REPOS=$(../.ci/parse_yaml.py $YAML_FILE $VARIANT $ARCH)
+  REPOS=$(../.ci/parse_yaml.py $YAML_FILE $ARCH)
+
+  echo $REPOS
 
   mkdir -p $LOCATION/$LIST
-
 
   echo "$REPOS" | while IFS= read -r REPO; do
 
@@ -30,20 +30,30 @@ do
 
     PACKAGE=$(echo "$REPO" | awk '{print $1}')
     URL=$(echo "$REPO" | awk '{print $2}')
-    BRANCH=$(echo "$REPO" | awk '{print $3}')
+    STABLE_BRANCH=$(echo "$REPO" | awk '{print $3}')
+    UNSTABLE_BRANCH=$(echo "$REPO" | awk '{print $4}')
 
     if [ -e ./$PACKAGE ]; then
 
-      echo "$0: repository '$URL' is already present, updating it"
-      cd $PACKAGE
-      git fetch
-      git checkout $BRANCH
-      git pull
+      echo "$0: repository '$URL' is already present, removing it"
 
-    else
+      rm -rf ./$PACKAGE
 
-      echo "$0: cloning '$URL --branch $BRANCH' into '$PACKAGE'"
-      git clone $URL --recurse-submodules --shallow-submodules --branch $BRANCH $PACKAGE
+    fi
+
+    echo "$0: cloning '$URL --branch $BRANCH' into '$PACKAGE'"
+    git clone $URL --branch $STABLE_BRANCH $PACKAGE
+
+    # compare the branches
+    cd $PACKAGE
+    git diff-index --quiet origin/$UNSTABLE_BRANCH
+    retval=$?
+
+    if [ $retval -eq 0 ]; then
+
+      cd $LOCATION/$LIST
+      echo "$0: nothing to be merged, deleting the repo"
+      rm -rf ./$PACKAGE
 
     fi
 

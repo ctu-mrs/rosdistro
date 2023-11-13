@@ -17,14 +17,12 @@ YAML_FILE=$LIST.yaml
 
 ./.ci_scripts/package_build/add_ros_ppa.sh >> /tmp/log.txt 2>&1
 
-# curl https://ctu-mrs.github.io/ppa-$VARIANT/add_ppa.sh 2>> /tmp/log.txt | bash >> /tmp/log.txt 2>&1
-
 # dependencies need for build the deb package
 sudo apt-get -y install ros-noetic-catkin python3-catkin-tools >> /tmp/log.txt 2>&1
 sudo apt-get -y install fakeroot dpkg-dev debhelper >> /tmp/log.txt 2>&1
 sudo pip3 install -U bloom >> /tmp/log.txt 2>&1
 
-REPOS=$(./.ci/parse_yaml.py $YAML_FILE $VARIANT $ARCH)
+REPOS=$(./.ci/parse_yaml.py $YAML_FILE $ARCH)
 
 mkdir -p $WORKSPACE >> /tmp/log.txt 2>&1
 mkdir -p $ARTIFACTS_FOLDER >> /tmp/log.txt 2>&1
@@ -43,7 +41,12 @@ echo "$REPOS" | while IFS= read -r REPO; do
 
   PACKAGE=$(echo "$REPO" | awk '{print $1}')
   URL=$(echo "$REPO" | awk '{print $2}')
-  BRANCH=$(echo "$REPO" | awk '{print $3}')
+
+  if [[ "$VARIANT" == "stable" ]]; then
+    BRANCH=$(echo "$REPO" | awk '{print $3}')
+  else
+    BRANCH=$(echo "$REPO" | awk '{print $4}')
+  fi
 
   echo "$0: cloning '$URL --branch $BRANCH' into '$PACKAGE'" >> /tmp/log.txt 2>&1
   git clone $URL --recurse-submodules --shallow-submodules --depth 1 --branch $BRANCH $PACKAGE >> /tmp/log.txt 2>&1

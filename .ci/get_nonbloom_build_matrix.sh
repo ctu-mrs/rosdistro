@@ -15,7 +15,7 @@ ARCH=$3
 
 YAML_FILE=$LIST.yaml
 
-REPOS=$(./.ci/parse_yaml.py $YAML_FILE $VARIANT $ARCH)
+REPOS=$(./.ci/parse_yaml.py $YAML_FILE $ARCH)
 
 FIRST=true
 

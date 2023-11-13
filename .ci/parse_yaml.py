@@ -5,10 +5,9 @@ import sys
 
 def main():
 
-    if len(sys.argv) == 4:
+    if len(sys.argv) == 3:
         file_path = sys.argv[1]
-        variant = sys.argv[2]
-        build_for = sys.argv[3]
+        build_for = sys.argv[2]
     else:
         return
 
@@ -29,21 +28,20 @@ def main():
 
             if build_for in architecture:
 
-                if variant == "stable":
+                stable_ref = ""
+                unstable_ref = ""
 
-                    try:
-                        ref = properties['stable_ref']
-                        print("{} {} {}".format(package, url, ref))
-                    except:
-                        pass
+                try:
+                    stable_ref = properties['stable_ref']
+                except:
+                    pass
 
-                else:
+                try:
+                    unstable_ref = properties['unstable_ref']
+                except:
+                    pass
 
-                    try:
-                        ref = properties['unstable_ref']
-                        print("{} {} {}".format(package, url, ref))
-                    except:
-                        pass
+                print("{} {} {} {}".format(package, url, stable_ref, unstable_ref))
 
 if __name__ == '__main__':
     main()

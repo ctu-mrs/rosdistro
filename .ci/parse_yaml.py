@@ -47,7 +47,7 @@ def main():
                 except:
                     pass
 
-                print("{} {} {} {}".format(package, url, stable_ref, testing_ref, unstable_ref))
+                print("{} {} {} {} {}".format(package, url, stable_ref, testing_ref, unstable_ref))
 
 if __name__ == '__main__':
     main()

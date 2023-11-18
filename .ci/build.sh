@@ -1,24 +1,40 @@
 #!/bin/bash
 
+# This script will build ROS packages from a particular repository into
+# deb packages
+#
+# INPUT:
+# * ./build.sh <package list file name> <{stable/testing/unstable} variant> <repository name>
+# * /tmp/artifacts containts the build artifacts from the previous jobs
+# * /tmp/artifacts/idx.txt contains idx of the previous job
+# * /tmp/artifacts/generated_***_***.yaml rosdep file from the previous jobs
+
+# OUTPUT:
+# * deb packages are put into the "/tmp/artifacts/$IDX" folder where $IDX is the incremented iterator of this build
+# * /tmp/idx.txt with incremented value of $IDX
+# * /tmp/artifacts/generated_***_***.yaml rosdep file with updated definitions from this build
+
 set -e
 
 trap 'last_command=$current_command; current_command=$BASH_COMMAND' DEBUG
 trap 'echo "$0: \"${last_command}\" command failed with exit code $?"' ERR
 
+# INPUTS
 LIST=$1
 VARIANT=$2
-PACKAGE_NAME=$3
+REPOSITORY=$3
 WORKSPACE=/tmp/workspace
 ARTIFACTS_FOLDER=/tmp/artifacts
 IDX_FILE=$ARTIFACTS_FOLDER/idx.txt
+ROSDEP_FILE="$ARTIFACTS_FOLDER/generated_${LIST}_${ARCH}.yaml"
 
 YAML_FILE=${LIST}.yaml
 
 # needed for building open_vins
 export ROS_VERSION=1
 
+# determine our architecture
 sudo apt-get -y install dpkg-dev
-
 ARCH=$(dpkg-architecture -qDEB_HOST_ARCH)
 
 # we already have a docker image with ros for the ARM build
@@ -33,8 +49,9 @@ sudo apt-get -y install ros-noetic-catkin python3-catkin-tools
 sudo apt-get -y install fakeroot debhelper
 sudo pip3 install -U bloom
 
-REPOS=$(./.ci/get_repo_source.py $YAML_FILE $VARIANT $ARCH $PACKAGE_NAME)
+REPOS=$(./.ci/get_repo_source.py $YAML_FILE $VARIANT $ARCH $REPOSITORY)
 
+# increment the job's idx
 IDX=`cat "$IDX_FILE"`
 IDX=$(($IDX+1))
 
@@ -85,8 +102,6 @@ echo ""
 echo "$0: catking reported following topological build order:"
 echo "$BUILD_ORDER"
 echo ""
-
-ROSDEP_FILE="$ARTIFACTS_FOLDER/generated_${LIST}_${ARCH}.yaml"
 
 cat $ROSDEP_FILE
 

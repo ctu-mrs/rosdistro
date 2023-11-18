@@ -28,10 +28,14 @@ def main():
 
         if build_for in architecture:
 
+            refs = properties['git_refs']
+
             if variant == "stable":
-                ref = properties['stable_ref'] 
+                ref = refs['stable'] 
+            elif variant == "unstable":
+                ref = refs['unstable'] 
             else:
-                ref = properties['unstable_ref'] 
+                ref = refs['testing'] 
 
             print("{} {} {}".format(repo_name, url, ref))
 

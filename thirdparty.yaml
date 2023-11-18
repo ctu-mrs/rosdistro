@@ -1,69 +1,79 @@
 px4_sitl_gazebo:
   architecture: [amd64, arm64]
   source: https://github.com/ctu-mrs/px4_sitl_gazebo
-  unstable_ref: firmware_1.13.2-deb
-  testing_ref: release_candidate
-  stable_ref: release
+  git_refs:
+    unstable: firmware_1.13.2-deb
+    testing: release_candidate
+    stable: release
 
 nlopt_ros:
   architecture: [amd64, arm64]
   source: https://github.com/ctu-mrs/nlopt_ros
-  unstable_ref: master
-  testing_ref: release_candidate
-  stable_ref: release
+  git_refs:
+    unstable: master
+    testing: release_candidate
+    stable: release
 
 ouster-ros:
   architecture: [amd64, arm64]
   source: https://github.com/ctu-mrs/ouster-ros
-  unstable_ref: mrs
-  testing_ref: release_candidate
-  stable_ref: release
+  git_refs:
+    unstable: mrs
+    testing: release_candidate
+    stable: release
 
 mavros:
   architecture: [amd64, arm64]
   source: https://github.com/ctu-mrs/mavros
-  unstable_ref: 1.13.0-deb
-  testing_ref: release_candidate
-  stable_ref: release
+  git_refs:
+    unstable: 1.13.0-deb
+    testing: release_candidate
+    stable: release
 
 mav_comm:
   architecture: [amd64, arm64]
   source: https://github.com/ctu-mrs/mav_comm
-  unstable_ref: master
-  testing_ref: release_candidate
-  stable_ref: release
+  git_refs:
+    unstable: master
+    testing: release_candidate
+    stable: release
 
 ros_comm:
   architecture: [amd64, arm64]
   source: https://github.com/ctu-mrs/ros_comm
-  unstable_ref: rosbag-patch
-  testing_ref: release_candidate
-  stable_ref: release
+  git_refs:
+    unstable: rosbag-patch
+    testing: release_candidate
+    stable: release
 
 geometry2:
   architecture: [amd64, arm64]
   source: https://github.com/ctu-mrs/geometry2
-  unstable_ref: warning-fix
-  testing_ref: release_candidate
-  stable_ref: release
+  git_refs:
+    unstable: warning-fix
+    testing: release_candidate
+    stable: release
 
 nimbro_network:
   architecture: [amd64, arm64]
   source: https://github.com/ctu-mrs/nimbro_network
-  unstable_ref: develop-deb
-  testing_ref: release_candidate
-  stable_ref: release
+  git_refs:
+    unstable: develop-deb
+    testing: release_candidate
+    stable: release
 
 hector_slam:
   architecture: [amd64, arm64]
   source: https://github.com/ctu-mrs/hector_slam
-  unstable_ref: master
-  testing_ref: release_candidate
-  stable_ref: release
+  git_refs:
+    unstable: master
+    testing: release_candidate
+    stable: release
 
 open_vins:
   architecture: [amd64, arm64]
   source: https://github.com/ctu-mrs/open_vins
-  unstable_ref: master
-  testing_ref: release_candidate
-  stable_ref: release
+  git_refs:
+    unstable: master
+    testing: release_candidate
+    stable: release

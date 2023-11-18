@@ -31,23 +31,31 @@ def main():
                 stable_ref = "none"
                 testing_ref = "none"
                 unstable_ref = "none"
+                ros_test = 0
+
+                refs = properties['git_refs']
 
                 try:
-                    stable_ref = properties['stable_ref']
+                    stable_ref = refs['stable']
                 except:
                     pass
 
                 try:
-                    testing_ref = properties['testing_ref']
+                    testing_ref = refs['testing']
                 except:
                     pass
 
                 try:
-                    unstable_ref = properties['unstable_ref']
+                    unstable_ref = refs['unstable']
                 except:
                     pass
 
-                print("{} {} {} {} {}".format(package, url, stable_ref, testing_ref, unstable_ref))
+                try:
+                    ros_test = bool(properties['ros_test'])
+                except:
+                    pass
+
+                print("{} {} {} {} {} {}".format(package, url, stable_ref, testing_ref, unstable_ref, ros_test))
 
 if __name__ == '__main__':
     main()

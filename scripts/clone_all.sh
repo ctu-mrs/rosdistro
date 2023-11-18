@@ -31,7 +31,7 @@ do
     PACKAGE=$(echo "$REPO" | awk '{print $1}')
     URL=$(echo "$REPO" | awk '{print $2}')
     STABLE_BRANCH=$(echo "$REPO" | awk '{print $3}')
-    UNSTABLE_BRANCH=$(echo "$REPO" | awk '{print $4}')
+    UNSTABLE_BRANCH=$(echo "$REPO" | awk '{print $5}')
 
     if [ -e ./$PACKAGE ]; then
 

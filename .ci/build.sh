@@ -19,6 +19,10 @@ set -e
 trap 'last_command=$current_command; current_command=$BASH_COMMAND' DEBUG
 trap 'echo "$0: \"${last_command}\" command failed with exit code $?"' ERR
 
+# determine our architecture
+sudo apt-get -y install dpkg-dev
+ARCH=$(dpkg-architecture -qDEB_HOST_ARCH)
+
 # INPUTS
 LIST=$1
 VARIANT=$2
@@ -32,10 +36,6 @@ YAML_FILE=${LIST}.yaml
 
 # needed for building open_vins
 export ROS_VERSION=1
-
-# determine our architecture
-sudo apt-get -y install dpkg-dev
-ARCH=$(dpkg-architecture -qDEB_HOST_ARCH)
 
 # we already have a docker image with ros for the ARM build
 if [[ "$ARCH" != "arm64" ]]; then

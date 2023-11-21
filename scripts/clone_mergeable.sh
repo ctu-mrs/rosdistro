@@ -30,7 +30,7 @@ do
 
     PACKAGE=$(echo "$REPO" | awk '{print $1}')
     URL=$(echo "$REPO" | awk '{print $2}')
-    STABLE_BRANCH=$(echo "$REPO" | awk '{print $3}')
+    RELEASE_CANDIDATE_BRANCH=$(echo "$REPO" | awk '{print $4}')
     UNSTABLE_BRANCH=$(echo "$REPO" | awk '{print $5}')
 
     if [ -e ./$PACKAGE ]; then
@@ -42,7 +42,7 @@ do
     fi
 
     echo "$0: cloning '$URL --branch $BRANCH' into '$PACKAGE'"
-    git clone $URL --branch $STABLE_BRANCH $PACKAGE
+    git clone $URL --branch $RELEASE_CANDIDATE_BRANCH $PACKAGE
 
     # compare the branches
     cd $PACKAGE

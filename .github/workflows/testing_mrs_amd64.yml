@@ -123,7 +123,7 @@ jobs:
           sleep 600
 
   test:
-    needs: init-artifacts
+    needs: wait-for-ppa
     uses: ctu-mrs/buildfarm/.github/workflows/rostest_to_release.yml@master
     secrets:
       PUSH_TOKEN: ${{ secrets.PUSH_TOKEN }}

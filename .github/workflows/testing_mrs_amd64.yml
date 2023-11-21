@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
   schedule:
-    - cron:  '0 20 * * *' # every day at 10pm UTC+2
+    - cron:  '0 10 * * *' # every day at 12am UTC+2
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -113,3 +113,17 @@ jobs:
           token: ${{ secrets.PUSH_TOKEN }}
       - name: Deploy
         run: .ci_scripts/package_build/push_to_ppa.sh testing /tmp/artifacts
+
+  wait-for-ppa:
+    runs-on: ubuntu-20.04
+    needs: collect-artifacts
+    steps:
+      - id: run
+        run: |
+          sleep 600
+
+  test:
+    needs: wait-for-ppa
+    uses: ctu-mrs/buildfarm/.github/workflows/rostest_to_release.yml@master
+    secrets:
+      PUSH_TOKEN: ${{ secrets.PUSH_TOKEN }}

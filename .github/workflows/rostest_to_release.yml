@@ -3,9 +3,6 @@ name: rostest_to_release
 on:
   workflow_dispatch:
 
-  schedule:
-    - cron:  '0 5 * * *' # every day at 7am UTC+2
-
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
 

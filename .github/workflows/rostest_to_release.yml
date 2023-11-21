@@ -1,6 +1,11 @@
 name: rostest_to_release
 
 on:
+  workflow_call:
+    secrets:
+      PUSH_TOKEN:
+        required: true
+
   workflow_dispatch:
 
 concurrency:

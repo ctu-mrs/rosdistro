@@ -90,6 +90,7 @@ jobs:
   coverage:
     runs-on: ubuntu-20.04
     needs: test-job
+    steps:
       - name: Load artifacts
         uses: actions/download-artifact@v3
         with:

@@ -7,7 +7,8 @@ trap 'echo "$0: \"${last_command}\" command failed with exit code $?"' ERR
 
 LIST=mrs
 VARIANT=testing
-PACKAGE_NAME=$1
+REPOSITORY_NAME=$1
+ARTIFACT_FOLDER=$2
 WORKSPACE=/tmp/workspace
 
 YAML_FILE=${LIST}.yaml
@@ -29,7 +30,7 @@ curl https://ctu-mrs.github.io/ppa-$VARIANT/add_ppa.sh | bash
 sudo apt-get -y -q install ros-noetic-desktop
 sudo apt-get -y -q install ros-noetic-mrs-uav-system
 
-REPOS=$(./.ci/get_repo_source.py $YAML_FILE $VARIANT $ARCH $PACKAGE_NAME)
+REPOS=$(./.ci/get_repo_source.py $YAML_FILE $VARIANT $ARCH $REPOSITORY_NAME)
 
 echo "$0: creating workspace"
 
@@ -72,3 +73,9 @@ echo "$0: testing"
 catkin test
 
 echo "$0: tests finished"
+
+echo "$0: storing coverage data"
+
+lcov --capture --directory ${WORKSPACE} --output-file /tmp/coverage.original
+lcov --remove /tmp/coverage.original "*/test/" --output-file /tmp/coverage.removed
+lcov --extract /tmp/coverage.removed "*/${WORKSPACE}/*" --output-file $ARTIFACT_FOLDER/$REPOSITORY_NAME.info

@@ -29,6 +29,7 @@ curl https://ctu-mrs.github.io/ppa-$VARIANT/add_ppa.sh | bash
 
 sudo apt-get -y -q install ros-noetic-desktop
 sudo apt-get -y -q install ros-noetic-mrs-uav-system
+sudo apt-get -y -q install lcov
 
 REPOS=$(./.ci/get_repo_source.py $YAML_FILE $VARIANT $ARCH $REPOSITORY_NAME)
 

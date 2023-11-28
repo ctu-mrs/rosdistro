@@ -19,6 +19,7 @@ jobs:
       - id: execute
         run: |
           mkdir -p /tmp/artifacts
+          touch /tmp/artifacts/void
       - name: Save artifacts
         uses: actions/upload-artifact@v3
         with:

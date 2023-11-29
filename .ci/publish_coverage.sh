@@ -13,7 +13,7 @@ sudo apt-get -y -q install lcov
 
 ARGS=""
 
-for file in `ls $ARTIFACT_FOLDER`; do
+for file in `ls $ARTIFACT_FOLDER | grep ".info"`; do
 
   ARGS="-a ${ARTIFACT_FOLDER}/${file}"
 

@@ -13,15 +13,15 @@ sudo apt-get -y -q install lcov
 
 # clone the sources
 
-mkdir -p $WORKSPACE/src
-cd $WORKSPACE/src
-
 LIST=mrs
 ARCH=amd64
 
 YAML_FILE=$LIST.yaml
 
 REPOS=$(./.ci/parse_yaml.py $YAML_FILE $ARCH)
+
+mkdir -p $WORKSPACE/src
+cd $WORKSPACE/src
 
 echo "$REPOS" | while IFS= read -r REPO; do
 

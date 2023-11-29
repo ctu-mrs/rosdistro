@@ -7,6 +7,8 @@ trap 'echo "$0: \"${last_command}\" command failed with exit code $?"' ERR
 
 ARTIFACT_FOLDER=$1
 
+sudo apt-get -y -q install lcov
+
 # are there any coverage files?
 
 ARGS=""

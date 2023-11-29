@@ -40,8 +40,8 @@ cd $WORKSPACE
 source /opt/ros/noetic/setup.bash
 catkin init
 
-catkin config --profile reldeb --cmake-args -DCMAKE_BUILD_TYPE=RelWithDebInfo
-catkin profile set reldeb
+catkin config --profile debug --cmake-args -DCMAKE_BUILD_TYPE=Debug
+catkin profile set debug
 
 cd src
 

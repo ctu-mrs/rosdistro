@@ -1,4 +1,4 @@
-name: rostest_to_release
+name: rostest_to_release_coverage
 
 on:
   workflow_call:
@@ -10,7 +10,21 @@ on:
 
 jobs:
 
+  init-artifacts:
+    runs-on: ubuntu-20.04
+    steps:
+      - id: execute
+        run: |
+          mkdir -p /tmp/artifacts
+          touch /tmp/artifacts/void
+      - name: Save artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: artifacts
+          path: /tmp/artifacts/
+
   generate-jobs:
+    needs: init-artifacts
     runs-on: ubuntu-20.04
     outputs:
       packages: ${{ steps.generate.outputs.packages }}
@@ -32,6 +46,11 @@ jobs:
       matrix:
         job: ${{ fromJson(needs.generate-jobs.outputs.packages) }}
     steps:
+      - name: Load artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: artifacts
+          path: /tmp/artifacts/
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
@@ -45,7 +64,12 @@ jobs:
           token: ${{ secrets.PUSH_TOKEN }}
       - id: test
         run: |
-          .ci/test.sh "${{ matrix.job }}"
+          .ci/test.sh "${{ matrix.job }}" /tmp/artifacts
+      - name: Save artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: artifacts
+          path: /tmp/artifacts/
 
   merge_and_push:
     runs-on: ubuntu-20.04
@@ -60,3 +84,28 @@ jobs:
       - id: merge
         run: |
           .ci/merge_push_to_release.sh
+
+  publish_coverage:
+    runs-on: ubuntu-20.04
+    needs: test-job
+    steps:
+      - name: Load artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: artifacts
+          path: /tmp/artifacts/
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          submodules: 'recursive'
+      - id: test
+        run: |
+          ls -la /tmp/artifacts
+          ./.ci/publish_coverage.sh /tmp/artifacts
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: /tmp/coverage_html
+          allow_empty_commit: true
+          force_orphan: true

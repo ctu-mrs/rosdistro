@@ -105,3 +105,10 @@ jobs:
         run: |
           ls -la /tmp/artifacts
           .ci/publish_coverage.sh /tmp/artifacts
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: /tmp/coverage_html
+          allow_empty_commit: true
+          force_orphan: true

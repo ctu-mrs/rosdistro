@@ -67,7 +67,7 @@ rosdep install --from-path .
 
 echo "$0: building the workspace"
 
-catkin build
+catkin build --limit-status-rate 0.2
 
 echo "$0: testing"
 

@@ -7,7 +7,8 @@ trap 'echo "$0: \"${last_command}\" command failed with exit code $?"' ERR
 
 LIST=mrs
 VARIANT=testing
-PACKAGE_NAME=$1
+REPOSITORY_NAME=$1
+ARTIFACT_FOLDER=$2
 WORKSPACE=/tmp/workspace
 
 YAML_FILE=${LIST}.yaml
@@ -28,8 +29,9 @@ curl https://ctu-mrs.github.io/ppa-$VARIANT/add_ppa.sh | bash
 
 sudo apt-get -y -q install ros-noetic-desktop
 sudo apt-get -y -q install ros-noetic-mrs-uav-system
+sudo apt-get -y -q install lcov
 
-REPOS=$(./.ci/get_repo_source.py $YAML_FILE $VARIANT $ARCH $PACKAGE_NAME)
+REPOS=$(./.ci/get_repo_source.py $YAML_FILE $VARIANT $ARCH $REPOSITORY_NAME)
 
 echo "$0: creating workspace"
 
@@ -38,8 +40,8 @@ cd $WORKSPACE
 source /opt/ros/noetic/setup.bash
 catkin init
 
-catkin config --profile reldeb --cmake-args -DCMAKE_BUILD_TYPE=RelWithDebInfo
-catkin profile set reldeb
+catkin config --profile debug --cmake-args -DCMAKE_BUILD_TYPE=Debug
+catkin profile set debug
 
 cd src
 
@@ -65,10 +67,16 @@ rosdep install --from-path .
 
 echo "$0: building the workspace"
 
-catkin build
+catkin build --limit-status-rate 0.2
 
 echo "$0: testing"
 
 catkin test
 
 echo "$0: tests finished"
+
+echo "$0: storing coverage data"
+
+lcov --capture --directory ${WORKSPACE} --output-file /tmp/coverage.original
+lcov --remove /tmp/coverage.original "*/test/*" --output-file /tmp/coverage.removed || echo "$0: coverage tracefile is empty"
+lcov --extract /tmp/coverage.removed "*/workspace/*" --output-file $ARTIFACT_FOLDER/$REPOSITORY_NAME.info || echo "$0: coverage tracefile is empty"

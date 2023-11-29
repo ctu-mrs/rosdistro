@@ -59,7 +59,7 @@ mrs_uav_controllers:
     unstable: master
     testing: release_candidate
     stable: release
-  ros_test: false
+  ros_test: true
 
 mrs_uav_autostart:
   architecture: [amd64, arm64]

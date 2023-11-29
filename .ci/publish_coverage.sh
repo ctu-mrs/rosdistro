@@ -43,7 +43,7 @@ ARGS=""
 
 for file in `ls $ARTIFACT_FOLDER | grep ".info"`; do
 
-  ARGS="-a ${ARTIFACT_FOLDER}/${file}"
+  ARGS="${ARGS} -a ${ARTIFACT_FOLDER}/${file}"
 
 done
 
@@ -54,3 +54,6 @@ genhtml -o /tmp/coverage_html /tmp/coverage.info | tee /tmp/coverage.log
 COVERAGE_PCT=`cat /tmp/coverage.log | tail -n 1 | awk '{print $2}'`
 
 echo "Coverage: $COVERAGE_PCT"
+
+pip install pybadges
+python -m pybadges --left-text="test coverage" --right-text="${COVERAGE_PCT}" --right-color='#0c0' > /tmp/coverage_html/badge.svg

@@ -1,4 +1,4 @@
-name: rostest_to_release_coverage
+name: rostest_to_release
 
 on:
   workflow_call:

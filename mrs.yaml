@@ -86,7 +86,7 @@ mrs_uav_state_estimators:
     unstable: master
     testing: release_candidate
     stable: release
-  ros_test: false
+  ros_test: true
 
 mrs_uav_deployment:
   architecture: [amd64, arm64]
@@ -113,7 +113,7 @@ mrs_uav_trackers:
     unstable: master
     testing: release_candidate
     stable: release
-  ros_test: false
+  ros_test: true
 
 mrs_uav_px4_api:
   architecture: [amd64, arm64]

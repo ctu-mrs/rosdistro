@@ -9,7 +9,7 @@ ARTIFACT_FOLDER=$1
 WORKSPACE=/tmp/workspace
 
 # install lcov
-sudo apt-get -y -q install lcov
+sudo apt-get -y -q install lcov binutils
 
 # clone the sources
 
@@ -49,7 +49,7 @@ done
 
 lcov $ARGS --output-file /tmp/coverage.info
 
-genhtml -o /tmp/coverage_html /tmp/coverage.info | tee /tmp/coverage.log
+genhtml --title "MRS UAV System - Test coverage report" --demangle-cpp --legend --frames --show-details -o /tmp/coverage_html /tmp/coverage.info | tee /tmp/coverage.log
 
 COVERAGE_PCT=`cat /tmp/coverage.log | tail -n 1 | awk '{print $2}'`
 

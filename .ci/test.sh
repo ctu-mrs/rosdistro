@@ -79,4 +79,4 @@ echo "$0: storing coverage data"
 
 lcov --capture --directory ${WORKSPACE} --output-file /tmp/coverage.original
 lcov --remove /tmp/coverage.original "*/test/*" --output-file /tmp/coverage.removed || echo "$0: coverage tracefile is empty"
-lcov --extract /tmp/coverage.removed "*/workspace/*" --output-file $ARTIFACT_FOLDER/$REPOSITORY_NAME.info || echo "$0: coverage tracefile is empty"
+lcov --extract /tmp/coverage.removed "$WORKSPACE/src/$PACKAGE/*" --output-file $ARTIFACT_FOLDER/$REPOSITORY_NAME.info || echo "$0: coverage tracefile is empty"

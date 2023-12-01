@@ -266,7 +266,7 @@ mrs_uav_gazebo_simulation:
     unstable: master
     testing: release_candidate
     stable: release
-  ros_test: false
+  ros_test: true
 
 aloam:
   architecture: [amd64, arm64]

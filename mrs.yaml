@@ -149,7 +149,7 @@ mrs_uav_trajectory_generation:
     unstable: master
     testing: release_candidate
     stable: release
-  ros_test: false
+  ros_test: true
 
 mrs_serial:
   architecture: [amd64, arm64]

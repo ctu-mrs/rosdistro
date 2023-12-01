@@ -43,7 +43,9 @@ ARGS=""
 
 for file in `ls $ARTIFACT_FOLDER | grep ".info"`; do
 
-  ARGS="${ARGS} -a ${ARTIFACT_FOLDER}/${file}"
+  if [ -s ${ARTIFACT_FOLDER}/${file} ]; then
+    ARGS="${ARGS} -a ${ARTIFACT_FOLDER}/${file}"
+  fi
 
 done
 

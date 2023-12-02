@@ -31,7 +31,8 @@ sudo apt-get -y -q install ros-noetic-desktop
 sudo apt-get -y -q install ros-noetic-mrs-uav-system
 sudo apt-get -y -q install lcov
 
-REPOS=$(./.ci/get_repo_source.py $YAML_FILE $VARIANT $ARCH $REPOSITORY_NAME)
+THIS_TEST_REPOS=$(./.ci/get_repo_source.py $YAML_FILE $VARIANT $ARCH $REPOSITORY_NAME)
+FULL_COVERAGE_REPOS=$(./.ci/parse_yaml.py $YAML_FILE $ARCH)
 
 echo "$0: creating workspace"
 
@@ -50,7 +51,7 @@ cd src
 echo "$0: cloning the package"
 
 # clone and checkout
-echo "$REPOS" | while IFS= read -r REPO; do
+echo "$THIS_TEST_REPOS" | while IFS= read -r REPO; do
 
   PACKAGE=$(echo "$REPO" | awk '{print $1}')
   URL=$(echo "$REPO" | awk '{print $2}')
@@ -63,9 +64,7 @@ done
 
 ## | ------- clone other packages for full test coverage ------ |
 
-REPOS=$(./.ci/parse_yaml.py $YAML_FILE $ARCH)
-
-echo "$REPOS" | while IFS= read -r REPO; do
+echo "$FULL_COVERAGE_REPOS" | while IFS= read -r REPO; do
 
   $DEBUG && echo "Cloning $REPO"
 

@@ -99,7 +99,7 @@ rosdep install --from-path .
 
 echo "$0: building the workspace"
 
-catkin build --limit-status-rate 0.2
+catkin build --limit-status-rate 0.2 --catkin-make-args tests
 
 echo "$0: testing"
 
@@ -108,7 +108,7 @@ ROS_DIRS=$(find . -name package.xml -printf "%h\n")
 
 for DIR in $ROS_DIRS; do
   cd $WORKSPACE/src/$REPOSITORY_NAME/$DIR
-  catkin test --this
+  catkin test --this -i
 done
 
 echo "$0: tests finished"

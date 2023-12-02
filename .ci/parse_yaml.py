@@ -31,7 +31,7 @@ def main():
                 stable_ref = "none"
                 testing_ref = "none"
                 unstable_ref = "none"
-                ros_test = False
+                ros_test_enabled = False
                 full_coverage = False
 
                 refs = properties['git_refs']
@@ -51,15 +51,18 @@ def main():
                 except:
                     pass
 
-                ros_test = properties['ros_test']
-
                 try:
-                    ros_test_enabled = bool(ros_test['enabled'])
-                except:
-                    pass
+                    ros_test = properties['ros_test']
 
-                try:
-                    full_coverage = bool(ros_test['full_test_coverage'])
+                    try:
+                        ros_test_enabled = bool(ros_test['enabled'])
+                    except:
+                        pass
+
+                    try:
+                        full_coverage = bool(ros_test['full_test_coverage'])
+                    except:
+                        pass
                 except:
                     pass
 

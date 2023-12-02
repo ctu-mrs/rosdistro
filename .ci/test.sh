@@ -64,36 +64,32 @@ done
 
 ## | ------- clone other packages for full test coverage ------ |
 
-if [[ "$VARIANT" == "testing" ]]; then
+echo "$FULL_COVERAGE_REPOS" | while IFS= read -r REPO; do
 
-  echo "$FULL_COVERAGE_REPOS" | while IFS= read -r REPO; do
+  $DEBUG && echo "Cloning $REPO"
 
-    $DEBUG && echo "Cloning $REPO"
+  PACKAGE=$(echo "$REPO" | awk '{print $1}')
+  URL=$(echo "$REPO" | awk '{print $2}')
+  BRANCH=$(echo "$REPO" | awk '{print $3}')
+  TEST=$(echo "$REPO" | awk '{print $6}')
+  FULL_COVERAGE=$(echo "$REPO" | awk '{print $7}')
 
-    PACKAGE=$(echo "$REPO" | awk '{print $1}')
-    URL=$(echo "$REPO" | awk '{print $2}')
-    BRANCH=$(echo "$REPO" | awk '{print $3}')
-    TEST=$(echo "$REPO" | awk '{print $6}')
-    FULL_COVERAGE=$(echo "$REPO" | awk '{print $7}')
+  if [[ "$TEST" != "True" ]]; then
+    continue
+  fi
 
-    if [[ "$TEST" != "True" ]]; then
-      continue
-    fi
+  if [[ "$FULL_COVERAGE" != "True" ]]; then
+    continue
+  fi
 
-    if [[ "$FULL_COVERAGE" != "True" ]]; then
-      continue
-    fi
+  if [[ "$PACKAGE" == "$REPOSITORY_NAME" ]]; then
+    continue
+  fi
 
-    if [[ "$PACKAGE" == "$REPOSITORY_NAME" ]]; then
-      continue
-    fi
+  echo "$0: cloning '$URL --depth 1 --branch $BRANCH' into '$PACKAGE'"
+  git clone $URL --recurse-submodules --shallow-submodules --depth 1 --branch $BRANCH $PACKAGE
 
-    echo "$0: cloning '$URL --depth 1 --branch $BRANCH' into '$PACKAGE'"
-    git clone $URL --recurse-submodules --shallow-submodules --depth 1 --branch $BRANCH $PACKAGE
-
-  done
-
-fi
+done
 
 cd $WORKSPACE/src
 

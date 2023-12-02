@@ -1,4 +1,4 @@
-name: test_unstable
+name: rostest_unstable
 
 on:
 
@@ -19,7 +19,7 @@ jobs:
           name: artifacts
           path: /tmp/artifacts/
 
-  build:
+  build-for-coverage:
     needs: init-artifacts
     runs-on: ubuntu-20.04
     steps:
@@ -42,7 +42,7 @@ jobs:
           path: /tmp/artifacts/
 
   generate-jobs:
-    needs: build
+    needs: build-for-coverage
     runs-on: ubuntu-20.04
     outputs:
       packages: ${{ steps.generate.outputs.packages }}

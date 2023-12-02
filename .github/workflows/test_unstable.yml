@@ -1,10 +1,6 @@
-name: rostest_to_release
+name: test_unstable
 
 on:
-  workflow_call:
-    secrets:
-      PUSH_TOKEN:
-        required: true
 
   workflow_dispatch:
 
@@ -65,26 +61,12 @@ jobs:
           token: ${{ secrets.PUSH_TOKEN }}
       - id: test
         run: |
-          .ci/test.sh "${{ matrix.job }}" /tmp/artifacts testing
+          .ci/test.sh "${{ matrix.job }}" /tmp/artifacts unstable
       - name: Save artifacts
         uses: actions/upload-artifact@v3
         with:
           name: artifacts
           path: /tmp/artifacts/
-
-  merge_and_push:
-    runs-on: ubuntu-20.04
-    needs: test-job
-    env:
-      PUSH_TOKEN: ${{ secrets.PUSH_TOKEN }}
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-          submodules: 'recursive'
-      - id: merge
-        run: |
-          .ci/merge_push_to_release.sh
 
   publish_coverage:
     runs-on: ubuntu-20.04

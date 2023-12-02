@@ -6,9 +6,9 @@ trap 'last_command=$current_command; current_command=$BASH_COMMAND' DEBUG
 trap 'echo "$0: \"${last_command}\" command failed with exit code $?"' ERR
 
 LIST=mrs
-VARIANT=testing
 REPOSITORY_NAME=$1
 ARTIFACT_FOLDER=$2
+VARIANT=$3
 WORKSPACE=/tmp/workspace
 
 YAML_FILE=${LIST}.yaml
@@ -64,32 +64,36 @@ done
 
 ## | ------- clone other packages for full test coverage ------ |
 
-echo "$FULL_COVERAGE_REPOS" | while IFS= read -r REPO; do
+if [[ "$VARIANT" == "testing" ]]; then
 
-  $DEBUG && echo "Cloning $REPO"
+  echo "$FULL_COVERAGE_REPOS" | while IFS= read -r REPO; do
 
-  PACKAGE=$(echo "$REPO" | awk '{print $1}')
-  URL=$(echo "$REPO" | awk '{print $2}')
-  BRANCH=$(echo "$REPO" | awk '{print $3}')
-  TEST=$(echo "$REPO" | awk '{print $6}')
-  FULL_COVERAGE=$(echo "$REPO" | awk '{print $7}')
+    $DEBUG && echo "Cloning $REPO"
 
-  if [[ "$TEST" != "True" ]]; then
-    continue
-  fi
+    PACKAGE=$(echo "$REPO" | awk '{print $1}')
+    URL=$(echo "$REPO" | awk '{print $2}')
+    BRANCH=$(echo "$REPO" | awk '{print $3}')
+    TEST=$(echo "$REPO" | awk '{print $6}')
+    FULL_COVERAGE=$(echo "$REPO" | awk '{print $7}')
 
-  if [[ "$FULL_COVERAGE" != "True" ]]; then
-    continue
-  fi
+    if [[ "$TEST" != "True" ]]; then
+      continue
+    fi
 
-  if [[ "$PACKAGE" == "$REPOSITORY_NAME" ]]; then
-    continue
-  fi
+    if [[ "$FULL_COVERAGE" != "True" ]]; then
+      continue
+    fi
 
-  echo "$0: cloning '$URL --depth 1 --branch $BRANCH' into '$PACKAGE'"
-  git clone $URL --recurse-submodules --shallow-submodules --depth 1 --branch $BRANCH $PACKAGE
+    if [[ "$PACKAGE" == "$REPOSITORY_NAME" ]]; then
+      continue
+    fi
 
-done
+    echo "$0: cloning '$URL --depth 1 --branch $BRANCH' into '$PACKAGE'"
+    git clone $URL --recurse-submodules --shallow-submodules --depth 1 --branch $BRANCH $PACKAGE
+
+  done
+
+fi
 
 cd $WORKSPACE/src
 
@@ -103,7 +107,13 @@ catkin build --limit-status-rate 0.2
 
 echo "$0: testing"
 
-catkin test
+cd $WORKSPACE/src/$REPOSITORY_NAME
+ROS_DIRS=$(find . -name package.xml -printf "%h\n")
+
+for DIR in $ROS_DIRS; do
+  cd $WORKSPACE/src/$REPOSITORY_NAME/$DIR
+  catkin test --this
+done
 
 echo "$0: tests finished"
 

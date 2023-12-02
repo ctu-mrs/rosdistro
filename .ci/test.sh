@@ -53,8 +53,8 @@ echo "$THIS_TEST_REPOS" | while IFS= read -r REPO; do
   URL=$(echo "$REPO" | awk '{print $2}')
   BRANCH=$(echo "$REPO" | awk '{print $3}')
 
-  echo "$0: cloning '$URL --depth 1 --branch $BRANCH' into '$PACKAGE'"
-  git clone $URL --recurse-submodules --shallow-submodules --depth 1 --branch $BRANCH $PACKAGE
+  [ ! -e $PACKAGE ] && echo "$0: cloning '$URL --depth 1 --branch $BRANCH' into '$PACKAGE'"
+  [ ! -e $PACKAGE ] && git clone $URL --recurse-submodules --shallow-submodules --depth 1 --branch $BRANCH $PACKAGE
 
 done
 

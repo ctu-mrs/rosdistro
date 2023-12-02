@@ -38,6 +38,7 @@ echo "$0: unpack the workspace"
 mv $ARTIFACT_FOLDER/workspace.tar.gz /tmp
 cd /tmp
 tar -xvzf workspace.tar.gz
+source $WORKSPACE/devel/setup.bash
 
 ## | ---------------- clone the tested package ---------------- |
 

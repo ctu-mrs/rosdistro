@@ -42,6 +42,8 @@ source $WORKSPACE/devel/setup.bash
 
 ## | ---------------- clone the tested package ---------------- |
 
+cd $WORKSPACE/src
+
 echo "$0: cloning the package"
 
 # clone and checkout
@@ -55,8 +57,6 @@ echo "$THIS_TEST_REPOS" | while IFS= read -r REPO; do
   git clone $URL --recurse-submodules --shallow-submodules --depth 1 --branch $BRANCH $PACKAGE
 
 done
-
-cd $WORKSPACE/src
 
 echo "$0: installing rosdep dependencies"
 

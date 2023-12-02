@@ -5,7 +5,8 @@ mrs_msgs:
     unstable: master
     testing: release_candidate
     stable: release
-  ros_test: false
+  ros_test:
+    enabled: false
 
 mrs_modules_msgs:
   architecture: [amd64, arm64]
@@ -14,7 +15,8 @@ mrs_modules_msgs:
     unstable: master
     testing: release_candidate
     stable: release
-  ros_test: false
+  ros_test:
+    enabled: false
 
 mrs_lib:
   architecture: [amd64, arm64]
@@ -23,7 +25,9 @@ mrs_lib:
     unstable: master
     testing: release_candidate
     stable: release
-  ros_test: true
+  ros_test:
+    enabled: true
+    full_test_coverage: true
 
 mrs_uav_managers:
   architecture: [amd64, arm64]
@@ -32,7 +36,9 @@ mrs_uav_managers:
     unstable: master
     testing: release_candidate
     stable: release
-  ros_test: true
+  ros_test:
+    enabled: true
+    full_test_coverage: true
 
 mrs_bumper:
   architecture: [amd64, arm64]
@@ -41,7 +47,8 @@ mrs_bumper:
     unstable: master
     testing: release_candidate
     stable: release
-  ros_test: false
+  ros_test:
+    enabled: false
 
 mrs_multirotor_simulator:
   architecture: [amd64, arm64]
@@ -50,7 +57,9 @@ mrs_multirotor_simulator:
     unstable: master
     testing: release_candidate
     stable: release
-  ros_test: false
+  ros_test:
+    enabled: false
+    full_test_coverage: true
 
 mrs_uav_controllers:
   architecture: [amd64, arm64]
@@ -59,7 +68,9 @@ mrs_uav_controllers:
     unstable: master
     testing: release_candidate
     stable: release
-  ros_test: true
+  ros_test:
+    enabled: true
+    full_test_coverage: true
 
 mrs_uav_autostart:
   architecture: [amd64, arm64]
@@ -68,7 +79,9 @@ mrs_uav_autostart:
     unstable: master
     testing: release_candidate
     stable: release
-  ros_test: true
+  ros_test:
+    enabled: true
+    full_test_coverage: true
 
 mrs_uav_hw_api:
   architecture: [amd64, arm64]
@@ -77,7 +90,9 @@ mrs_uav_hw_api:
     unstable: master
     testing: release_candidate
     stable: release
-  ros_test: false
+  ros_test:
+    enabled: false
+    full_test_coverage: true
 
 mrs_uav_state_estimators:
   architecture: [amd64, arm64]
@@ -86,7 +101,9 @@ mrs_uav_state_estimators:
     unstable: master
     testing: release_candidate
     stable: release
-  ros_test: true
+  ros_test:
+    enabled: true
+    full_test_coverage: true
 
 mrs_uav_deployment:
   architecture: [amd64, arm64]
@@ -95,7 +112,8 @@ mrs_uav_deployment:
     unstable: master
     testing: release_candidate
     stable: release
-  ros_test: false
+  ros_test:
+    enabled: false
 
 mrs_uav_status:
   architecture: [amd64, arm64]
@@ -104,7 +122,8 @@ mrs_uav_status:
     unstable: master
     testing: release_candidate
     stable: release
-  ros_test: false
+  ros_test:
+    enabled: false
 
 mrs_uav_trackers:
   architecture: [amd64, arm64]
@@ -113,7 +132,9 @@ mrs_uav_trackers:
     unstable: master
     testing: release_candidate
     stable: release
-  ros_test: true
+  ros_test:
+    enabled: true
+    full_test_coverage: true
 
 mrs_uav_px4_api:
   architecture: [amd64, arm64]
@@ -122,7 +143,8 @@ mrs_uav_px4_api:
     unstable: master
     testing: release_candidate
     stable: release
-  ros_test: false
+  ros_test:
+    enabled: false
 
 mrs_uav_dji_tello_api:
   architecture: [amd64, arm64]
@@ -131,7 +153,8 @@ mrs_uav_dji_tello_api:
     unstable: master
     testing: release_candidate
     stable: release
-  ros_test: false
+  ros_test:
+    enabled: false
 
 mrs_rviz_plugins:
   architecture: [amd64, arm64]
@@ -140,7 +163,8 @@ mrs_rviz_plugins:
     unstable: master
     testing: release_candidate
     stable: release
-  ros_test: false
+  ros_test:
+    enabled: false
 
 mrs_uav_trajectory_generation:
   architecture: [amd64, arm64]
@@ -149,7 +173,9 @@ mrs_uav_trajectory_generation:
     unstable: master
     testing: release_candidate
     stable: release
-  ros_test: true
+  ros_test:
+    enabled: true
+    full_test_coverage: true
 
 mrs_serial:
   architecture: [amd64, arm64]
@@ -158,7 +184,8 @@ mrs_serial:
     unstable: master
     testing: release_candidate
     stable: release
-  ros_test: false
+  ros_test:
+    enabled: false
 
 mrs_uav_path_loader:
   architecture: [amd64, arm64]
@@ -167,7 +194,8 @@ mrs_uav_path_loader:
     unstable: master
     testing: release_candidate
     stable: release
-  ros_test: false
+  ros_test:
+    enabled: false
 
 mrs_uav_trajectory_loader:
   architecture: [amd64, arm64]
@@ -176,7 +204,8 @@ mrs_uav_trajectory_loader:
     unstable: master
     testing: release_candidate
     stable: release
-  ros_test: false
+  ros_test:
+    enabled: false
 
 mrs_utils:
   architecture: [amd64, arm64]
@@ -185,7 +214,8 @@ mrs_utils:
     unstable: master
     testing: release_candidate
     stable: release
-  ros_test: false
+  ros_test:
+    enabled: false
 
 mrs_gazebo_common_resources:
   architecture: [amd64, arm64]
@@ -194,7 +224,8 @@ mrs_gazebo_common_resources:
     unstable: master
     testing: release_candidate
     stable: release
-  ros_test: false
+  ros_test:
+    enabled: false
 
 mrs_pcl_tools:
   architecture: [amd64, arm64]
@@ -203,7 +234,8 @@ mrs_pcl_tools:
     unstable: master
     testing: release_candidate
     stable: release
-  ros_test: false
+  ros_test:
+    enabled: false
 
 mrs_subt_planning_lib:
   architecture: [amd64, arm64]
@@ -212,7 +244,8 @@ mrs_subt_planning_lib:
     unstable: master
     testing: release_candidate
     stable: release
-  ros_test: false
+  ros_test:
+    enabled: false
 
 mrs_octomap_tools:
   architecture: [amd64, arm64]
@@ -221,7 +254,8 @@ mrs_octomap_tools:
     unstable: master
     testing: release_candidate
     stable: release
-  ros_test: false
+  ros_test:
+    enabled: false
 
 mrs_octomap_server:
   architecture: [amd64, arm64]
@@ -230,7 +264,8 @@ mrs_octomap_server:
     unstable: master
     testing: release_candidate
     stable: release
-  ros_test: false
+  ros_test:
+    enabled: false
 
 mrs_octomap_planner:
   architecture: [amd64, arm64]
@@ -239,7 +274,8 @@ mrs_octomap_planner:
     unstable: master
     testing: release_candidate
     stable: release
-  ros_test: false
+  ros_test:
+    enabled: false
 
 mrs_octomap_mapping_planning:
   architecture: [amd64, arm64]
@@ -248,7 +284,8 @@ mrs_octomap_mapping_planning:
     unstable: master
     testing: release_candidate
     stable: release
-  ros_test: false
+  ros_test:
+    enabled: false
 
 mrs_uav_coppelia_simulation:
   architecture: [amd64, arm64]
@@ -257,7 +294,8 @@ mrs_uav_coppelia_simulation:
     unstable: master
     testing: release_candidate
     stable: release
-  ros_test: false
+  ros_test:
+    enabled: false
 
 mrs_uav_gazebo_simulation:
   architecture: [amd64, arm64]
@@ -266,7 +304,8 @@ mrs_uav_gazebo_simulation:
     unstable: master
     testing: release_candidate
     stable: release
-  ros_test: true
+  ros_test:
+    enabled: true
 
 aloam:
   architecture: [amd64, arm64]
@@ -275,7 +314,8 @@ aloam:
     unstable: master
     testing: release_candidate
     stable: release
-  ros_test: false
+  ros_test:
+    enabled: false
 
 mrs_uav_modules:
   architecture: [amd64, arm64]
@@ -284,7 +324,8 @@ mrs_uav_modules:
     unstable: master
     testing: release_candidate
     stable: release
-  ros_test: false
+  ros_test:
+    enabled: false
 
 mrs_uav_core:
   architecture: [amd64, arm64]
@@ -293,7 +334,8 @@ mrs_uav_core:
     unstable: master
     testing: release_candidate
     stable: release
-  ros_test: false
+  ros_test:
+    enabled: false
 
 mrs_uav_system:
   architecture: [amd64, arm64]
@@ -302,7 +344,8 @@ mrs_uav_system:
     unstable: master
     testing: release_candidate
     stable: release
-  ros_test: false
+  ros_test:
+    enabled: false
 
 mrs_hector_estimator_plugin:
   architecture: [amd64, arm64]
@@ -311,7 +354,8 @@ mrs_hector_estimator_plugin:
     unstable: master
     testing: release_candidate
     stable: release
-  ros_test: false
+  ros_test:
+    enabled: false
 
 mrs_hector_core:
   architecture: [amd64, arm64]
@@ -320,7 +364,8 @@ mrs_hector_core:
     unstable: master
     testing: release_candidate
     stable: release
-  ros_test: false
+  ros_test:
+    enabled: false
 
 mrs_open_vins_estimator_plugin:
   architecture: [amd64, arm64]
@@ -329,7 +374,8 @@ mrs_open_vins_estimator_plugin:
     unstable: master
     testing: release_candidate
     stable: release
-  ros_test: false
+  ros_test:
+    enabled: false
 
 mrs_vins_republisher:
   architecture: [amd64, arm64]
@@ -338,7 +384,8 @@ mrs_vins_republisher:
     unstable: master
     testing: release_candidate
     stable: release
-  ros_test: false
+  ros_test:
+    enabled: false
 
 mrs_vins_imu_filter:
   architecture: [amd64, arm64]
@@ -347,7 +394,8 @@ mrs_vins_imu_filter:
     unstable: master
     testing: release_candidate
     stable: release
-  ros_test: false
+  ros_test:
+    enabled: false
 
 mrs_open_vins_core:
   architecture: [amd64, arm64]
@@ -356,7 +404,8 @@ mrs_open_vins_core:
     unstable: master
     testing: release_candidate
     stable: release
-  ros_test: false
+  ros_test:
+    enabled: false
 
 mrs_aloam_estimator_plugin:
   architecture: [amd64, arm64]
@@ -365,7 +414,8 @@ mrs_aloam_estimator_plugin:
     unstable: master
     testing: release_candidate
     stable: release
-  ros_test: false
+  ros_test:
+    enabled: false
 
 mrs_aloam_core:
   architecture: [amd64, arm64]
@@ -374,4 +424,5 @@ mrs_aloam_core:
     unstable: master
     testing: release_candidate
     stable: release
-  ros_test: false
+  ros_test:
+    enabled: false

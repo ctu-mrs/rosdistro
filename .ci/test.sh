@@ -45,6 +45,8 @@ catkin profile set debug
 
 cd src
 
+## | ---------------- clone the tested package ---------------- |
+
 echo "$0: cloning the package"
 
 # clone and checkout
@@ -53,6 +55,37 @@ echo "$REPOS" | while IFS= read -r REPO; do
   PACKAGE=$(echo "$REPO" | awk '{print $1}')
   URL=$(echo "$REPO" | awk '{print $2}')
   BRANCH=$(echo "$REPO" | awk '{print $3}')
+
+  echo "$0: cloning '$URL --depth 1 --branch $BRANCH' into '$PACKAGE'"
+  git clone $URL --recurse-submodules --shallow-submodules --depth 1 --branch $BRANCH $PACKAGE
+
+done
+
+## | ------- clone other packages for full test coverage ------ |
+
+REPOS=$(./.ci/parse_yaml.py $YAML_FILE $ARCH)
+
+echo "$REPOS" | while IFS= read -r REPO; do
+
+  $DEBUG && echo "Cloning $REPO"
+
+  PACKAGE=$(echo "$REPO" | awk '{print $1}')
+  URL=$(echo "$REPO" | awk '{print $2}')
+  BRANCH=$(echo "$REPO" | awk '{print $3}')
+  TEST=$(echo "$REPO" | awk '{print $6}')
+  FULL_COVERAGE=$(echo "$REPO" | awk '{print $7}')
+
+  if [[ "$TEST" != "True" ]]; then
+    continue
+  fi
+
+  if [[ "$FULL_COVERAGE" != "True" ]]; then
+    continue
+  fi
+
+  if [[ "$PACKAGE" == "$REPOSITORY_NAME" ]]; then
+    continue
+  fi
 
   echo "$0: cloning '$URL --depth 1 --branch $BRANCH' into '$PACKAGE'"
   git clone $URL --recurse-submodules --shallow-submodules --depth 1 --branch $BRANCH $PACKAGE

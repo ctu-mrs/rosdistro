@@ -31,7 +31,8 @@ def main():
                 stable_ref = "none"
                 testing_ref = "none"
                 unstable_ref = "none"
-                ros_test = 0
+                ros_test = False
+                full_coverage = False
 
                 refs = properties['git_refs']
 
@@ -50,12 +51,19 @@ def main():
                 except:
                     pass
 
+                ros_test = properties['ros_test']
+
                 try:
-                    ros_test = bool(properties['ros_test'])
+                    ros_test_enabled = bool(ros_test['enabled'])
                 except:
                     pass
 
-                print("{} {} {} {} {} {}".format(package, url, stable_ref, testing_ref, unstable_ref, ros_test))
+                try:
+                    full_coverage = bool(ros_test['full_test_coverage'])
+                except:
+                    pass
+
+                print("{} {} {} {} {} {} {}".format(package, url, stable_ref, testing_ref, unstable_ref, ros_test_enabled, full_coverage))
 
 if __name__ == '__main__':
     main()

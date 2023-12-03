@@ -29,6 +29,17 @@ mrs_lib:
     enabled: true
     full_test_coverage: true
 
+mrs_uav_testing:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/mrs_uav_testing
+  git_refs:
+    unstable: master
+    testing: release_candidate
+    stable: release
+  ros_test:
+    enabled: true
+    full_test_coverage: true
+
 mrs_uav_managers:
   architecture: [amd64, arm64]
   source: https://github.com/ctu-mrs/mrs_uav_managers

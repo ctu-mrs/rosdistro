@@ -75,7 +75,7 @@ ROS_DIRS=$(find . -name package.xml -printf "%h\n")
 
 for DIR in $ROS_DIRS; do
   cd $WORKSPACE/src/$REPOSITORY_NAME/$DIR
-  catkin test --this -i
+  catkin test --this -p1
 done
 
 echo "$0: tests finished"

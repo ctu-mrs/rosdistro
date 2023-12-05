@@ -51,9 +51,16 @@ echo "$FULL_COVERAGE_REPOS" | while IFS= read -r REPO; do
 
   PACKAGE=$(echo "$REPO" | awk '{print $1}')
   URL=$(echo "$REPO" | awk '{print $2}')
-  BRANCH=$(echo "$REPO" | awk '{print $3}')
   TEST=$(echo "$REPO" | awk '{print $6}')
   FULL_COVERAGE=$(echo "$REPO" | awk '{print $7}')
+
+  if [[ "$VARIANT" == "stable" ]]; then
+    BRANCH=$(echo "$REPO" | awk '{print $3}')
+  elif [[ "$VARIANT" == "testing" ]]; then
+    BRANCH=$(echo "$REPO" | awk '{print $4}')
+  elif [[ "$VARIANT" == "unstable" ]]; then
+    BRANCH=$(echo "$REPO" | awk '{print $5}')
+  endif
 
   if [[ "$TEST" != "True" ]]; then
     continue

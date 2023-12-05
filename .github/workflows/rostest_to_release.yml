@@ -38,7 +38,7 @@ jobs:
           submodules: 'recursive'
       - id: test
         run: |
-          .ci/build_for_testing.sh /tmp/artifacts unstable
+          .ci/build_for_testing.sh /tmp/artifacts testing
       - name: Save artifacts
         uses: actions/upload-artifact@v3
         with:

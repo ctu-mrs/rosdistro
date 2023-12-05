@@ -60,7 +60,7 @@ echo "$FULL_COVERAGE_REPOS" | while IFS= read -r REPO; do
     BRANCH=$(echo "$REPO" | awk '{print $4}')
   elif [[ "$VARIANT" == "unstable" ]]; then
     BRANCH=$(echo "$REPO" | awk '{print $5}')
-  endif
+  fi
 
   if [[ "$TEST" != "True" ]]; then
     continue

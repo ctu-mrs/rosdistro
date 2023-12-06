@@ -23,7 +23,7 @@ jobs:
           path: /tmp/artifacts/
 
   generate-jobs:
-    needs: build-for-coverage
+    needs: init-artifacts
     runs-on: ubuntu-20.04
     outputs:
       packages: ${{ steps.generate.outputs.packages }}

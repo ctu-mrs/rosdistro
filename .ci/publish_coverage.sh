@@ -6,7 +6,6 @@ trap 'last_command=$current_command; current_command=$BASH_COMMAND' DEBUG
 trap 'echo "$0: \"${last_command}\" command failed with exit code $?"' ERR
 
 ARTIFACT_FOLDER=$1
-HTML_SUBFOLDER=$2
 WORKSPACE=/tmp/workspace
 
 # install lcov
@@ -52,13 +51,11 @@ done
 
 lcov $ARGS --output-file /tmp/coverage.info
 
-[ ! -e /tmp/coverage_html/${HTML_SUBFOLDER} ] && mkdir -p /tmp/coverage_html/${HTML_SUBFOLDER} || echo ""
-
-genhtml --title "MRS UAV System - Test coverage report" --demangle-cpp --legend --frames --show-details -o /tmp/coverage_html/${HTML_SUBFOLDER} /tmp/coverage.info | tee /tmp/coverage.log
+genhtml --title "MRS UAV System - Test coverage report" --demangle-cpp --legend --frames --show-details -o /tmp/coverage_html /tmp/coverage.info | tee /tmp/coverage.log
 
 COVERAGE_PCT=`cat /tmp/coverage.log | tail -n 1 | awk '{print $2}'`
 
 echo "Coverage: $COVERAGE_PCT"
 
 pip install pybadges
-python -m pybadges --left-text="test coverage" --right-text="${COVERAGE_PCT}" --right-color='#0c0' > /tmp/coverage_html/${HTML_SUBFOLDER}/badge.svg
+python -m pybadges --left-text="test coverage" --right-text="${COVERAGE_PCT}" --right-color='#0c0' > /tmp/coverage_html/badge.svg

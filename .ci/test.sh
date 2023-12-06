@@ -54,6 +54,8 @@ else
   catkin config --profile debug --cmake-args -DCMAKE_BUILD_TYPE=Debug
   catkin profile set debug
 
+  catkin build
+
 fi
 
 ## | ---------------- clone the tested package ---------------- |

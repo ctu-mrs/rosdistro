@@ -35,9 +35,26 @@ THIS_TEST_REPOS=$(./.ci/get_repo_source.py $YAML_FILE $VARIANT $ARCH $REPOSITORY
 
 echo "$0: unpack the workspace"
 
-mv $ARTIFACT_FOLDER/workspace.tar.gz /tmp
-cd /tmp
-tar -xvzf workspace.tar.gz
+# if the workspace is passed down from previous jobs
+if [ -e $ARTIFACT_FOLDER/workspace.tar.gz ]; then
+
+  mv $ARTIFACT_FOLDER/workspace.tar.gz /tmp
+  cd /tmp
+  tar -xvzf workspace.tar.gz
+
+else
+
+  mkdir -p $WORKSPACE/src
+
+  cd $WORKSPACE
+
+  source /opt/ros/noetic/setup.bash
+  catkin init
+
+  catkin config --profile debug --cmake-args -DCMAKE_BUILD_TYPE=Debug
+  catkin profile set debug
+
+fi
 
 ## | ---------------- clone the tested package ---------------- |
 

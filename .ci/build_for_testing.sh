@@ -47,8 +47,6 @@ cd src
 
 echo "$FULL_COVERAGE_REPOS" | while IFS= read -r REPO; do
 
-  $DEBUG && echo "Cloning $REPO"
-
   PACKAGE=$(echo "$REPO" | awk '{print $1}')
   URL=$(echo "$REPO" | awk '{print $2}')
   TEST=$(echo "$REPO" | awk '{print $6}')

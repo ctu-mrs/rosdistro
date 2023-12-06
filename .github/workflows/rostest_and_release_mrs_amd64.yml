@@ -1,4 +1,4 @@
-name: testing-mrs-amd64
+name: rostest-and-release-mrs-amd64
 
 on:
   workflow_dispatch:

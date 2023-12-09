@@ -84,8 +84,8 @@ rosdep install --from-path .
 
 echo "$0: building the workspace"
 
-catkin build --limit-status-rate 0.2
-catkin build --limit-status-rate 0.2 --catkin-make-args tests
+catkin build --limit-status-rate 0.2 --cmake-args "-DCOVERAGE=true -DTESTING=true"
+catkin build --limit-status-rate 0.2 --cmake-args "-DCOVERAGE=true -DTESTING=true" --catkin-make-args tests
 
 echo "$0: testing"
 

@@ -22,14 +22,6 @@ mrs_geographiclib_datasets:
     testing: release_candidate
     stable: release
 
-coppelia_sim_edu:
-  architecture: [amd64] # this package is for all architectures
-  source: https://github.com/ctu-mrs/coppelia_sim_edu
-  git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
-
 px4_firmware:
   architecture: [amd64, arm64]
   source: https://github.com/ctu-mrs/px4_firmware

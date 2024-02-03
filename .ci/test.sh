@@ -81,6 +81,8 @@ echo "$THIS_TEST_REPOS" | while IFS= read -r REPO; do
 
 done
 
+cd $WORKSPACE/src
+
 source $WORKSPACE/devel/setup.bash
 
 echo "$0: installing rosdep dependencies"

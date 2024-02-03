@@ -13,9 +13,6 @@ WORKSPACE=/tmp/workspace
 
 YAML_FILE=${LIST}.yaml
 
-sudo apt-get -y install python3-catkin-tools
-sudo pip3 install -U gitman
-
 # needed for building open_vins
 export ROS_VERSION=1
 
@@ -33,6 +30,8 @@ curl https://ctu-mrs.github.io/ppa-$VARIANT/add_ppa.sh | bash
 sudo apt-get -y -q install ros-noetic-desktop
 sudo apt-get -y -q install ros-noetic-mrs-uav-system
 sudo apt-get -y -q install lcov
+
+sudo pip3 install -U gitman
 
 THIS_TEST_REPOS=$(./.ci/get_repo_source.py $YAML_FILE $VARIANT $ARCH $REPOSITORY_NAME)
 

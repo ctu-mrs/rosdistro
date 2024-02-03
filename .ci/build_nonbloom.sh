@@ -19,7 +19,6 @@ YAML_FILE=${LIST}.yaml
 
 sudo apt-get -y install dpkg-dev
 
-sudo apt-get -y install python3-catkin-tools
 sudo pip3 install -U gitman
 
 ARCH=$(dpkg-architecture -qDEB_HOST_ARCH)

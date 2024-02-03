@@ -437,3 +437,23 @@ mrs_aloam_core:
     stable: release
   ros_test:
     enabled: false
+
+uvdar_core:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/uvdar_core
+  git_refs:
+    unstable: master
+    testing: release_candidate
+    stable: release
+  ros_test:
+    enabled: false
+
+uvdar_gazebo_plugin:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/uvdar_gazebo_plugin
+  git_refs:
+    unstable: master
+    testing: release_candidate
+    stable: release
+  ros_test:
+    enabled: false

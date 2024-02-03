@@ -77,7 +77,7 @@ echo "$THIS_TEST_REPOS" | while IFS= read -r REPO; do
   [ ! -e ${PACKAGE} ] && git clone $URL --recurse-submodules --shallow-submodules --depth 1 --branch $BRANCH $PACKAGE || echo "$0: not cloning, already there"
 
   cd $PACKAGE
-  [[ -e .gitman.yml || -e .gitman.yaml ]] && gitman install
+  [[ -e .gitman.yml || -e .gitman.yaml ]] && gitman install || echo "no gitman modules to install"
 
 done
 

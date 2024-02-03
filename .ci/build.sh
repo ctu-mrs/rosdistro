@@ -47,7 +47,7 @@ curl https://ctu-mrs.github.io/ppa-$VARIANT/add_ppa.sh | bash
 # dependencies need for build the deb package
 sudo apt-get -y install ros-noetic-catkin python3-catkin-tools
 sudo apt-get -y install fakeroot debhelper
-sudo pip3 install -U bloom
+sudo pip3 install -U bloom gitman
 
 REPOS=$(./.ci/get_repo_source.py $YAML_FILE $VARIANT $ARCH $REPOSITORY)
 
@@ -91,6 +91,9 @@ echo "$REPOS" | while IFS= read -r REPO; do
 
   echo "$0: cloning '$URL --depth 1 --branch $BRANCH' into '$PACKAGE'"
   git clone $URL --recurse-submodules --shallow-submodules --depth 1 --branch $BRANCH $PACKAGE
+
+  cd $PACKAGE
+  [[ -e .gitman.yml || -e .gitman.yaml ]] && gitman install
 
   cd $WORKSPACE/src
 

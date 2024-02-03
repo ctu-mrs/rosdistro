@@ -13,6 +13,9 @@ WORKSPACE=/tmp/workspace
 
 YAML_FILE=${LIST}.yaml
 
+sudo apt-get -y install python3-catkin-tools
+sudo pip3 install -U gitman
+
 # needed for building open_vins
 export ROS_VERSION=1
 
@@ -60,12 +63,12 @@ fi
 
 ## | ---------------- clone the tested package ---------------- |
 
-cd $WORKSPACE/src
-
 echo "$0: cloning the package"
 
 # clone and checkout
 echo "$THIS_TEST_REPOS" | while IFS= read -r REPO; do
+
+  cd $WORKSPACE/src
 
   PACKAGE=$(echo "$REPO" | awk '{print $1}')
   URL=$(echo "$REPO" | awk '{print $2}')
@@ -73,6 +76,9 @@ echo "$THIS_TEST_REPOS" | while IFS= read -r REPO; do
 
   [ ! -e ${PACKAGE} ] && echo "$0: cloning '$URL --depth 1 --branch $BRANCH' into '$PACKAGE'" || echo "$0: not cloning, already there"
   [ ! -e ${PACKAGE} ] && git clone $URL --recurse-submodules --shallow-submodules --depth 1 --branch $BRANCH $PACKAGE || echo "$0: not cloning, already there"
+
+  cd $PACKAGE
+  [[ -e .gitman.yml || -e .gitman.yaml ]] && gitman install
 
 done
 

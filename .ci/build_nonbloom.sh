@@ -19,6 +19,9 @@ YAML_FILE=${LIST}.yaml
 
 sudo apt-get -y install dpkg-dev
 
+sudo apt-get -y install python3-catkin-tools
+sudo pip3 install -U gitman
+
 ARCH=$(dpkg-architecture -qDEB_HOST_ARCH)
 
 REPO=$(./.ci/get_repo_source.py $YAML_FILE $VARIANT $ARCH $PACKAGE_NAME)
@@ -35,6 +38,8 @@ echo "$0: cloning '$URL --depth 1 --branch $BRANCH' into '$PACKAGE'"
 git clone $URL --recurse-submodules --branch $BRANCH $PACKAGE
 
 cd $WORK_DIR/$PACKAGE/
+
+[[ -e .gitman.yml || -e .gitman.yaml ]] && gitman install
 
 cp -r $MY_PATH/../.ci_scripts ./
 

@@ -29,6 +29,9 @@ sudo apt-get -y -q install ros-noetic-desktop
 sudo apt-get -y -q install ros-noetic-mrs-uav-system
 sudo apt-get -y -q install lcov
 
+sudo apt-get -y install python3-catkin-tools
+sudo pip3 install -U gitman
+
 FULL_COVERAGE_REPOS=$(./.ci/parse_yaml.py $YAML_FILE $ARCH)
 
 echo "$0: creating workspace"
@@ -41,11 +44,11 @@ catkin init
 catkin config --profile debug --cmake-args -DCMAKE_BUILD_TYPE=Debug
 catkin profile set debug
 
-cd src
-
 ## | ------- clone other packages for full test coverage ------ |
 
 echo "$FULL_COVERAGE_REPOS" | while IFS= read -r REPO; do
+
+  cd $WORKSPACE/src
 
   PACKAGE=$(echo "$REPO" | awk '{print $1}')
   URL=$(echo "$REPO" | awk '{print $2}')
@@ -74,6 +77,9 @@ echo "$FULL_COVERAGE_REPOS" | while IFS= read -r REPO; do
 
   echo "$0: cloning '$URL --depth 1 --branch $BRANCH' into '$PACKAGE'"
   git clone $URL --recurse-submodules --shallow-submodules --depth 1 --branch $BRANCH $PACKAGE
+
+  cd $PACKAGE
+  [[ -e .gitman.yml || -e .gitman.yaml ]] && gitman install
 
 done
 

@@ -71,9 +71,33 @@ jobs:
           ref: master
           path: .ci_scripts
           token: ${{ secrets.PUSH_TOKEN }}
-      - id: build
-        run: |
-          .ci/build_nonbloom.sh nonbloom unstable "${{ matrix.job }}"
+      - uses: ctu-mrs/run-on-arch-action@master
+        name: build
+
+        id: build
+
+        with:
+          arch: aarch64
+          distro: noetic
+
+          githubToken: ${{ github.token }}
+
+          # Create an artifacts directory
+          setup: |
+            mkdir -p "/tmp/artifacts"
+            mkdir -p "/tmp/repository"
+
+          # Mount the artifacts directory as /artifacts in the container
+          dockerRunArgs: |
+            --volume "$PWD:/tmp/repository"
+            --volume "/tmp/artifacts:/tmp/artifacts"
+
+          # The shell to run commands with in the container
+          shell: /bin/sh
+
+          # Produce a binary artifact and place it in the mounted volume
+          run: |
+            /tmp/repository/.ci/build_nonbloom.sh nonbloom unstable "${{ matrix.job }}"
       - name: Save artifacts
         uses: actions/upload-artifact@v3
         with:

@@ -113,7 +113,7 @@ done
 
 echo "$0: tests finished"
 
-if ! [[ "$FAILED" -eq 0 ]]; then
+if [[ "$FAILED" -eq 0 ]]; then
 
   echo "$0: storing coverage data"
 

@@ -64,6 +64,8 @@ jobs:
     needs: generate-jobs
     runs-on: ubuntu-20.04
     timeout-minutes: 360 # 6 hour timeout
+    env:
+      PUSH_TOKEN: ${{ secrets.PUSH_TOKEN }}
     strategy:
       fail-fast: false
       matrix:

@@ -140,9 +140,15 @@ git config user.name github
 
 d="$(date +"%Y-%m-%d_%H.%M.%S")_$REPOSITORY_NAME"
 mkdir -p "$d"
+
 cd "$d"
+
 mv /tmp/coredump/* ./
 cp -L $WORKSPACE/devel/lib/*.so ./
+
+sudo apt-get -y install aptitude
+aptitude search -F '%p %V' --disable-columns '~S ~i ?origin("ctu-mrs")' > installed_packages.txt
+
 cd ..
 tar -cvzf "$d.tar.gz" "$d"
 rm -rf "$d"

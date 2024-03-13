@@ -16,7 +16,7 @@ YAML_FILE=${LIST}.yaml
 # needed for building open_vins
 export ROS_VERSION=1
 
-sudo apt-get -y install dpkg-dev git-lfs
+sudo apt-get -y install dpkg-dev
 
 ARCH=$(dpkg-architecture -qDEB_HOST_ARCH)
 
@@ -143,6 +143,9 @@ mkdir -p "$d"
 cd "$d"
 mv /tmp/coredump/* ./
 cp -L $WORKSPACE/devel/lib/*.so ./
+cd ..
+tar -cvzf "$d.tar.gz" "$d"
+rm -rf "$d"
 
 git add -A
 git commit -m "Added new coredumps"

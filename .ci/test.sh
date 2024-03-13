@@ -16,7 +16,7 @@ YAML_FILE=${LIST}.yaml
 # needed for building open_vins
 export ROS_VERSION=1
 
-sudo apt-get -y install dpkg-dev
+sudo apt-get -y install dpkg-dev git-lfs
 
 ARCH=$(dpkg-architecture -qDEB_HOST_ARCH)
 
@@ -96,18 +96,63 @@ catkin build --limit-status-rate 0.2 --cmake-args -DCOVERAGE=true -DMRS_ENABLE_T
 
 echo "$0: testing"
 
+## set coredump generation
+
+mkdir -p /tmp/coredump
+sudo sysctl -w kernel.core_pattern="/tmp/coredump/%e_%p.core"
+ulimit -c unlimited
+
 cd $WORKSPACE/src/$REPOSITORY_NAME
 ROS_DIRS=$(find . -name package.xml -printf "%h\n")
 
 for DIR in $ROS_DIRS; do
   cd $WORKSPACE/src/$REPOSITORY_NAME/$DIR
-  catkin test --this -p 1 -s
+  FAILED=0
+  catkin test --limit-status-rate 0.2 --this -p 1 -s || FAILED=1
 done
 
 echo "$0: tests finished"
 
-echo "$0: storing coverage data"
+if ! [[ "$FAILED" -eq 0 ]]; then
 
-lcov --capture --directory ${WORKSPACE} --output-file /tmp/coverage.original
-lcov --remove /tmp/coverage.original "*/test/*" --output-file /tmp/coverage.removed || echo "$0: coverage tracefile is empty"
-lcov --extract /tmp/coverage.removed "$WORKSPACE/src/*" --output-file $ARTIFACT_FOLDER/$REPOSITORY_NAME.info || echo "$0: coverage tracefile is empty"
+  echo "$0: storing coverage data"
+
+  lcov --capture --directory ${WORKSPACE} --output-file /tmp/coverage.original
+  lcov --remove /tmp/coverage.original "*/test/*" --output-file /tmp/coverage.removed || echo "$0: coverage tracefile is empty"
+  lcov --extract /tmp/coverage.removed "$WORKSPACE/src/*" --output-file $ARTIFACT_FOLDER/$REPOSITORY_NAME.info || echo "$0: coverage tracefile is empty"
+
+fi
+
+ls /tmp/coredump
+
+if [ -z "$(ls -A /tmp/coredump)" ]; then
+  exit $FAILED
+else
+  echo "$0: core dumps detected"
+fi
+
+cd /tmp
+git clone https://$PUSH_TOKEN@github.com/ctu-mrs/buildfarm_coredumps
+cd /tmp/buildfarm_coredumps
+
+git config user.email github@github.com
+git config user.name github
+
+d="$(date +"%Y-%m-%d_%H.%M.%S")_$REPOSITORY_NAME"
+mkdir -p "$d"
+cd "$d"
+mv /tmp/coredump/* ./
+cp -L $WORKSPACE/devel/lib/*.so ./
+
+git add -A
+git commit -m "Added new coredumps"
+
+# the upstream might have changed in the meantime, try to merge it first
+git fetch
+git merge origin/master
+
+git push
+
+echo "$0: core dumps pushed"
+
+exit 1

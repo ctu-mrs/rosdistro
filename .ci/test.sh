@@ -16,7 +16,7 @@ YAML_FILE=${LIST}.yaml
 # needed for building open_vins
 export ROS_VERSION=1
 
-sudo apt-get -y install dpkg-dev
+sudo apt-get -y install dpkg-dev git-lfs
 
 ARCH=$(dpkg-architecture -qDEB_HOST_ARCH)
 
@@ -105,9 +105,10 @@ ulimit -c unlimited
 cd $WORKSPACE/src/$REPOSITORY_NAME
 ROS_DIRS=$(find . -name package.xml -printf "%h\n")
 
+FAILED=0
+
 for DIR in $ROS_DIRS; do
   cd $WORKSPACE/src/$REPOSITORY_NAME/$DIR
-  FAILED=0
   catkin test --limit-status-rate 0.2 --this -p 1 -s || FAILED=1
 done
 
@@ -125,7 +126,7 @@ fi
 
 ls /tmp/coredump
 
-if [ -z "$(ls -A /tmp/coredump)" ]; then
+if [ -z "$(ls -A /tmp/coredump | grep .core)" ]; then
   exit $FAILED
 else
   echo "$0: core dumps detected"

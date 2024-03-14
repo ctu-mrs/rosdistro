@@ -105,9 +105,10 @@ ulimit -c unlimited
 cd $WORKSPACE/src/$REPOSITORY_NAME
 ROS_DIRS=$(find . -name package.xml -printf "%h\n")
 
+FAILED=0
+
 for DIR in $ROS_DIRS; do
   cd $WORKSPACE/src/$REPOSITORY_NAME/$DIR
-  FAILED=0
   catkin test --limit-status-rate 0.2 --this -p 1 -s || FAILED=1
 done
 

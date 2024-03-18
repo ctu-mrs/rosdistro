@@ -508,3 +508,23 @@ mrs_uav_unreal_simulation:
     stable: release
   ros_test:
     enabled: false
+
+mrs_mins_estimator_plugin:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/mrs_mins_estimator_plugin
+  git_refs:
+    unstable: master
+    testing: release_candidate
+    stable: release
+  ros_test:
+    enabled: false
+
+mrs_mins_core:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/mrs_mins_core
+  git_refs:
+    unstable: master
+    testing: release_candidate
+    stable: release
+  ros_test:
+    enabled: false

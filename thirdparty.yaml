@@ -77,3 +77,11 @@ open_vins:
     unstable: master
     testing: release_candidate
     stable: release
+
+mins_ov_core:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/mins
+  git_refs:
+    unstable: master
+    testing: release_candidate
+    stable: release

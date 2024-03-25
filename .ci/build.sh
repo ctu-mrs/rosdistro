@@ -88,12 +88,15 @@ echo "$REPOS" | while IFS= read -r REPO; do
   PACKAGE=$(echo "$REPO" | awk '{print $1}')
   URL=$(echo "$REPO" | awk '{print $2}')
   BRANCH=$(echo "$REPO" | awk '{print $3}')
+  GITMAN=$(echo "$REPO" | awk '{print $4}')
 
   echo "$0: cloning '$URL --depth 1 --branch $BRANCH' into '$PACKAGE'"
   git clone $URL --recurse-submodules --shallow-submodules --depth 1 --branch $BRANCH $PACKAGE
 
-  cd $PACKAGE
-  [[ -e .gitman.yml || -e .gitman.yaml ]] && gitman install
+  if [[ "$GITMAN" != "True" ]]; then
+    cd $PACKAGE
+    [[ -e .gitman.yml || -e .gitman.yaml ]] && gitman install
+  fi
 
   cd $WORKSPACE/src
 

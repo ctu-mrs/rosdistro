@@ -32,13 +32,16 @@ cd $WORK_DIR
 PACKAGE=$(echo "$REPO" | awk '{print $1}')
 URL=$(echo "$REPO" | awk '{print $2}')
 BRANCH=$(echo "$REPO" | awk '{print $3}')
+GITMAN=$(echo "$REPO" | awk '{print $4}')
 
 echo "$0: cloning '$URL --depth 1 --branch $BRANCH' into '$PACKAGE'"
 git clone $URL --recurse-submodules --branch $BRANCH $PACKAGE
 
 cd $WORK_DIR/$PACKAGE/
 
-[[ -e .gitman.yml || -e .gitman.yaml ]] && gitman install
+if [[ "$GITMAN" != "True" ]]; then
+  [[ -e .gitman.yml || -e .gitman.yaml ]] && gitman install
+fi
 
 cp -r $MY_PATH/../.ci_scripts ./
 

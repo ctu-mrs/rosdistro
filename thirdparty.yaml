@@ -1,6 +1,7 @@
 px4_sitl_gazebo:
   architecture: [amd64, arm64]
   source: https://github.com/ctu-mrs/px4_sitl_gazebo
+  gitman: false
   git_refs:
     unstable: firmware_1.13.2-deb
     testing: release_candidate
@@ -9,6 +10,7 @@ px4_sitl_gazebo:
 nlopt_ros:
   architecture: [amd64, arm64]
   source: https://github.com/ctu-mrs/nlopt_ros
+  gitman: false
   git_refs:
     unstable: master
     testing: release_candidate
@@ -17,6 +19,7 @@ nlopt_ros:
 ouster-ros:
   architecture: [amd64, arm64]
   source: https://github.com/ctu-mrs/ouster-ros
+  gitman: false
   git_refs:
     unstable: mrs
     testing: release_candidate
@@ -25,6 +28,7 @@ ouster-ros:
 mavros:
   architecture: [amd64, arm64]
   source: https://github.com/ctu-mrs/mavros
+  gitman: false
   git_refs:
     unstable: 1.13.0-deb
     testing: release_candidate
@@ -33,6 +37,7 @@ mavros:
 mav_comm:
   architecture: [amd64, arm64]
   source: https://github.com/ctu-mrs/mav_comm
+  gitman: false
   git_refs:
     unstable: master
     testing: release_candidate
@@ -41,6 +46,7 @@ mav_comm:
 ros_comm:
   architecture: [amd64, arm64]
   source: https://github.com/ctu-mrs/ros_comm
+  gitman: false
   git_refs:
     unstable: rosbag-patch
     testing: release_candidate
@@ -49,6 +55,7 @@ ros_comm:
 geometry2:
   architecture: [amd64, arm64]
   source: https://github.com/ctu-mrs/geometry2
+  gitman: false
   git_refs:
     unstable: warning-fix
     testing: release_candidate
@@ -57,6 +64,7 @@ geometry2:
 nimbro_network:
   architecture: [amd64, arm64]
   source: https://github.com/ctu-mrs/nimbro_network
+  gitman: false
   git_refs:
     unstable: develop-deb
     testing: release_candidate
@@ -65,6 +73,7 @@ nimbro_network:
 hector_slam:
   architecture: [amd64, arm64]
   source: https://github.com/ctu-mrs/hector_slam
+  gitman: false
   git_refs:
     unstable: master
     testing: release_candidate
@@ -73,6 +82,7 @@ hector_slam:
 open_vins:
   architecture: [amd64, arm64]
   source: https://github.com/ctu-mrs/open_vins
+  gitman: false
   git_refs:
     unstable: master
     testing: release_candidate
@@ -81,6 +91,7 @@ open_vins:
 mins_ov_core:
   architecture: [amd64, arm64]
   source: https://github.com/ctu-mrs/mins
+  gitman: false
   git_refs:
     unstable: master
     testing: release_candidate

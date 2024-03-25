@@ -31,13 +31,18 @@ def main():
             refs = properties['git_refs']
 
             if variant == "stable":
-                ref = refs['stable'] 
+                ref = refs['stable']
             elif variant == "unstable":
-                ref = refs['unstable'] 
+                ref = refs['unstable']
             else:
-                ref = refs['testing'] 
+                ref = refs['testing']
 
-            print("{} {} {}".format(repo_name, url, ref))
+            try:
+                gitman = bool(properties['gitman'])
+            except:
+                pass
+
+            print("{} {} {} {}".format(repo_name, url, ref, gitman))
 
 if __name__ == '__main__':
     main()

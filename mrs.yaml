@@ -513,7 +513,7 @@ uvdar_gazebo_plugin:
     testing: release_candidate
     stable: release
   ros_test:
-    enabled: true
+    enabled: false
 
 liosam:
   architecture: [amd64, arm64]

@@ -39,7 +39,7 @@ git clone $URL --recurse-submodules --branch $BRANCH $PACKAGE
 
 cd $WORK_DIR/$PACKAGE/
 
-if [[ "$GITMAN" != "True" ]]; then
+if [[ "$GITMAN" == "True" ]]; then
   [[ -e .gitman.yml || -e .gitman.yaml ]] && gitman install
 fi
 

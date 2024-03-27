@@ -93,7 +93,7 @@ echo "$REPOS" | while IFS= read -r REPO; do
   echo "$0: cloning '$URL --depth 1 --branch $BRANCH' into '$PACKAGE'"
   git clone $URL --recurse-submodules --shallow-submodules --depth 1 --branch $BRANCH $PACKAGE
 
-  if [[ "$GITMAN" != "True" ]]; then
+  if [[ "$GITMAN" == "True" ]]; then
     cd $PACKAGE
     [[ -e .gitman.yml || -e .gitman.yaml ]] && gitman install
   fi

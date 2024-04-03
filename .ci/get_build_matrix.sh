@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# get the path to this script
+MY_PATH=`dirname "$0"`
+MY_PATH=`( cd "$MY_PATH" && pwd )`
+
 set -e
 
 trap 'last_command=$current_command; current_command=$BASH_COMMAND' DEBUG
@@ -11,26 +15,18 @@ LIST=$1
 VARIANT=$2
 ARCH=$3
 WORKSPACE=/tmp/workspace
-ARTIFACTS_FOLDER=/tmp/artifacts
 
 YAML_FILE=$LIST.yaml
 
-./.ci_scripts/package_build/add_ros_ppa.sh >> /tmp/log.txt 2>&1
+REPOS=$($MY_PATH/parse_yaml.py $YAML_FILE $ARCH)
 
-# dependencies need for build the deb package
-sudo apt-get -y install ros-noetic-catkin python3-catkin-tools >> /tmp/log.txt 2>&1
-sudo apt-get -y install fakeroot dpkg-dev debhelper >> /tmp/log.txt 2>&1
-sudo pip3 install -U bloom >> /tmp/log.txt 2>&1
+if [ -e $WORKSPACE ]; then
+  rm -rf $WORKSPACE
+fi
 
-REPOS=$(./.ci/parse_yaml.py $YAML_FILE $ARCH)
-
-mkdir -p $WORKSPACE >> /tmp/log.txt 2>&1
-mkdir -p $ARTIFACTS_FOLDER >> /tmp/log.txt 2>&1
+mkdir -p $WORKSPACE/src >> /tmp/log.txt 2>&1
 
 cd $WORKSPACE >> /tmp/log.txt 2>&1
-mkdir src >> /tmp/log.txt 2>&1
-source /opt/ros/noetic/setup.bash >> /tmp/log.txt 2>&1
-catkin init >> /tmp/log.txt 2>&1
 
 cd $WORKSPACE/src >> /tmp/log.txt 2>&1
 
@@ -63,9 +59,11 @@ echo "$REPOS" | while IFS= read -r REPO; do
 
 done
 
-$DEBUG && echo "Done cloning"
+$DEBUG && echo "$0: Done cloning"
 
-BUILD_ORDER=$(catkin list -u)
+BUILD_ORDER=$($MY_PATH/get_build_order.py $WORKSPACE/src)
+
+$DEBUG && echo "$0: Build oreder: $BUILD_ORDER"
 
 FIRST=true
 
@@ -73,11 +71,9 @@ RESULT='['
 
 $DEBUG && echo "Sorting packages"
 
-for ROS_PACKAGE in $BUILD_ORDER; do
+for PKG_PATH in $BUILD_ORDER; do
 
-  cd $WORKSPACE
-  PKG_PATH=$(catkin locate "$ROS_PACKAGE")
-  cd $PKG_PATH
+  cd $WORKSPACE/src/$PKG_PATH
 
   $DEBUG && echo "Gonna look for package location for '$ROS_PACKAGE'"
 

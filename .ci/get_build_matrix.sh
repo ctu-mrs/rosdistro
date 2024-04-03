@@ -18,6 +18,10 @@ WORKSPACE=/tmp/workspace
 
 YAML_FILE=$LIST.yaml
 
+./.ci_scripts/package_build/add_ros_ppa.sh >> /tmp/log.txt 2>&1
+
+sudo apt-get -y install ros-noetic-catkin python3-catkin-tools >> /tmp/log.txt 2>&1
+
 REPOS=$($MY_PATH/parse_yaml.py $YAML_FILE $ARCH)
 
 if [ -e $WORKSPACE ]; then

@@ -54,6 +54,7 @@ echo "$FULL_COVERAGE_REPOS" | while IFS= read -r REPO; do
   URL=$(echo "$REPO" | awk '{print $2}')
   TEST=$(echo "$REPO" | awk '{print $6}')
   FULL_COVERAGE=$(echo "$REPO" | awk '{print $7}')
+  GITMAN=$(echo "$REPO" | awk '{print $8}')
 
   if [[ "$VARIANT" == "stable" ]]; then
     BRANCH=$(echo "$REPO" | awk '{print $3}')
@@ -78,8 +79,10 @@ echo "$FULL_COVERAGE_REPOS" | while IFS= read -r REPO; do
   echo "$0: cloning '$URL --depth 1 --branch $BRANCH' into '$PACKAGE'"
   git clone $URL --recurse-submodules --shallow-submodules --depth 1 --branch $BRANCH $PACKAGE
 
-  cd $PACKAGE
-  [[ -e .gitman.yml || -e .gitman.yaml ]] && gitman install
+  if [[ "$GITMAN" == "True" ]]; then
+    cd $PACKAGE
+    [[ -e .gitman.yml || -e .gitman.yaml ]] && gitman install
+  fi
 
 done
 

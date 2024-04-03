@@ -66,7 +66,12 @@ def main():
                 except:
                     pass
 
-                print("{} {} {} {} {} {} {}".format(package, url, stable_ref, testing_ref, unstable_ref, ros_test_enabled, full_coverage))
+                try:
+                    gitman = bool(properties['gitman'])
+                except:
+                    pass
+
+                print("{} {} {} {} {} {} {} {}".format(package, url, stable_ref, testing_ref, unstable_ref, ros_test_enabled, full_coverage, gitman))
 
 if __name__ == '__main__':
     main()

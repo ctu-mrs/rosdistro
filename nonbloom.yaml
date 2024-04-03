@@ -1,6 +1,7 @@
 mrs_uav_shell_additions:
   architecture: [amd64] # this package is for all architectures
   source: https://github.com/ctu-mrs/mrs_uav_shell_additions
+  gitman: false
   git_refs:
     unstable: master
     testing: release_candidate
@@ -9,6 +10,7 @@ mrs_uav_shell_additions:
 mrs_uav_usb_configurator:
   architecture: [amd64] # this package is for all architectures
   source: https://github.com/ctu-mrs/mrs_uav_usb_configurator
+  gitman: false
   git_refs:
     unstable: master
     testing: release_candidate
@@ -17,6 +19,7 @@ mrs_uav_usb_configurator:
 mrs_geographiclib_datasets:
   architecture: [amd64] # this package is for all architectures
   source: https://github.com/ctu-mrs/mrs-geographiclib-datasets
+  gitman: false
   git_refs:
     unstable: master
     testing: release_candidate
@@ -25,6 +28,7 @@ mrs_geographiclib_datasets:
 px4_firmware:
   architecture: [amd64, arm64]
   source: https://github.com/ctu-mrs/px4_firmware
+  gitman: false
   git_refs:
     unstable: 1.13.2-dev
     testing: release_candidate

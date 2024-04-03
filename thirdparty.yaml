@@ -78,7 +78,7 @@ open_vins:
     testing: release_candidate
     stable: release
 
-mins_ov_core:
+mins:
   architecture: [amd64, arm64]
   source: https://github.com/ctu-mrs/mins
   git_refs:

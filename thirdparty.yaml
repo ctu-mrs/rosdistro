@@ -96,12 +96,3 @@ mins:
     unstable: master
     testing: release_candidate
     stable: release
-
-libcamera_cmake:
-  architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/libcamera_cmake
-  gitman: false
-  git_refs:
-    unstable: catkin
-    testing: release_candidate
-    stable: release

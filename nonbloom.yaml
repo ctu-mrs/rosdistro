@@ -33,3 +33,12 @@ px4_firmware:
     unstable: 1.13.2-dev
     testing: release_candidate
     stable: mrs_release
+
+libcamera_cmake:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/libcamera_cmake
+  gitman: false
+  git_refs:
+    unstable: catkin
+    testing: release_candidate
+    stable: release

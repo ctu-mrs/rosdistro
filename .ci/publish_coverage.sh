@@ -52,7 +52,7 @@ done
 lcov $ARGS --output-file /tmp/coverage_temp.info
 
 # filter out unwanted files
-lcov --remove /tmp/coverage_temp.info "*eth_*" --output-file /tmp/coverage.info || echo "$0: coverage tracefile is empty"
+lcov --remove /tmp/coverage_temp.info "*/eth_*" --output-file /tmp/coverage.info || echo "$0: coverage tracefile is empty"
 
 genhtml --title "MRS UAV System - Test coverage report" --demangle-cpp --legend --frames --show-details -o /tmp/coverage_html /tmp/coverage.info | tee /tmp/coverage.log
 

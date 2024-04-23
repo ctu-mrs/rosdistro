@@ -141,7 +141,7 @@ for PACKAGE in $BUILD_ORDER; do
   ON_PUSH_BUILD=$(apt-cache policy $FUTURE_DEB_NAME | grep "Candidate" | grep "on.push.build" | wc -l)
 
   NEW_COMMIT=false
-  if [[ "$GIT_SHA_MATCHES" == "0" ]] || [[ "$ON_PUSH_BUILD" == "0" ]]; then
+  if [[ "$GIT_SHA_MATCHES" == "0" ]] || [ "$ON_PUSH_BUILD" -ge "1" ]; then
     echo "$0: new commit detected, going to compile"
     NEW_COMMIT=true
   fi

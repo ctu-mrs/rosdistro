@@ -549,7 +549,7 @@ mrs_liosam_core:
     enabled: false
 
 mrs_uav_unreal_simulation:
-  architecture: [amd64]
+  architecture: [amd64, arm64]
   source: https://github.com/ctu-mrs/mrs_uav_unreal_simulation
   gitman: false
   git_refs:

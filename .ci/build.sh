@@ -160,7 +160,7 @@ for PACKAGE in $BUILD_ORDER; do
 
   done
 
-  if $DEPENDENCIES_CHANGED || $NEW_COMMIT; then
+  if $DEPENDENCIES_CHANGED || $NEW_COMMIT || [[ "$VARIANT" == "stable" ]]; then
 
     ## don't run if CATKIN_IGNORE is present
 

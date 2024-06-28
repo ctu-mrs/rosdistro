@@ -130,6 +130,8 @@ if [[ "$FAILED" -eq 0 ]]; then
   # extract coverage data for the source folder of the workspace
   lcov --extract /tmp/coverage.removed "$WORKSPACE/src/*" --output-file $ARTIFACT_FOLDER/$REPOSITORY_NAME.info || echo "$0: coverage tracefile is empty"
 
+  exit $FAILED
+
 fi
 
 ls /tmp/coredump

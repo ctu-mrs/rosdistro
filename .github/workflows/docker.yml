@@ -9,8 +9,9 @@ on:
 
 jobs:
 
-  generate-jobs:
-    needs: init-artifacts
+  build:
+
+    name: Build docker images
     runs-on: ubuntu-20.04
     env:
       TOKEN: ${{ secrets.DOCKERHUB }}

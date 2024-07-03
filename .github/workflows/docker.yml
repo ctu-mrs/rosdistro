@@ -1,0 +1,24 @@
+name: docker
+
+on:
+
+  workflow_dispatch:
+
+  schedule:
+    - cron:  '0 10 * * *'
+
+jobs:
+
+  generate-jobs:
+    needs: init-artifacts
+    runs-on: ubuntu-20.04
+    env:
+      TOKEN: ${{ secrets.DOCKERHUB }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          submodules: 'recursive'
+      - id: build
+        run: |
+          ./.ci/build_docker.sh

@@ -18,4 +18,4 @@ docker buildx build --push . --file Dockerfile --builder container --tag ctumrs/
 WEEK_TAG="`date +%Y`_w`date +%V`"
 docker tag ctumrs/mrs_uav_system:latest ctumrs/mrs_uav_system:$WEEK_TAG
 
-docker buildx imagetools create -t ctumrs/mrs_uav_system:latest ctumrs/mrs_uav_system:$WEEK_TAG --push
+docker buildx imagetools create -t ctumrs/mrs_uav_system:$WEEK_TAG ctumrs/mrs_uav_system:latest --push

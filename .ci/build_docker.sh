@@ -15,4 +15,4 @@ docker login --username klaxalk --password $TOKEN
 WEEK_TAG="`date +%Y`_w`date +%V`"
 
 docker buildx create --name container --driver=docker-container
-docker buildx build --push . --file Dockerfile --builder container --tag ctumrs/mrs_uav_system:latest -tag ctumrs/mrs_uav_system:$WEEK_TAG --platform=linux/amd64,linux/arm64
+docker buildx build . --file Dockerfile --builder container --tag ctumrs/mrs_uav_system:latest --tag ctumrs/mrs_uav_system:${WEEK_TAG} --platform=linux/amd64,linux/arm64 --push 

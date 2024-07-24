@@ -598,5 +598,7 @@ libcamera_ros:
   gitman: false
   git_refs:
     unstable: master
+    testing: release_candidate
+    stable: release
   ros_test:
     enabled: false

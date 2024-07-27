@@ -34,11 +34,11 @@ px4_firmware:
     testing: release_candidate
     stable: mrs_release
 
-libcamera_cmake:
+libcamera_ros:
   architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/libcamera_cmake
+  source: https://github.com/ctu-mrs/libcamera_ros
   gitman: false
   git_refs:
-    unstable: catkin
-    # testing: release_candidate
-    # stable: release
+    unstable: master
+    testing: release_candidate
+    stable: release

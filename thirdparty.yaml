@@ -96,3 +96,14 @@ mins:
     unstable: master
     testing: release_candidate
     stable: release
+
+libcamera_ros_driver:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/libcamera_ros_driver
+  gitman: false
+  git_refs:
+    unstable: master
+    testing: release_candidate
+    stable: release
+  ros_test:
+    enabled: false

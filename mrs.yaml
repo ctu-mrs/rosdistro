@@ -591,14 +591,3 @@ mrs_precise_landing:
     stable: release
   ros_test:
     enabled: false
-
-# libcamera_ros:
-#   architecture: [amd64, arm64]
-#   source: https://github.com/ctu-mrs/libcamera_ros
-#   gitman: false
-#   git_refs:
-#     unstable: master
-#     testing: release_candidate
-#     stable: release
-#   ros_test:
-#     enabled: false

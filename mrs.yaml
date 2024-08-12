@@ -602,3 +602,14 @@ mrs_icm_imu_driver:
     stable: release
   ros_test:
     enabled: false
+
+mrs_robofly_core:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/mrs_robofly_core
+  gitman: false
+  git_refs:
+    unstable: master
+    testing: release_candidate
+    stable: release
+  ros_test:
+    enabled: false

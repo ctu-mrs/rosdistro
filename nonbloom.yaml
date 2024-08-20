@@ -26,7 +26,7 @@ mrs_geographiclib_datasets:
     stable: release
 
 px4_firmware:
-  architecture: [amd64, arm64]
+  architecture: [amd64, arm64, arm32]
   source: https://github.com/ctu-mrs/px4_firmware
   gitman: false
   git_refs:
@@ -35,7 +35,7 @@ px4_firmware:
     stable: mrs_release
 
 libcamera_ros:
-  architecture: [amd64, arm64]
+  architecture: [amd64, arm64, arm32]
   source: https://github.com/ctu-mrs/libcamera_ros
   gitman: false
   git_refs:

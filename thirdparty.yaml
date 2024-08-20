@@ -1,5 +1,5 @@
 px4_sitl_gazebo:
-  architecture: [amd64, arm64]
+  architecture: [amd64, arm64, arm32]
   source: https://github.com/ctu-mrs/px4_sitl_gazebo
   gitman: false
   git_refs:
@@ -8,7 +8,7 @@ px4_sitl_gazebo:
     stable: release
 
 nlopt_ros:
-  architecture: [amd64, arm64]
+  architecture: [amd64, arm64, arm32]
   source: https://github.com/ctu-mrs/nlopt_ros
   gitman: false
   git_refs:
@@ -17,7 +17,7 @@ nlopt_ros:
     stable: release
 
 ouster-ros:
-  architecture: [amd64, arm64]
+  architecture: [amd64, arm64, arm32]
   source: https://github.com/ctu-mrs/ouster-ros
   gitman: false
   git_refs:
@@ -26,7 +26,7 @@ ouster-ros:
     stable: release
 
 mavros:
-  architecture: [amd64, arm64]
+  architecture: [amd64, arm64, arm32]
   source: https://github.com/ctu-mrs/mavros
   gitman: false
   git_refs:
@@ -35,7 +35,7 @@ mavros:
     stable: release
 
 mav_comm:
-  architecture: [amd64, arm64]
+  architecture: [amd64, arm64, arm32]
   source: https://github.com/ctu-mrs/mav_comm
   gitman: false
   git_refs:
@@ -44,7 +44,7 @@ mav_comm:
     stable: release
 
 ros_comm:
-  architecture: [amd64, arm64]
+  architecture: [amd64, arm64, arm32]
   source: https://github.com/ctu-mrs/ros_comm
   gitman: false
   git_refs:
@@ -53,7 +53,7 @@ ros_comm:
     stable: release
 
 geometry2:
-  architecture: [amd64, arm64]
+  architecture: [amd64, arm64, arm32]
   source: https://github.com/ctu-mrs/geometry2
   gitman: false
   git_refs:
@@ -62,7 +62,7 @@ geometry2:
     stable: release
 
 nimbro_network:
-  architecture: [amd64, arm64]
+  architecture: [amd64, arm64, arm32]
   source: https://github.com/ctu-mrs/nimbro_network
   gitman: false
   git_refs:
@@ -71,7 +71,7 @@ nimbro_network:
     stable: release
 
 hector_slam:
-  architecture: [amd64, arm64]
+  architecture: [amd64, arm64, arm32]
   source: https://github.com/ctu-mrs/hector_slam
   gitman: false
   git_refs:
@@ -80,7 +80,7 @@ hector_slam:
     stable: release
 
 open_vins:
-  architecture: [amd64, arm64]
+  architecture: [amd64, arm64, arm32]
   source: https://github.com/ctu-mrs/open_vins
   gitman: false
   git_refs:
@@ -89,7 +89,7 @@ open_vins:
     stable: release
 
 mins:
-  architecture: [amd64, arm64]
+  architecture: [amd64, arm64, arm32]
   source: https://github.com/ctu-mrs/mins
   gitman: false
   git_refs:
@@ -98,7 +98,7 @@ mins:
     stable: release
 
 libcamera_ros_driver:
-  architecture: [amd64, arm64]
+  architecture: [amd64, arm64, arm32]
   source: https://github.com/ctu-mrs/libcamera_ros_driver
   gitman: false
   git_refs:

@@ -613,3 +613,14 @@ mrs_robofly_core:
     stable: release
   ros_test:
     enabled: false
+
+mrs_vins_kickoff_estimator_plugin:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/mrs_vins_kickoff_estimator_plugin
+  gitman: false
+  git_refs:
+    unstable: master
+    testing: release_candidate
+    stable: release
+  ros_test:
+    enabled: false

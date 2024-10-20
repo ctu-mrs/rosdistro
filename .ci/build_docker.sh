@@ -5,14 +5,16 @@ set -e
 trap 'last_command=$current_command; current_command=$BASH_COMMAND' DEBUG
 trap 'echo "$0: \"${last_command}\" command failed with exit code $?' ERR
 
-git clone https://github.com/ctu-mrs/mrs_docker
-cd mrs_docker/recipes
+# get the path to this script
+MY_PATH=`dirname "$0"`
+MY_PATH=`( cd "$MY_PATH" && pwd )`
+
+cd $MY_PATH
 
 docker login --username klaxalk --password $TOKEN
 
-# docker build . --file docker/without_linux_setup --tag ctumrs/mrs_uav_system:latest
-
 WEEK_TAG="`date +%Y`_w`date +%V`"
 
-docker buildx create --name container --driver=docker-container
-docker buildx build . --file Dockerfile --builder container --tag ctumrs/mrs_uav_system:latest --tag ctumrs/mrs_uav_system:${WEEK_TAG} --platform=linux/amd64,linux/arm64 --push 
+docker buildx create --name container --driver=docker-container --use
+
+docker buildx build . --file Dockerfile --tag ctumrs/mrs_uav_system:latest --tag ctumrs/mrs_uav_system:${WEEK_TAG} --platform=linux/amd64,linux/arm64 --push 

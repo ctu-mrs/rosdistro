@@ -49,9 +49,10 @@ jobs:
         job: ${{ fromJson(needs.generate-jobs.outputs.packages) }}
     steps:
       - name: Load artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
-          name: artifacts
+          pattern: artifacts
+          merge-multiple: true
           path: /tmp/artifacts/
       - uses: actions/checkout@v3
         with:

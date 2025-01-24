@@ -17,7 +17,7 @@ jobs:
           mkdir -p /tmp/artifacts
           touch /tmp/artifacts/void
       - name: Save artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: artifacts
           path: /tmp/artifacts/
@@ -68,7 +68,7 @@ jobs:
         run: |
           .ci/test.sh "${{ matrix.job }}" /tmp/artifacts stable
       - name: Save artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: artifacts
           path: /tmp/artifacts/

@@ -19,7 +19,7 @@ jobs:
           mkdir -p /tmp/artifacts
           touch /tmp/artifacts/temp.txt
       - name: Save artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: artifacts
           path: /tmp/artifacts/
@@ -75,7 +75,7 @@ jobs:
         run: |
           .ci/build_nonbloom.sh nonbloom unstable "${{ matrix.job }}"
       - name: Save artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: artifacts
           path: /tmp/artifacts/

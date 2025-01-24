@@ -22,6 +22,7 @@ jobs:
         with:
           name: artifacts
           path: /tmp/artifacts/
+          overwrite: true
 
   build-for-coverage:
     needs: init-artifacts
@@ -45,6 +46,7 @@ jobs:
         with:
           name: artifacts
           path: /tmp/artifacts/
+          overwrite: true
 
   generate-jobs:
     needs: build-for-coverage
@@ -97,6 +99,7 @@ jobs:
         with:
           name: artifacts
           path: /tmp/artifacts/
+          overwrite: true
 
   merge_and_push:
     runs-on: ubuntu-20.04

@@ -21,6 +21,7 @@ jobs:
         with:
           name: artifacts
           path: /tmp/artifacts/
+          overwrite: true
 
   generate-jobs:
     needs: init-artifacts
@@ -73,3 +74,4 @@ jobs:
         with:
           name: artifacts
           path: /tmp/artifacts/
+          overwrite: true

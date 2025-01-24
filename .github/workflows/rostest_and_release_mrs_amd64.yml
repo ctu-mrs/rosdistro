@@ -26,6 +26,7 @@ jobs:
         with:
           name: artifacts
           path: /tmp/artifacts/
+          overwrite: true
 
   generate-jobs:
     needs: init-artifacts
@@ -84,6 +85,7 @@ jobs:
         with:
           name: artifacts
           path: /tmp/artifacts/
+          overwrite: true
 
   collect-artifacts:
     runs-on: ubuntu-20.04

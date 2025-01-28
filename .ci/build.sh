@@ -173,7 +173,10 @@ for PACKAGE in $BUILD_ORDER; do
 
     echo "$0: Running bloom on a package in '$PKG_PATH'"
 
-    export DEB_BUILD_OPTIONS="parallel=`nproc`"
+    if [[ "$ARCH" != "arm64" ]]; then
+      export DEB_BUILD_OPTIONS="parallel=`nproc`"
+    fi
+
     bloom-generate rosdebian --os-name ubuntu --os-version focal --ros-distro noetic
 
     epoch=2
@@ -182,7 +185,11 @@ for PACKAGE in $BUILD_ORDER; do
     sed -i "s/(/($epoch:/" ./debian/changelog
     sed -i "s/)/.${build_flag})/" ./debian/changelog
 
-    fakeroot debian/rules "binary --parallel"
+    if [[ "$ARCH" != "arm64" ]]; then
+      fakeroot debian/rules "binary --parallel"
+    else
+      fakeroot debian/rules "binary"
+    fi
 
     FIND_METAPACKAGE=$(cat CMakeLists.txt | grep -e "^catkin_metapackage" | wc -l)
 

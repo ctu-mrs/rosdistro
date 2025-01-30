@@ -44,16 +44,16 @@ cd $REPOSITORY_PATH
 # clone and checkout
 echo "$REPOS" | while IFS= read -r REPO; do
 
-  REPO=$(echo "$REPO" | awk '{print $1}')
+  REPO_NAME=$(echo "$REPO" | awk '{print $1}')
   URL=$(echo "$REPO" | awk '{print $2}')
   BRANCH=$(echo "$REPO" | awk '{print $3}')
   GITMAN=$(echo "$REPO" | awk '{print $4}')
 
   echo "$0: cloning '$URL --depth 1 --branch $BRANCH' into '$REPO'"
-  git clone $URL --recurse-submodules --shallow-submodules --depth 1 --branch $BRANCH $REPO
+  git clone $URL --recurse-submodules --shallow-submodules --depth 1 --branch $BRANCH $REPO_NAME
 
   if [[ "$GITMAN" == "True" ]]; then
-    cd $REPO
+    cd $REPO_NAME
     [[ -e .gitman.yml || -e .gitman.yaml ]] && gitman install
   fi
 

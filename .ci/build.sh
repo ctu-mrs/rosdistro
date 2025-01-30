@@ -77,7 +77,7 @@ echo ""
 echo "$0: building the user's workspace for $ARCH"
 echo ""
 
-[ ! -e artifacts] && mkdir -p artifacts
+[ ! -e artifacts ] && mkdir -p artifacts
 
 if [ -e $ARTIFACTS_FOLDER/compiled.txt ]; then
   mv $ARTIFACTS_FOLDER/compiled.txt ./artifacts/

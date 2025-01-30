@@ -20,6 +20,10 @@ jobs:
         ports:
           - 5000:5000
     steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          submodules: 'recursive'
       - id: init_artifacts
         run: |
           mkdir -p /tmp/artifacts
@@ -28,7 +32,7 @@ jobs:
         run: |
           docker pull ctumrs/ros:noetic
           docker tag ctumrs/ros:noetic localhost:5000/ros:noetic
-          .ci/prime_image/prime_image.sh
+          ./.ci/prime_image/prime_image.sh
           docker push localhost:5000/ros:noetic
       - name: Save artifacts
         uses: actions/upload-artifact@v4

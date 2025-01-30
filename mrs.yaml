@@ -1,13 +1,13 @@
-# mrs_msgs:
-#   architecture: [amd64, arm64]
-#   source: https://github.com/ctu-mrs/mrs_msgs
-#   gitman: false
-#   git_refs:
-#     unstable: master
-#     testing: release_candidate
-#     stable: release
-#   ros_test:
-#     enabled: false
+mrs_msgs:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/mrs_msgs
+  gitman: false
+  git_refs:
+    unstable: master
+    testing: release_candidate
+    stable: release
+  ros_test:
+    enabled: false
 
 # mrs_modules_msgs:
 #   architecture: [amd64, arm64]
@@ -32,17 +32,17 @@
 #     enabled: true
 #     full_test_coverage: true
 
-mrs_uav_testing:
-  architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/mrs_uav_testing
-  gitman: false
-  git_refs:
-    unstable: master
-    testing: release_candidate
-    stable: release
-  ros_test:
-    enabled: true
-    full_test_coverage: true
+# mrs_uav_testing:
+#   architecture: [amd64, arm64]
+#   source: https://github.com/ctu-mrs/mrs_uav_testing
+#   gitman: false
+#   git_refs:
+#     unstable: master
+#     testing: release_candidate
+#     stable: release
+#   ros_test:
+#     enabled: true
+#     full_test_coverage: true
 
 # mrs_uav_gazebo_testing:
 #   architecture: [amd64, arm64]

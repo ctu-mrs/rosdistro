@@ -33,7 +33,7 @@ VARIANT=$2
 REPOSITORY=$3
 REPOSITORY_PATH=./.ci/docker_builder/repository
 ARTIFACTS_FOLDER=/tmp/artifacts
-ROSDEP_FILE="$ARTIFACTS_FOLDER/generated_${LIST}_${ARCH}.yaml"
+ROSDEP_FILE="generated_${LIST}_${ARCH}.yaml"
 
 YAML_FILE=${LIST}.yaml
 
@@ -80,8 +80,8 @@ echo ""
 [ ! -e artifacts ] && mkdir -p artifacts
 
 if [ -e $ARTIFACTS_FOLDER/compiled.txt ]; then
-  mv $ARTIFACTS_FOLDER/compiled.txt ./artifacts/
-  mv $ARTIFACTS_FOLDER/$ROSDEP_FILE ./artifacts/
+  mv $ARTIFACTS_FOLDER/compiled.txt ./artifacts/compiled.txt
+  mv $ARTIFACTS_FOLDER/$ROSDEP_FILE ./artifacts/$ROSDEP_FILE
 else
   touch ./artifacts/compiled.txt
   touch ./artifacts/$ROSDEP_FILE

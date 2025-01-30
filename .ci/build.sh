@@ -19,6 +19,10 @@ set -e
 trap 'last_command=$current_command; current_command=$BASH_COMMAND' DEBUG
 trap 'echo "$0: \"${last_command}\" command failed with exit code $?"' ERR
 
+# get the path to this script
+MY_PATH=`dirname "$0"`
+MY_PATH=`( cd "$MY_PATH" && pwd )`
+
 # determine our architecture
 sudo apt-get -y install dpkg-dev
 ARCH=$(dpkg-architecture -qDEB_HOST_ARCH)
@@ -63,7 +67,7 @@ done
 ## |                        docker build                        |
 ## --------------------------------------------------------------
 
-cd ./.ci/docker_builder
+cd $MY_PATH/docker_builder
 
 source common_vars.sh
 

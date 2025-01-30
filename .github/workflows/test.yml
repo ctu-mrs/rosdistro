@@ -3,6 +3,10 @@ name: test
 on:
   workflow_dispatch:
 
+  push:
+    branches:
+      - "containerized"
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
 

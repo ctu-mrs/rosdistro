@@ -13,7 +13,7 @@ concurrency:
 jobs:
 
   init-artifacts:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     services:
       registry:
         image: registry:2
@@ -43,7 +43,7 @@ jobs:
 
   generate-jobs:
     needs: init-artifacts
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     outputs:
       packages: ${{ steps.generate.outputs.packages }}
     services:
@@ -65,12 +65,12 @@ jobs:
           token: ${{ secrets.PUSH_TOKEN }}
       - id: generate
         run: |
-          JOB_STRATEGY_MATRIX=$(./.ci/get_nonbloom_build_matrix.sh nonbloom unstable amd64)
+          JOB_STRATEGY_MATRIX=$(./.ci/get_build_matrix.sh mrs unstable amd64)
           echo "packages=$JOB_STRATEGY_MATRIX" >> "$GITHUB_OUTPUT"
 
   build-job:
     needs: generate-jobs
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     timeout-minutes: 360 # 6 hour timeout
     strategy:
       matrix:
@@ -101,7 +101,7 @@ jobs:
           token: ${{ secrets.PUSH_TOKEN }}
       - id: build
         run: |
-          .ci/build_nonbloom.sh nonbloom unstable "${{ matrix.job }}"
+          .ci/build.sh mrs unstable "${{ matrix.job }}"
       - name: Save artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -110,7 +110,7 @@ jobs:
           overwrite: true
 
   collect-artifacts:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     needs: build-job
     env:
       PUSH_TOKEN: ${{ secrets.PUSH_TOKEN }}

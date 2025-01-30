@@ -1,10 +1,7 @@
-name: unstable-nonbloom-amd64
+name: test
 
 on:
   workflow_dispatch:
-
-  schedule:
-    - cron:  '0 18 * * *' # every day at 06.00 UTC+2
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -12,12 +9,23 @@ concurrency:
 jobs:
 
   init-artifacts:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
+    services:
+      registry:
+        image: registry:2
+        ports:
+          - 5000:5000
     steps:
-      - id: execute
+      - id: init_artifacts
         run: |
           mkdir -p /tmp/artifacts
           touch /tmp/artifacts/temp.txt
+      - id: prime_image
+        run: |
+          docker pull ctumrs/ros:noetic
+          docker tag ctumrs/ros:noetic localhost:5000/ros:noetic
+          .ci/prime_image/prime_image.sh
+          docker push localhost:5000/ros:noetic
       - name: Save artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -27,9 +35,14 @@ jobs:
 
   generate-jobs:
     needs: init-artifacts
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     outputs:
       packages: ${{ steps.generate.outputs.packages }}
+    services:
+      registry:
+        image: registry:2
+        ports:
+          - 5000:5000
     steps:
       - uses: actions/checkout@v3
         with:
@@ -49,12 +62,17 @@ jobs:
 
   build-job:
     needs: generate-jobs
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     timeout-minutes: 360 # 6 hour timeout
     strategy:
       matrix:
         job: ${{ fromJson(needs.generate-jobs.outputs.packages) }}
       max-parallel: 1 # Run jobs serially
+    services:
+      registry:
+        image: registry:2
+        ports:
+          - 5000:5000
     steps:
       - name: Load artifacts
         uses: actions/download-artifact@v4

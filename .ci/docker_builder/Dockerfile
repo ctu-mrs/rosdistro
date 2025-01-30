@@ -1,0 +1,35 @@
+ARG BASE_IMAGE=set_from_outside
+ARG TRANSPORT_IMAGE=set_from_outside
+
+#############################################################################
+
+FROM $BASE_IMAGE AS stage_build
+
+RUN apt-get update && apt-get -y install ros-noetic-catkin python3-catkin-tools fakeroot debhelper python3-pip dpkg-dev
+RUN pip3 install -U bloom gitman
+
+COPY repository /etc/docker/repository
+COPY artifacts /etc/docker/artifacts
+COPY build_script.sh /etc/docker/build_script.sh
+
+RUN git config --global --add safe.directory /etc/docker/repository
+
+RUN ./etc/docker/build_script.sh
+
+#############################################################################
+
+FROM $BASE_IMAGE AS stage_update_base
+
+COPY --from=stage_build /etc/docker/artifacts /tmp/artifacts
+
+RUN apt-get -y install /tmp/artifacts/*.deb
+
+RUN rm -rf /tmp/artifacts
+
+#############################################################################
+
+FROM $TRANSPORT_IMAGE AS stage_export_artifacts
+
+COPY --from=stage_build /etc/docker/artifacts /etc/docker/artifacts
+
+CMD ["sh"]

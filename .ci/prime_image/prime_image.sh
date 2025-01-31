@@ -11,4 +11,4 @@ MY_PATH=`( cd "$MY_PATH" && pwd )`
 
 cd $MY_PATH
 
-docker build . --file Dockerfile --tag locahost:5000/ros:noetic --progress plain
+docker build . --file Dockerfile --tag ctu/ros:noetic_builder --progress plain

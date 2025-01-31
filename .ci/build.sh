@@ -73,6 +73,8 @@ source common_vars.sh
 
 docker buildx use default
 
+docker load -i $ARTIFACTS_FOLDER/builder.tar.gz
+
 echo ""
 echo "$0: building the user's workspace for $ARCH"
 echo ""
@@ -110,4 +112,4 @@ docker build . --no-cache --target stage_update_base --file Dockerfile --build-a
 
 cp -r ./output/etc/docker/artifacts/* $ARTIFACTS_FOLDER/
 
-docker push localhost:5000/ros:noetic
+docker save $BASE_IMAGE | gzip > $ARTIFACTS_FOLDER/builder.tar.gz

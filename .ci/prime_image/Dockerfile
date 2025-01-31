@@ -1,4 +1,4 @@
-FROM localhost:5000/ros:noetic
+FROM ctumrs/ros:noetic
 
 RUN apt-get -y update
 

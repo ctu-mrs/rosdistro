@@ -1,9 +1,9 @@
 # tag for the source image agains which the catkin workspace will be built
-export BASE_IMAGE=localhost:5000/ros:noetic
+export BASE_IMAGE=ctumrs/ros:noetic_builder
 
 export TRANSPORT_IMAGE=alpine:latest
 
-export OUTPUT_IMAGE=localhost:5000/ros:noetic
+export OUTPUT_IMAGE=ctumrs/ros:noetic_builder
 
 export REPOSITORY_PATH=./repository
 

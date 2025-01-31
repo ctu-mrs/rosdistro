@@ -23,8 +23,6 @@ jobs:
         run: |
           mkdir -p /tmp/artifacts
           mkdir -p /tmp/artifacts/metarepositories
-          touch /tmp/artifacts/generated_mrs_arm64.yaml
-          touch /tmp/artifacts/compiled.txt
       - id: prime_image
         run: |
           ./.ci/prime_image/prime_image.sh

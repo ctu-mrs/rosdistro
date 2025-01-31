@@ -24,7 +24,6 @@ MY_PATH=`dirname "$0"`
 MY_PATH=`( cd "$MY_PATH" && pwd )`
 
 # determine our architecture
-sudo apt-get -y install dpkg-dev
 ARCH=$(dpkg-architecture -qDEB_HOST_ARCH)
 
 # INPUTS
@@ -68,9 +67,14 @@ done
 ## |                        docker build                        |
 ## --------------------------------------------------------------
 
-cd $MY_PATH/docker_builder
+BASE_IMAGE=ctumrs/ros:noetic_builder
+OUTPUT_IMAGE=ctumrs/ros:noetic_builder
+TRANSPORT_IMAGE=alpine:latest
 
-source common_vars.sh
+REPOSITORY_PATH=./repository
+ARTIFACTS_PATH=./artifacts
+
+cd $MY_PATH/docker_builder
 
 docker buildx use default
 
@@ -84,9 +88,13 @@ echo ""
 
 if [ -e $ARTIFACTS_FOLDER/compiled.txt ]; then
   mv $ARTIFACTS_FOLDER/compiled.txt ./artifacts/compiled.txt
-  mv $ARTIFACTS_FOLDER/$ROSDEP_FILE ./artifacts/rosdep.yaml
 else
   touch ./artifacts/compiled.txt
+fi
+
+if [ -e $ARTIFACTS_FOLDER/$ROSDEP_FILE ]; then
+  mv $ARTIFACTS_FOLDER/$ROSDEP_FILE ./artifacts/rosdep.yaml
+else
   touch ./artifacts/rosdep.yaml
 fi
 

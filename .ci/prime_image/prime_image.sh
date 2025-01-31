@@ -11,4 +11,10 @@ MY_PATH=`( cd "$MY_PATH" && pwd )`
 
 cd $MY_PATH
 
+docker pull ctumrs/ros:noetic
+
+docker buildx use default
+
 docker build . --file Dockerfile --tag ctu/ros:noetic_builder --progress plain
+
+docker save ctu/ros:noetic_builder | gzip > /tmp/artifacts/builder.tar.gz

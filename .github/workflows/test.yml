@@ -27,9 +27,7 @@ jobs:
           touch /tmp/artifacts/compiled.txt
       - id: prime_image
         run: |
-          docker pull ctumrs/ros:noetic
           ./.ci/prime_image/prime_image.sh
-          docker save ctumrs/ros:noetic_builder | gzip > /tmp/artifacts/builder.tar.gz
       - name: Save artifacts
         uses: actions/upload-artifact@v4
         with:

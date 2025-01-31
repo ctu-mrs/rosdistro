@@ -13,7 +13,7 @@ concurrency:
 jobs:
 
   init-artifacts:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm
     steps:
       - uses: actions/checkout@v3
         with:
@@ -37,7 +37,7 @@ jobs:
 
   generate-jobs:
     needs: init-artifacts
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm
     outputs:
       packages: ${{ steps.generate.outputs.packages }}
     steps:
@@ -95,7 +95,7 @@ jobs:
           overwrite: true
 
   collect-artifacts:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm
     needs: build-job
     env:
       PUSH_TOKEN: ${{ secrets.PUSH_TOKEN }}

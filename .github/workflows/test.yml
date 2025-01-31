@@ -60,7 +60,7 @@ jobs:
 
   build-job:
     needs: generate-jobs
-    runs-on: ubuntu-latest-arm64
+    runs-on: ubuntu-latest-arm
     timeout-minutes: 360 # 6 hour timeout
     strategy:
       matrix:

@@ -83,10 +83,10 @@ echo ""
 
 if [ -e $ARTIFACTS_FOLDER/compiled.txt ]; then
   mv $ARTIFACTS_FOLDER/compiled.txt ./artifacts/compiled.txt
-  mv $ARTIFACTS_FOLDER/$ROSDEP_FILE ./artifacts/$ROSDEP_FILE
+  mv $ARTIFACTS_FOLDER/$ROSDEP_FILE ./artifacts/rosdep.yaml
 else
   touch ./artifacts/compiled.txt
-  touch ./artifacts/$ROSDEP_FILE
+  touch ./artifacts/rosdep.yaml
 fi
 
 PASS_TO_DOCKER_BUILD="Dockerfile artifacts build_script.sh repository"
@@ -111,5 +111,6 @@ echo ""
 docker build . --no-cache --target stage_update_base --file Dockerfile --build-arg BASE_IMAGE=${BASE_IMAGE} --build-arg TRANSPORT_IMAGE=${TRANSPORT_IMAGE} --tag $OUTPUT_IMAGE --progress plain
 
 cp -r ./output/etc/docker/artifacts/* $ARTIFACTS_FOLDER/
+mv $ARTIFACTS_FOLDER/rosdep.yaml $ARTIFACTS_FOLDER/$ROSDEP_FILE
 
 docker save $BASE_IMAGE | gzip > $ARTIFACTS_FOLDER/builder.tar.gz

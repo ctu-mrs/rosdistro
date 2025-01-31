@@ -93,15 +93,7 @@ fi
 PASS_TO_DOCKER_BUILD="Dockerfile artifacts build_script.sh repository"
 
 # this first build compiles the contents of "src" and storest the intermediate
-tar -czh $PASS_TO_DOCKER_BUILD 2>/dev/null | docker build - --target stage_build --build-arg BASE_IMAGE=${BASE_IMAGE} --build-arg TRANSPORT_IMAGE=${TRANSPORT_IMAGE} --file Dockerfile
-
-echo ""
-echo "$0: exporting the artifacts"
-echo ""
-
-# this second build takes the resulting workspace and storest in in a final image
-# that can be deployed to a drone
-docker build . --target stage_export_artifacts --file Dockerfile --build-arg BASE_IMAGE=${BASE_IMAGE} --build-arg TRANSPORT_IMAGE=${TRANSPORT_IMAGE} --output ./output
+tar -czh $PASS_TO_DOCKER_BUILD 2>/dev/null | docker build - --target stage_export_artifacts --build-arg BASE_IMAGE=${BASE_IMAGE} --build-arg TRANSPORT_IMAGE=${TRANSPORT_IMAGE} --file Dockerfile --output ./output
 
 echo ""
 echo "$0: updating the base image"

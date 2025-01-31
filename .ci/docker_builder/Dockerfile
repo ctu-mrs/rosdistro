@@ -19,8 +19,6 @@ FROM $BASE_IMAGE AS stage_update_base
 
 COPY --from=stage_build /etc/docker/artifacts /tmp/artifacts
 
-RUN apt-get -y install /tmp/artifacts/*.deb
-
 RUN rm -rf /tmp/artifacts
 
 #############################################################################

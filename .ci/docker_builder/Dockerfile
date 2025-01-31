@@ -15,16 +15,12 @@ RUN ./etc/docker/build_script.sh
 
 #############################################################################
 
-FROM $BASE_IMAGE AS stage_update_base
-
-COPY --from=stage_build /etc/docker/artifacts /tmp/artifacts
-
-RUN rm -rf /tmp/artifacts
-
-#############################################################################
-
 FROM $TRANSPORT_IMAGE AS stage_export_artifacts
 
 COPY --from=stage_build /etc/docker/artifacts /etc/docker/artifacts
 
-CMD ["sh"]
+#############################################################################
+
+FROM $BASE_IMAGE AS stage_update_base
+
+RUN cd ./cache/etc/docker/artifacts && DEBS=(*.deb) && [ -e "${DEBS[0]}" ] && apt-get -y install ./*.deb || echo "no debs to install"

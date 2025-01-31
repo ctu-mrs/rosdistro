@@ -93,7 +93,7 @@ fi
 PASS_TO_DOCKER_BUILD="Dockerfile artifacts build_script.sh repository"
 
 # this first build compiles the contents of "src" and storest the intermediate
-tar -czh $PASS_TO_DOCKER_BUILD 2>/dev/null | docker build - --target stage_export_artifacts --build-arg BASE_IMAGE=${BASE_IMAGE} --build-arg TRANSPORT_IMAGE=${TRANSPORT_IMAGE} --file Dockerfile --output ./output
+tar -czh $PASS_TO_DOCKER_BUILD 2>/dev/null | docker build - --target stage_export_artifacts --build-arg BASE_IMAGE=${BASE_IMAGE} --build-arg TRANSPORT_IMAGE=${TRANSPORT_IMAGE} --file Dockerfile --output ./cache
 
 echo ""
 echo "$0: updating the base image"
@@ -103,7 +103,7 @@ echo ""
 # that can be deployed to a drone
 docker build . --target stage_update_base --file Dockerfile --build-arg BASE_IMAGE=${BASE_IMAGE} --build-arg TRANSPORT_IMAGE=${TRANSPORT_IMAGE} --tag $OUTPUT_IMAGE
 
-cp -r ./output/etc/docker/artifacts/* $ARTIFACTS_FOLDER/
+cp -r ./cache/etc/docker/artifacts/* $ARTIFACTS_FOLDER/
 mv $ARTIFACTS_FOLDER/rosdep.yaml $ARTIFACTS_FOLDER/$ROSDEP_FILE
 
 docker save $BASE_IMAGE | gzip > $ARTIFACTS_FOLDER/builder.tar.gz

@@ -17,4 +17,4 @@ docker buildx use default
 
 docker build . --file Dockerfile --tag ctumrs/ros:noetic_builder --progress plain
 
-docker save ctumrs/ros:noetic_builder | gzip > /tmp/artifacts/builder.tar.gz
+docker save ctumrs/ros:noetic_builder > /tmp/artifacts/builder.tar

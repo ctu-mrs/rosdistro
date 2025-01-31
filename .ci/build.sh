@@ -78,7 +78,7 @@ cd $MY_PATH/docker_builder
 
 docker buildx use default
 
-docker load -i $ARTIFACTS_FOLDER/builder.tar.gz
+docker load -i $ARTIFACTS_FOLDER/builder.tar
 
 echo ""
 echo "$0: building the user's workspace for $ARCH"
@@ -114,4 +114,4 @@ docker build . --target stage_update_base --file Dockerfile --build-arg BASE_IMA
 cp -r ./cache/etc/docker/artifacts/* $ARTIFACTS_FOLDER/
 mv $ARTIFACTS_FOLDER/rosdep.yaml $ARTIFACTS_FOLDER/$ROSDEP_FILE
 
-docker save $BASE_IMAGE | gzip > $ARTIFACTS_FOLDER/builder.tar.gz
+docker save $BASE_IMAGE > $ARTIFACTS_FOLDER/builder.tar

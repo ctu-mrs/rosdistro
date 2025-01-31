@@ -31,7 +31,7 @@ ARCH=$(dpkg-architecture -qDEB_HOST_ARCH)
 LIST=$1
 VARIANT=$2
 REPOSITORY=$3
-REPOSITORY_PATH=./.ci/docker_builder
+REPOSITORY_PATH=$MY_PATH/docker_builder
 ARTIFACTS_FOLDER=/tmp/artifacts
 ROSDEP_FILE="generated_${LIST}_${ARCH}.yaml"
 
@@ -54,8 +54,8 @@ echo "$REPOS" | while IFS= read -r REPO; do
   GITMAN=$(echo "$REPO" | awk '{print $4}')
 
   echo "$0: cloning '$URL --depth 1 --branch $BRANCH' into '$REPO'"
-  git clone $URL --recurse-submodules --shallow-submodules --depth 1 --branch $BRANCH $REPO_NAME
-  git config --global --add safe.directory $REPOSITORY_PATH/$REPO_NAME
+  git clone $URL --recurse-submodules --shallow-submodules --depth 1 --branch $BRANCH repository
+  git config --global --add safe.directory $REPOSITORY_PATH/repository
 
   if [[ "$GITMAN" == "True" ]]; then
     cd $REPO_NAME

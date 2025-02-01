@@ -120,5 +120,5 @@ jobs:
           ref: master
           path: .ci_scripts
           token: ${{ secrets.PUSH_TOKEN }}
-      # - name: Deploy
-      #   run: .ci_scripts/package_build/push_to_ppa.sh unstable /tmp/artifacts
+      - name: Deploy
+        run: .ci_scripts/package_build/push_to_ppa.sh unstable /tmp/artifacts

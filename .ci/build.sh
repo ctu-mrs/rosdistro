@@ -98,6 +98,8 @@ else
   touch ./artifacts/rosdep.yaml
 fi
 
+cp $ARTIFACTS_FOLDER/base_sha.txt ./artifacts/
+
 PASS_TO_DOCKER_BUILD="Dockerfile artifacts build_script.sh repository"
 
 # this first build compiles the contents of "src" and storest the intermediate

@@ -18,3 +18,7 @@ docker buildx use default
 docker build . --file Dockerfile --tag ctumrs/ros:noetic_builder --progress plain
 
 docker save ctumrs/ros:noetic_builder > /tmp/artifacts/builder.tar
+
+IMAGE_SHA=$(docker inspect --format='{{index .Id}}' ctumrs/mrs_uav_system:latest | head -c 15 | tail -c 8)
+
+echo $IMAGE_SHA > /tmp/artifacts/base_sha.txt

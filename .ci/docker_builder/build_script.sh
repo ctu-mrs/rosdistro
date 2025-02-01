@@ -68,11 +68,13 @@ for PACKAGE in $BUILD_ORDER; do
   echo "$0: future deb name: $FUTURE_DEB_NAME"
 
   SHA=$(git rev-parse --short HEAD)
+  DOCKER_SHA=$(cat $ARTIFACTS_FOLDER/base_sha.txt)
 
   echo "$0: SHA=$SHA"
 
   GIT_SHA_MATCHES=$(apt-cache policy $FUTURE_DEB_NAME | grep "Candidate" | grep "git.${SHA}" | wc -l)
   ON_PUSH_BUILD=$(apt-cache policy $FUTURE_DEB_NAME | grep "Candidate" | grep "on.push.build" | wc -l)
+  DOCKER_SHA_MATCHES=$(apt-cache policy $FUTURE_DEB_NAME | grep "Candidate" | grep "base.${DOCKER_SHA}" | wc -l)
 
   NEW_COMMIT=false
   if [[ "$GIT_SHA_MATCHES" == "0" ]] || [ "$ON_PUSH_BUILD" -ge "1" ]; then
@@ -94,7 +96,11 @@ for PACKAGE in $BUILD_ORDER; do
 
   done
 
-  # if $DEPENDENCIES_CHANGED || $NEW_COMMIT || [[ "$VARIANT" == "stable" ]]; then
+  if [[ "$DOCKER_SHA_MATCHES" == "0" ]]; then
+    echo "$0: base image changed, going to compile"
+    DEPENDENCIES_CHANGED=true
+  fi
+
   if $DEPENDENCIES_CHANGED || $NEW_COMMIT; then
 
     ## don't run if CATKIN_IGNORE is present
@@ -114,7 +120,7 @@ for PACKAGE in $BUILD_ORDER; do
     bloom-generate rosdebian --os-name ubuntu --os-version focal --ros-distro noetic
 
     epoch=2
-    build_flag="$(date +%Y%m%d.%H%M%S)~git.$SHA"
+    build_flag="$(date +%Y%m%d.%H%M%S)~git.$SHA.base.$DOCKER_SHA"
 
     sed -i "s/(/($epoch:/" ./debian/changelog
     sed -i "s/)/.${build_flag})/" ./debian/changelog

@@ -98,7 +98,7 @@ else
   touch ./artifacts/rosdep.yaml
 fi
 
-cp $ARTIFACTS_FOLDER/base_sha.txt ./artifacts/
+cp $ARTIFACTS_FOLDER/base_sha.txt ./artifacts/base_sha.txt
 
 PASS_TO_DOCKER_BUILD="Dockerfile artifacts build_script.sh repository"
 

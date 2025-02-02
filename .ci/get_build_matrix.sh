@@ -63,7 +63,9 @@ echo "" >> /tmp/log.txt 2>&1
 
 BUILD_ORDER=$($MY_PATH/get_build_order.py $WORKSPACE/src)
 
-echo "$0: ROS package build order: $BUILD_ORDER" >> /tmp/log.txt 2>&1
+echo "$0: ROS package build order:"
+echo "$BUILD_ORDER" >> /tmp/log.txt 2>&1
+echo "" >> /tmp/log.txt 2>&1
 
 FIRST=true
 
@@ -76,7 +78,7 @@ for PKG_PATH in $BUILD_ORDER; do
 
   cd $WORKSPACE/src/$PKG_PATH
 
-  echo "$0: Gonna look for package location for '$ROS_PACKAGE'" >> /tmp/log.txt 2>&1
+  echo "$0: Gonna look for package location for '$PKG_PATH'" >> /tmp/log.txt 2>&1
 
   PACKAGE=""
 
@@ -87,7 +89,7 @@ for PKG_PATH in $BUILD_ORDER; do
     if [ -e BUILD_THIS_REPO.txt ]; then
       PACKAGE=$(cat BUILD_THIS_REPO.txt)
       rm BUILD_THIS_REPO.txt
-      echo "$0: - ... found it, '$ROS_PACKAGE' originates from '$PACKAGE'" >> /tmp/log.txt 2>&1
+      echo "$0: - ... found it, '$PKG_PATH' originates from '$PACKAGE'" >> /tmp/log.txt 2>&1
       break
     fi
 

@@ -12,4 +12,4 @@ RUN curl https://ctu-mrs.github.io/ppa-stable/add_ppa.sh | bash
 
 RUN apt-get -y install ros-noetic-catkin python3-catkin-tools fakeroot debhelper python3-pip dpkg-dev git
 
-RUN pip3 install -U bloom gitman
+RUN pip3 install -U bloom

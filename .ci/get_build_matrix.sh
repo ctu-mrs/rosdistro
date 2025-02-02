@@ -74,7 +74,7 @@ echo "$0: Sorting packages" >> /tmp/log.txt 2>&1
 
 for PKG_PATH in $BUILD_ORDER; do
 
-  cd $WORKSPACE/src/$PKG_PATH
+  cd $PKG_PATH
 
   echo "$0: Gonna look for package location for '$PKG_PATH'" >> /tmp/log.txt 2>&1
 

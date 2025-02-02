@@ -110,9 +110,11 @@ echo ""
 echo "$0: updating the base image"
 echo ""
 
+PASS_TO_DOCKER_BUILD="Dockerfile artifacts"
+
 # this second build takes the resulting workspace and storest in in a final image
 # that can be deployed to a drone
-docker build . --target stage_update_base --file Dockerfile --build-arg BASE_IMAGE=${BASE_IMAGE} --build-arg TRANSPORT_IMAGE=${TRANSPORT_IMAGE} --tag $OUTPUT_IMAGE
+tar -czh $PASS_TO_DOCKER_BUILD 2>/dev/null | docker build - --target stage_update_base --file Dockerfile --build-arg BASE_IMAGE=${BASE_IMAGE} --build-arg TRANSPORT_IMAGE=${TRANSPORT_IMAGE} --tag $OUTPUT_IMAGE
 
 cp -r ./cache/etc/docker/artifacts/* $ARTIFACTS_FOLDER/
 mv $ARTIFACTS_FOLDER/rosdep.yaml $ARTIFACTS_FOLDER/$ROSDEP_FILE

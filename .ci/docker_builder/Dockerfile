@@ -23,4 +23,4 @@ COPY --from=stage_build /etc/docker/artifacts /etc/docker/artifacts
 
 FROM $BASE_IMAGE AS stage_update_base
 
-RUN apt-get -y install artifacts/*.deb || echo "debs count not be installed (probably there arent any)"
+RUN apt-get -y install artifacts/*.deb || echo "debs could not be installed (probably there arent any)"

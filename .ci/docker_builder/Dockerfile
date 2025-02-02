@@ -27,6 +27,6 @@ RUN mkdir -p /tmp/temp_artifacts
 
 COPY artifacts /tmp/temp_artifacts
 
-RUN cat /tmp/temp_artifacts
+RUN ls /tmp/temp_artifacts
 
 RUN apt-get -y install /tmp/temp_artifacts/*.deb || echo "debs could not be installed (probably there arent any)"

@@ -9,7 +9,7 @@ set -e
 trap 'last_command=$current_command; current_command=$BASH_COMMAND' DEBUG
 trap 'echo "$0: \"${last_command}\" command failed with exit code $?, log:" && cat /tmp/log.txt' ERR
 
-DEBUG=true
+DEBUG=false
 
 LIST=$1
 VARIANT=$2
@@ -33,8 +33,6 @@ cd $WORKSPACE/src >> /tmp/log.txt 2>&1
 # clone and checkout
 echo "$REPOS" | while IFS= read -r REPO; do
 
-  $DEBUG && echo "Cloning $REPO"
-
   PACKAGE=$(echo "$REPO" | awk '{print $1}')
   URL=$(echo "$REPO" | awk '{print $2}')
 
@@ -50,7 +48,8 @@ echo "$REPOS" | while IFS= read -r REPO; do
     continue
   fi
 
-  echo "$0: cloning '$URL --branch $BRANCH' into '$PACKAGE'" >> /tmp/log.txt 2>&1
+  echo "$0: Cloning '$REPO' from '$URL --branch $BRANCH' into '$PACKAGE'" >> /tmp/log.txt 2>&1
+
   git clone $URL --recurse-submodules --shallow-submodules --depth 1 --branch $BRANCH $PACKAGE >> /tmp/log.txt 2>&1
   echo "$PACKAGE" > $PACKAGE/BUILD_THIS_REPO.txt
   cd $PACKAGE >> /tmp/log.txt 2>&1
@@ -59,23 +58,25 @@ echo "$REPOS" | while IFS= read -r REPO; do
 
 done
 
-$DEBUG && echo "$0: Done cloning"
+echo "$0: Done cloning" >> /tmp/log.txt 2>&1
+echo "" >> /tmp/log.txt 2>&1
 
 BUILD_ORDER=$($MY_PATH/get_build_order.py $WORKSPACE/src)
 
-$DEBUG && echo "$0: Build oreder: $BUILD_ORDER"
+echo "$0: ROS package build order: $BUILD_ORDER" >> /tmp/log.txt 2>&1
 
 FIRST=true
 
 RESULT='['
 
-$DEBUG && echo "Sorting packages"
+echo "" >> /tmp/log.txt 2>&1
+echo "$0: Sorting packages" >> /tmp/log.txt 2>&1
 
 for PKG_PATH in $BUILD_ORDER; do
 
   cd $WORKSPACE/src/$PKG_PATH
 
-  $DEBUG && echo "Gonna look for package location for '$ROS_PACKAGE'"
+  echo "$0: Gonna look for package location for '$ROS_PACKAGE'" >> /tmp/log.txt 2>&1
 
   PACKAGE=""
 
@@ -86,12 +87,12 @@ for PKG_PATH in $BUILD_ORDER; do
     if [ -e BUILD_THIS_REPO.txt ]; then
       PACKAGE=$(cat BUILD_THIS_REPO.txt)
       rm BUILD_THIS_REPO.txt
-      $DEBUG && echo "- ... found it, '$ROS_PACKAGE' originates from '$PACKAGE'"
+      echo "$0: - ... found it, '$ROS_PACKAGE' originates from '$PACKAGE'" >> /tmp/log.txt 2>&1
       break
     fi
 
     if [[ "$CUR_DIR" == "/" ]]; then
-      $DEBUG && echo "- ... did not find it, probably already on the list"
+      echo "$0: - ... did not find it, probably already on the list" >> /tmp/log.txt 2>&1
       break
     fi
 

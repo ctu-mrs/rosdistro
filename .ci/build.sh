@@ -57,7 +57,7 @@ echo "$REPOS" | while IFS= read -r REPO; do
   git config --global --add safe.directory $REPOSITORY_PATH/repository
 
   if [[ "$GITMAN" == "True" ]]; then
-    cd $REPO_NAME
+    cd repository
     [[ -e .gitman.yml || -e .gitman.yaml ]] && gitman install
   fi
 

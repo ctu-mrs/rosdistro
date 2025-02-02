@@ -61,7 +61,7 @@ echo "" >> /tmp/log.txt 2>&1
 
 BUILD_ORDER=$($MY_PATH/get_build_order.py $WORKSPACE/src)
 
-echo "$0: ROS package build order:"
+echo "$0: ROS package build order:" >> /tmp/log.txt 2>&1
 echo "$BUILD_ORDER" >> /tmp/log.txt 2>&1
 echo "" >> /tmp/log.txt 2>&1
 

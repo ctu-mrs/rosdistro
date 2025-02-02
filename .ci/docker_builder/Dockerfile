@@ -25,6 +25,6 @@ FROM $BASE_IMAGE AS stage_update_base
 
 RUN mkdir -p /tmp/temp_artifacts && touch /tmp/temp_artifacts/.dockerignore
 
-COPY --from=stage_build /etc/docker/artifacts /tmp/temp_artifacts
+COPY artifacts /tmp/temp_artifacts
 
 RUN apt-get -y install /tmp/temp_artifacts/*.deb || echo "debs could not be installed (probably there arent any)"

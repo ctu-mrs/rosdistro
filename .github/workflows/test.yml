@@ -19,7 +19,7 @@ concurrency:
 jobs:
 
   init-artifacts:
-    runs-on: ${{ RUNS_ON }}
+    runs-on: ubuntu-24.04-arm
     steps:
       - uses: actions/checkout@v3
         with:
@@ -27,8 +27,8 @@ jobs:
           submodules: 'recursive'
       - id: init_artifacts
         run: |
-          mkdir -p ${{ ARTIFACTS_FOLDER }}
-          mkdir -p ${{ ARTIFACTS_FOLDER }}/metarepositories
+          mkdir -p ${{ env.ARTIFACTS_FOLDER }}
+          mkdir -p ${{ env.ARTIFACTS_FOLDER }}/metarepositories
       - id: prime_image
         run: |
           ./.ci/prime_image/prime_image.sh
@@ -41,7 +41,7 @@ jobs:
 
   generate-jobs:
     needs: init-artifacts
-    runs-on: ${{ RUNS_ON }}
+    runs-on: ubuntu-24.04-arm
     outputs:
       packages: ${{ steps.generate.outputs.packages }}
     steps:
@@ -64,7 +64,7 @@ jobs:
 
   build-job:
     needs: generate-jobs
-    runs-on: ${{ RUNS_ON }}
+    runs-on: ubuntu-24.04-arm
     timeout-minutes: 360 # 6 hour timeout
     strategy:
       matrix:
@@ -100,7 +100,7 @@ jobs:
           overwrite: true
 
   collect-artifacts:
-    runs-on: ${{ RUNS_ON }}
+    runs-on: ubuntu-24.04-arm
     needs: build-job
     env:
       PUSH_TOKEN: ${{ secrets.PUSH_TOKEN }}

@@ -112,11 +112,16 @@ echo ""
 
 PASS_TO_DOCKER_BUILD="Dockerfile artifacts"
 
+# copy the packages that were just built to the docker's artifacts workdir
+# such that the final stage can install them
+cp -r ./cache/etc/docker/artifacts/* ./artifacts
+
 # this second build takes the resulting workspace and storest in in a final image
 # that can be deployed to a drone
 tar -czh $PASS_TO_DOCKER_BUILD 2>/dev/null | docker build - --target stage_update_base --file Dockerfile --build-arg BASE_IMAGE=${BASE_IMAGE} --build-arg TRANSPORT_IMAGE=${TRANSPORT_IMAGE} --tag $OUTPUT_IMAGE
 
+# copy the artifacts for the next build job
 cp -r ./cache/etc/docker/artifacts/* $ARTIFACTS_FOLDER/
 mv $ARTIFACTS_FOLDER/rosdep.yaml $ARTIFACTS_FOLDER/$ROSDEP_FILE
 
-docker save $BASE_IMAGE > $ARTIFACTS_FOLDER/builder.tar
+docker save $OUTPUT_IMAGE > $ARTIFACTS_FOLDER/builder.tar

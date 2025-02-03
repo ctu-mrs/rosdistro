@@ -64,6 +64,8 @@ echo "$REPOS" | while IFS= read -r REPO; do
 
 done
 
+echo "$0: repository cloned"
+
 ## --------------------------------------------------------------
 ## |                        docker build                        |
 ## --------------------------------------------------------------
@@ -79,11 +81,11 @@ cd $MY_PATH/docker_builder
 
 docker buildx use default
 
+echo "$0: loading cached builder docker image"
+
 docker load -i $ARTIFACTS_FOLDER/builder.tar
 
-echo ""
-echo "$0: building the user's workspace for $ARCH"
-echo ""
+echo "$0: image loaded"
 
 [ ! -e artifacts ] && mkdir -p artifacts
 
@@ -103,12 +105,12 @@ cp $ARTIFACTS_FOLDER/base_sha.txt ./artifacts/base_sha.txt
 
 PASS_TO_DOCKER_BUILD="Dockerfile artifacts build_script.sh repository"
 
+echo "$0: running the build in the builder image for $ARCH"
+
 # this first build compiles the contents of "src" and storest the intermediate
 tar -czh $PASS_TO_DOCKER_BUILD 2>/dev/null | docker build - --target stage_export_artifacts --build-arg BASE_IMAGE=${BASE_IMAGE} --build-arg TRANSPORT_IMAGE=${TRANSPORT_IMAGE} --file Dockerfile --output ./cache
 
-echo ""
 echo "$0: updating the base image"
-echo ""
 
 PASS_TO_DOCKER_BUILD="Dockerfile artifacts"
 
@@ -116,12 +118,24 @@ PASS_TO_DOCKER_BUILD="Dockerfile artifacts"
 # such that the final stage can install them
 cp -r ./cache/etc/docker/artifacts/* ./artifacts
 
+echo "$0: updating the builder docker image"
+
 # this second build takes the resulting workspace and storest in in a final image
 # that can be deployed to a drone
 tar -czh $PASS_TO_DOCKER_BUILD 2>/dev/null | docker build - --target stage_update_base --file Dockerfile --build-arg BASE_IMAGE=${BASE_IMAGE} --build-arg TRANSPORT_IMAGE=${TRANSPORT_IMAGE} --tag $OUTPUT_IMAGE
 
+echo "$0: copying artifacts"
+
 # copy the artifacts for the next build job
 cp -r ./cache/etc/docker/artifacts/* $ARTIFACTS_FOLDER/
 mv $ARTIFACTS_FOLDER/rosdep.yaml $ARTIFACTS_FOLDER/$ROSDEP_FILE
+
+echo "$0: "
+echo "$0: artifacts are:"
+
+ls $ARTIFACTS_FOLDER
+
+echo "$0: "
+echo "$0: exporting the builder docker image as $OUTPUT_IMAGE"
 
 docker save $OUTPUT_IMAGE > $ARTIFACTS_FOLDER/builder.tar

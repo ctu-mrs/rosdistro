@@ -126,7 +126,7 @@ tar -czh $PASS_TO_DOCKER_BUILD 2>/dev/null | docker build - --target stage_new_b
 
 echo "$0: inspecting resulting image"
 
-docker history --no-trunc ${BUILDER_IMAGE}
+docker history ${BUILDER_IMAGE}
 
 echo "$0: copying artifacts"
 
@@ -140,6 +140,6 @@ echo "$0: artifacts are:"
 ls $ARTIFACTS_FOLDER
 
 echo "$0: "
-echo "$0: exporting the builder docker image as $OUTPUT_IMAGE"
+echo "$0: exporting the builder docker image as ${BUILDER_IMAGE}"
 
-docker save $OUTPUT_IMAGE > $ARTIFACTS_FOLDER/builder.tar
+docker save ${BUILDER_IMAGE} > $ARTIFACTS_FOLDER/builder.tar

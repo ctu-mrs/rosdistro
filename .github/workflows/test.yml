@@ -19,7 +19,7 @@ concurrency:
 jobs:
 
   init-artifacts:
-    runs-on: ${{ runs_on }}
+    runs-on: ${{ env.runs_on }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -27,8 +27,8 @@ jobs:
           submodules: 'recursive'
       - id: init_artifacts
         run: |
-          mkdir -p ${{ artifacts_folder }}
-          mkdir -p ${{ artifacts_folder }}/metarepositories
+          mkdir -p ${{ env.artifacts_folder }}
+          mkdir -p ${{ env.artifacts_folder }}/metarepositories
       - id: prime_image
         run: |
           ./.ci/prime_image/prime_image.sh
@@ -36,12 +36,12 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: artifacts
-          path: ${{ artifacts_folder }}/
+          path: ${{ env.artifacts_folder }}/
           overwrite: true
 
   generate-jobs:
     needs: init-artifacts
-    runs-on: ${{ runs_on }}
+    runs-on: ${{ env.runs_on }}
     outputs:
       packages: ${{ steps.generate.outputs.packages }}
     steps:
@@ -58,13 +58,13 @@ jobs:
           token: ${{ secrets.PUSH_TOKEN }}
       - id: generate
         run: |
-          JOB_STRATEGY_MATRIX=$(./.ci/get_build_matrix.sh mrs ${{ variant }} ${{ arch }})
+          JOB_STRATEGY_MATRIX=$(./.ci/get_build_matrix.sh mrs ${{ env.variant }} ${{ env.arch }})
           cat /tmp/log.txt
           echo "packages=$JOB_STRATEGY_MATRIX" >> "$GITHUB_OUTPUT"
 
   build-job:
     needs: generate-jobs
-    runs-on: ${{ runs_on }}
+    runs-on: ${{ env.runs_on }}
     timeout-minutes: 360 # 6 hour timeout
     strategy:
       matrix:
@@ -76,7 +76,7 @@ jobs:
         with:
           pattern: artifacts
           merge-multiple: true
-          path: ${{ artifacts_folder }}/
+          path: ${{ env.artifacts_folder }}/
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
@@ -90,17 +90,17 @@ jobs:
           token: ${{ secrets.PUSH_TOKEN }}
       - id: build
         run: |
-          .ci/build.sh mrs ${{ variant }} "${{ matrix.job }}"
-          ls ${{ artifacts_folder }}
+          .ci/build.sh mrs ${{ env.variant }} "${{ matrix.job }}"
+          ls ${{ env.artifacts_folder }}
       - name: Save artifacts
         uses: actions/upload-artifact@v4
         with:
           name: artifacts
-          path: ${{ artifacts_folder }}/
+          path: ${{ env.artifacts_folder }}/
           overwrite: true
 
   collect-artifacts:
-    runs-on: ${{ runs_on }}
+    runs-on: ${{ env.runs_on }}
     needs: build-job
     env:
       PUSH_TOKEN: ${{ secrets.PUSH_TOKEN }}
@@ -110,13 +110,13 @@ jobs:
         with:
           pattern: artifacts
           merge-multiple: true
-          path: ${{ artifacts_folder }}/
+          path: ${{ env.artifacts_folder }}/
       - id: execute
         run: |
-          rm ${{ artifacts_folder }}/builder.tar 2> /dev/null || true
-          rm ${{ artifacts_folder }}/compiled.txt 2> /dev/null || true
-          rm ${{ artifacts_folder }}/compile_further.txt 2> /dev/null || true
-          rm ${{ artifacts_folder }}/base_sha.txt 2> /dev/null || true
+          rm ${{ env.artifacts_folder }}/builder.tar 2> /dev/null || true
+          rm ${{ env.artifacts_folder }}/compiled.txt 2> /dev/null || true
+          rm ${{ env.artifacts_folder }}/compile_further.txt 2> /dev/null || true
+          rm ${{ env.artifacts_folder }}/base_sha.txt 2> /dev/null || true
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
@@ -129,4 +129,4 @@ jobs:
           path: .ci_scripts
           token: ${{ secrets.PUSH_TOKEN }}
       - name: Deploy
-        run: .ci_scripts/package_build/push_to_ppa.sh ${{ variant }} ${{ artifacts_folder }}
+        run: .ci_scripts/package_build/push_to_ppa.sh ${{ env.variant }} ${{ env.artifacts_folder }}

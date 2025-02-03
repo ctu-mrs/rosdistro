@@ -27,8 +27,8 @@ jobs:
           submodules: 'recursive'
       - id: init_artifacts
         run: |
-          mkdir -p ${{ env.ARTIFACTS_FOLDER }}
-          mkdir -p ${{ env.ARTIFACTS_FOLDER }}/metarepositories
+          mkdir -p /tmp/artifacts
+          mkdir -p /tmp/artifacts/metarepositories
       - id: prime_image
         run: |
           ./.ci/prime_image/prime_image.sh
@@ -36,7 +36,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: artifacts
-          path: ${{ ARTIFACTS_FOLDER }}/
+          path: /tmp/artifacts/
           overwrite: true
 
   generate-jobs:
@@ -58,7 +58,7 @@ jobs:
           token: ${{ secrets.PUSH_TOKEN }}
       - id: generate
         run: |
-          JOB_STRATEGY_MATRIX=$(./.ci/get_build_matrix.sh mrs ${{ VARIANT }} ${{ ARCH }})
+          JOB_STRATEGY_MATRIX=$(./.ci/get_build_matrix.sh mrs unstable arm64)
           cat /tmp/log.txt
           echo "packages=$JOB_STRATEGY_MATRIX" >> "$GITHUB_OUTPUT"
 
@@ -76,7 +76,7 @@ jobs:
         with:
           pattern: artifacts
           merge-multiple: true
-          path: ${{ ARTIFACTS_FOLDER }}/
+          path: /tmp/artifacts/
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
@@ -90,13 +90,13 @@ jobs:
           token: ${{ secrets.PUSH_TOKEN }}
       - id: build
         run: |
-          .ci/build.sh mrs ${{ VARIANT }} "${{ matrix.job }}"
-          ls ${{ ARTIFACTS_FOLDER }}
+          .ci/build.sh mrs unstable "${{ matrix.job }}"
+          ls /tmp/artifacts
       - name: Save artifacts
         uses: actions/upload-artifact@v4
         with:
           name: artifacts
-          path: ${{ ARTIFACTS_FOLDER }}/
+          path: /tmp/artifacts/
           overwrite: true
 
   collect-artifacts:
@@ -110,13 +110,13 @@ jobs:
         with:
           pattern: artifacts
           merge-multiple: true
-          path: ${{ ARTIFACTS_FOLDER }}/
+          path: /tmp/artifacts/
       - id: execute
         run: |
-          rm ${{ ARTIFACTS_FOLDER }}/builder.tar 2> /dev/null || true
-          rm ${{ ARTIFACTS_FOLDER }}/compiled.txt 2> /dev/null || true
-          rm ${{ ARTIFACTS_FOLDER }}/compile_further.txt 2> /dev/null || true
-          rm ${{ ARTIFACTS_FOLDER }}/base_sha.txt 2> /dev/null || true
+          rm /tmp/artifacts/builder.tar 2> /dev/null || true
+          rm /tmp/artifacts/compiled.txt 2> /dev/null || true
+          rm /tmp/artifacts/compile_further.txt 2> /dev/null || true
+          rm /tmp/artifacts/base_sha.txt 2> /dev/null || true
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
@@ -129,4 +129,4 @@ jobs:
           path: .ci_scripts
           token: ${{ secrets.PUSH_TOKEN }}
       - name: Deploy
-        run: .ci_scripts/package_build/push_to_ppa.sh ${{ VARIANT }} ${{ ARTIFACTS_FOLDER }}
+        run: .ci_scripts/package_build/push_to_ppa.sh unstable /tmp/artifacts

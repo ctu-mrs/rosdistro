@@ -1,9 +1,10 @@
+ARG BUILDER_IMAGE=set_from_outside
 ARG BASE_IMAGE=set_from_outside
 ARG TRANSPORT_IMAGE=set_from_outside
 
 #############################################################################
 
-FROM $BASE_IMAGE AS stage_build
+FROM $BUILDER_IMAGE AS stage_build
 
 COPY repository /etc/docker/repository
 COPY artifacts /etc/docker/artifacts
@@ -21,7 +22,7 @@ COPY --from=stage_build /etc/docker/artifacts /etc/docker/artifacts
 
 #############################################################################
 
-FROM $BASE_IMAGE AS stage_update_base
+FROM $BUILDER_IMAGE AS stage_update_base
 
 RUN mkdir -p /tmp/temp_artifacts
 
@@ -29,4 +30,10 @@ COPY artifacts /tmp/temp_artifacts
 
 RUN ls /tmp/temp_artifacts
 
-RUN apt-get -y install /tmp/temp_artifacts/*.deb || echo "debs could not be installed (probably there arent any)"
+RUN apt-get -y install /tmp/temp_artifacts/*.deb || echo "debs could not be installed (probably there aren't any)"
+
+#############################################################################
+
+FROM $BASE_IMAGE AS stage_new_builder
+
+COPY --from=stage_update_base / /

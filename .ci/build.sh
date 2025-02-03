@@ -70,8 +70,8 @@ echo "$0: repository cloned"
 ## |                        docker build                        |
 ## --------------------------------------------------------------
 
-BASE_IMAGE=ctumrs/ros:noetic_builder
-OUTPUT_IMAGE=ctumrs/ros:noetic_builder
+BASE_IMAGE=ctumrs/ros:noetic
+BUILDER_IMAGE=ctumrs/ros:noetic_builder
 TRANSPORT_IMAGE=alpine:latest
 
 REPOSITORY_PATH=./repository
@@ -108,7 +108,7 @@ PASS_TO_DOCKER_BUILD="Dockerfile artifacts build_script.sh repository"
 echo "$0: running the build in the builder image for $ARCH"
 
 # this first build compiles the contents of "src" and storest the intermediate
-tar -czh $PASS_TO_DOCKER_BUILD 2>/dev/null | docker build - --target stage_export_artifacts --build-arg BASE_IMAGE=${BASE_IMAGE} --build-arg TRANSPORT_IMAGE=${TRANSPORT_IMAGE} --file Dockerfile --output ./cache
+tar -czh $PASS_TO_DOCKER_BUILD 2>/dev/null | docker build - --target stage_export_artifacts --build-arg BUILDER_IMAGE=${BUILDER_IMAGE} --build-arg TRANSPORT_IMAGE=${TRANSPORT_IMAGE} --file Dockerfile --output ./cache
 
 echo "$0: updating the base image"
 
@@ -122,7 +122,11 @@ echo "$0: updating the builder docker image"
 
 # this second build takes the resulting workspace and storest in in a final image
 # that can be deployed to a drone
-tar -czh $PASS_TO_DOCKER_BUILD 2>/dev/null | docker build - --target stage_update_base --file Dockerfile --build-arg BASE_IMAGE=${BASE_IMAGE} --build-arg TRANSPORT_IMAGE=${TRANSPORT_IMAGE} --tag $OUTPUT_IMAGE
+tar -czh $PASS_TO_DOCKER_BUILD 2>/dev/null | docker build - --target stage_new_builder --file Dockerfile --build-arg BASE_IMAGE=${BASE_IMAGE} --build-arg BUILDER_IMAGE=${BUILDER_IMAGE} --tag ${BUILDER_IMAGE}
+
+echo "$0: inspecting resulting image"
+
+docker history --no-trunc ${BUILDER_IMAGE}
 
 echo "$0: copying artifacts"
 

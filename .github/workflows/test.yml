@@ -78,7 +78,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           pattern: artifacts
-          merge-multiple: true
+          merge-multiple: false
           path: /tmp/artifacts/
       - uses: actions/checkout@v3
         with:

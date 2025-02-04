@@ -70,6 +70,8 @@ echo "$0: repository cloned"
 ## |                        docker build                        |
 ## --------------------------------------------------------------
 
+$MY_PATH/wait_for_docker.sh
+
 BASE_IMAGE=ctumrs/ros:noetic
 BUILDER_IMAGE=ctumrs/ros:noetic_builder
 TRANSPORT_IMAGE=alpine:latest

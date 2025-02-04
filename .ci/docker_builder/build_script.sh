@@ -56,6 +56,8 @@ if [ -s $ROSDEP_FILE ]; then
 
 fi
 
+apt-get -y update
+
 for PACKAGE in $BUILD_ORDER; do
 
   PKG_PATH=$(catkin locate $PACKAGE)

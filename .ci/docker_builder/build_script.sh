@@ -56,8 +56,6 @@ if [ -s $ROSDEP_FILE ]; then
 
 fi
 
-apt-get -y update
-
 for PACKAGE in $BUILD_ORDER; do
 
   PKG_PATH=$(catkin locate $PACKAGE)
@@ -108,6 +106,8 @@ for PACKAGE in $BUILD_ORDER; do
     ## don't run if CATKIN_IGNORE is present
 
     [ -e $PKG_PATH/CATKIN_IGNORE ] && continue
+
+    apt-get -y update
 
     rosdep install -y -v --rosdistro=noetic --dependency-types=build --from-paths ./
 

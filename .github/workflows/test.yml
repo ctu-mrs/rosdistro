@@ -25,7 +25,7 @@ jobs:
           mkdir -p /tmp/artifacts/metarepositories
       - id: prime_image
         run: |
-          ./.ci/prime_image/prime_image.sh
+          ./.ci/prime_image/prime_image.sh ctumrs/ros_noetic:2025-02-05
       - name: Save artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -87,7 +87,7 @@ jobs:
           token: ${{ secrets.PUSH_TOKEN }}
       - id: build
         run: |
-          .ci/build.sh mrs unstable "${{ matrix.job }}"
+          .ci/build.sh mrs unstable "${{ matrix.job }}" ctumrs/ros_noetic:2025-02-05
           ls /tmp/artifacts
       - name: Save artifacts
         uses: actions/upload-artifact@v4

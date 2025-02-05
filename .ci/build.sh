@@ -30,6 +30,7 @@ ARCH=$(dpkg-architecture -qDEB_HOST_ARCH)
 LIST=$1
 VARIANT=$2
 REPOSITORY=$3
+BASE_IMAGE=$4
 REPOSITORY_PATH=$MY_PATH/docker_builder
 ARTIFACTS_FOLDER=/tmp/artifacts
 ROSDEP_FILE="generated_${LIST}_${ARCH}.yaml"
@@ -72,7 +73,6 @@ echo "$0: repository cloned"
 
 $MY_PATH/wait_for_docker.sh
 
-BASE_IMAGE=ctumrs/ros:noetic
 BUILDER_IMAGE=ctumrs/ros:noetic_builder
 TRANSPORT_IMAGE=alpine:latest
 

@@ -1,4 +1,6 @@
-FROM ctumrs/ros:noetic
+ARG BASE_IMAGE=set_from_outside
+
+FROM $BASE_IMAGE
 
 RUN apt-get -y update
 

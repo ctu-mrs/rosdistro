@@ -11,11 +11,13 @@ MY_PATH=`( cd "$MY_PATH" && pwd )`
 
 cd $MY_PATH
 
-docker pull ctumrs/ros:noetic
+BASE_IMAGE=$1
+
+docker pull $BASE_IMAGE
 
 docker buildx use default
 
-docker build . --file Dockerfile --tag ctumrs/ros:noetic_builder --progress plain
+docker build . --file Dockerfile --build-arg BASE_IMAGE=${BASE_IMAGE} --tag ctumrs/ros:noetic_builder --progress plain
 
 docker save ctumrs/ros:noetic_builder > /tmp/artifacts/builder.tar
 

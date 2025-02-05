@@ -21,6 +21,6 @@ docker build . --file Dockerfile --build-arg BASE_IMAGE=${BASE_IMAGE} --tag ctum
 
 docker save ctumrs/ros:noetic_builder > /tmp/artifacts/builder.tar
 
-IMAGE_SHA=$(docker inspect --format='{{index .Id}}' ctumrs/ros:noetic | head -c 15 | tail -c 8)
+IMAGE_SHA=$(docker inspect --format='{{index .Id}}' ${BASE_IMAGE} | head -c 15 | tail -c 8)
 
 echo $IMAGE_SHA > /tmp/artifacts/base_sha.txt

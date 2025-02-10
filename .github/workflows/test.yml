@@ -14,6 +14,8 @@ jobs:
 
   init-artifacts:
     runs-on: ubuntu-24.04-arm
+    env:
+      TOKEN: ${{ secrets.DOCKERHUB }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -64,6 +66,8 @@ jobs:
       matrix:
         job: ${{ fromJson(needs.generate-jobs.outputs.packages) }}
       max-parallel: 1 # Run jobs serially
+    env:
+      TOKEN: ${{ secrets.DOCKERHUB }}
     steps:
       - id: wait_for_artifacts
         run: |
@@ -113,7 +117,6 @@ jobs:
           path: /tmp/artifacts/
       - id: execute
         run: |
-          rm /tmp/artifacts/builder.tar 2> /dev/null || true
           rm /tmp/artifacts/compiled.txt 2> /dev/null || true
           rm /tmp/artifacts/compile_further.txt 2> /dev/null || true
           rm /tmp/artifacts/base_sha.txt 2> /dev/null || true

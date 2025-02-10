@@ -13,13 +13,17 @@ cd $MY_PATH
 
 BASE_IMAGE=$1
 
+docker login --username klaxalk --password $TOKEN
+
 docker pull $BASE_IMAGE
 
 docker buildx use default
 
 docker build . --file Dockerfile --build-arg BASE_IMAGE=${BASE_IMAGE} --tag ctumrs/ros:noetic_builder --progress plain
 
-docker save ctumrs/ros:noetic_builder > /tmp/artifacts/builder.tar
+docker push ctumrs/ros:noetic_builder
+
+# docker save ctumrs/ros:noetic_builder > /tmp/artifacts/builder.tar
 
 IMAGE_SHA=$(docker inspect --format='{{index .Id}}' ${BASE_IMAGE} | head -c 15 | tail -c 8)
 

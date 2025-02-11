@@ -2,7 +2,7 @@ ARG BASE_IMAGE=set_from_outside
 
 FROM $BASE_IMAGE
 
-RUN apt-get -y update
+RUN apt-get -y update && sudo apt-get -y upgrade
 
 # workaround interractive prompts during apt installations
 RUN echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-selections

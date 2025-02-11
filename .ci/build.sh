@@ -85,11 +85,11 @@ docker buildx use default
 
 echo "$0: loading cached builder docker image"
 
-docker login --username klaxalk --password $TOKEN
+# docker login --username klaxalk --password $TOKEN
 
-docker pull $BUILDER_IMAGE
+# docker pull $BUILDER_IMAGE
 
-# docker load -i $ARTIFACTS_FOLDER/builder.tar
+docker load -i $ARTIFACTS_FOLDER/builder.tar
 
 echo "$0: image loaded"
 
@@ -148,6 +148,6 @@ ls $ARTIFACTS_FOLDER
 echo "$0: "
 echo "$0: exporting the builder docker image as ${BUILDER_IMAGE}"
 
-docker push ${BUILDER_IMAGE}
+# docker push ${BUILDER_IMAGE}
 
-# docker save ${BUILDER_IMAGE} > $ARTIFACTS_FOLDER/builder.tar
+docker save ${BUILDER_IMAGE} > $ARTIFACTS_FOLDER/builder.tar

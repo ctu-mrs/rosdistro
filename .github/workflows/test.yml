@@ -13,7 +13,7 @@ concurrency:
 jobs:
 
   init-artifacts:
-    runs-on: ubuntu-24.04-arm
+    runs-on: ubuntu-22.04-arm
     env:
       TOKEN: ${{ secrets.DOCKERHUB }}
     steps:
@@ -37,7 +37,7 @@ jobs:
 
   generate-jobs:
     needs: init-artifacts
-    runs-on: ubuntu-24.04-arm
+    runs-on: ubuntu-22.04-arm
     outputs:
       packages: ${{ steps.generate.outputs.packages }}
     steps:
@@ -60,7 +60,7 @@ jobs:
 
   build-job:
     needs: generate-jobs
-    runs-on: ubuntu-24.04-arm
+    runs-on: ubuntu-22.04-arm
     timeout-minutes: 360 # 6 hour timeout
     strategy:
       matrix:
@@ -101,7 +101,7 @@ jobs:
           overwrite: true
 
   collect-artifacts:
-    runs-on: ubuntu-24.04-arm
+    runs-on: ubuntu-22.04-arm
     needs: build-job
     env:
       PUSH_TOKEN: ${{ secrets.PUSH_TOKEN }}

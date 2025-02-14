@@ -3,7 +3,7 @@ ARG PPA_VERSION=set_from_outside
 
 FROM $BASE_IMAGE
 
-RUN apt-get -y update && sudo apt-get -y upgrade
+RUN apt-get -y update
 
 # workaround interractive prompts during apt installations
 RUN echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-selections

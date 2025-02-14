@@ -3,6 +3,8 @@ ARG PPA_VARIANT=set_from_outside
 
 FROM $BASE_IMAGE
 
+ARG PPA_VARIANT
+
 RUN apt-get -y update
 
 # workaround interractive prompts during apt installations
@@ -11,7 +13,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get -y install keyboard-configuration
 
 RUN apt-get -y install software-properties-common curl bash
 
-RUN curl https://ctu-mrs.github.io/ppa-$PPA_VARIANT/add_ppa.sh | bash
+RUN curl https://ctu-mrs.github.io/ppa-${PPA_VARIANT}/add_ppa.sh | bash
 
 RUN apt-get -y install ros-noetic-catkin python3-catkin-tools fakeroot debhelper python3-pip dpkg-dev git
 

@@ -12,7 +12,7 @@ MY_PATH=`( cd "$MY_PATH" && pwd )`
 cd $MY_PATH
 
 BASE_IMAGE=$1
-VARIANT=$2
+PPA_VARIANT=$2
 
 # docker login --username klaxalk --password $TOKEN
 

@@ -12,6 +12,7 @@ MY_PATH=`( cd "$MY_PATH" && pwd )`
 cd $MY_PATH
 
 BASE_IMAGE=$1
+VARIANT=$2
 
 # docker login --username klaxalk --password $TOKEN
 
@@ -19,7 +20,7 @@ docker pull $BASE_IMAGE
 
 docker buildx use default
 
-docker build . --file Dockerfile --build-arg BASE_IMAGE=${BASE_IMAGE} --tag ctumrs/ros:noetic_builder --progress plain
+docker build . --file Dockerfile --build-arg BASE_IMAGE=${BASE_IMAGE} --build-arg PPA_VERSION=${PPA_VERSION} --tag ctumrs/ros:noetic_builder --progress plain
 
 # docker push ctumrs/ros:noetic_builder
 

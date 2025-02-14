@@ -3,9 +3,9 @@ name: arm_thirdparty
 on:
   workflow_dispatch:
 
-  push:
-    branches:
-      - "containerized"
+  # push:
+  #   branches:
+  #     - "containerized"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -69,9 +69,6 @@ jobs:
     env:
       TOKEN: ${{ secrets.DOCKERHUB }}
     steps:
-      - id: wait_for_artifacts
-        run: |
-          sleep 10
       - name: Load artifacts
         uses: actions/download-artifact@v4
         with:
@@ -106,9 +103,6 @@ jobs:
     env:
       PUSH_TOKEN: ${{ secrets.PUSH_TOKEN }}
     steps:
-      - id: wait_for_artifacts
-        run: |
-          sleep 10
       - name: Load artifacts
         uses: actions/download-artifact@v4
         with:

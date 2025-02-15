@@ -72,8 +72,7 @@ jobs:
       - name: Load artifacts
         uses: actions/download-artifact@v4
         with:
-          pattern: artifacts
-          merge-multiple: true
+          name: artifacts
           path: /tmp/artifacts/
       - uses: actions/checkout@v3
         with:
@@ -90,6 +89,10 @@ jobs:
         run: |
           .ci/build.sh mrs unstable "${{ matrix.job }}" ctumrs/ros_noetic:2025-02-05
           ls /tmp/artifacts
+      - name: Delete old artifacts
+        uses: geekyeggo/delete-artifact@v5
+        with:
+          name: artifacts
       - name: Save artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -106,8 +109,7 @@ jobs:
       - name: Load artifacts
         uses: actions/download-artifact@v4
         with:
-          pattern: artifacts
-          merge-multiple: true
+          name: artifacts
           path: /tmp/artifacts/
       - id: execute
         run: |

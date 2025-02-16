@@ -97,7 +97,7 @@ def topological_sort(packages):
         raise ValueError(f"Cyclic dependency detected: {' -> '.join(cycle)}")
     
     # Initialize queue with packages having no dependencies
-    queue = deque([pkg for pkg in all_packages if indegree[pkg] == 0 and graph[pkg]]
+    queue = deque([pkg for pkg in all_packages if indegree[pkg] == 0 and graph[pkg]])
 
     build_order = []
     

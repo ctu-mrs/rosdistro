@@ -5,6 +5,7 @@ import xml.etree.ElementTree as ET
 from collections import defaultdict, deque
 import copy
 import re
+import graphlib
 
 def clean_xml(file_path):
 
@@ -19,131 +20,112 @@ def clean_xml(file_path):
 
 def find_packages(root_dir):
 
-    packages = {}
-    package_paths = {}
+    repositories = {}
+
+    ## | ----------- create a map of package->repository ---------- |
     
-    for subdir, _, files in os.walk(root_dir):
-        if "package.xml" in files:
-            if "CATKIN_IGNORE" in files:
-                continue
-            package_path = os.path.join(subdir, "package.xml")
+    # get list of repositories
 
-            xml_content = clean_xml(package_path)           
+    repository_list = []
 
-            root = ET.fromstring(xml_content)
+    for root, dirs, files in os.walk(root_dir):
 
-            name_elem = root.find("name")
-            if name_elem is None:
-                continue
+        for folder in dirs:
+            repository_list.append(folder)
 
-            package_name = name_elem.text.strip()
-            
-            dependencies = [dep.text.strip() for dep in root.findall("depend") if dep.text]
-            dependencies = dependencies + [dep.text.strip() for dep in root.findall("build_depend") if dep.text]
-            
-            packages[package_name] = {
-                "path": subdir,
-                "dependencies": dependencies
-            }
-
-            package_paths[package_name] = subdir
+        break
     
-    return packages, package_paths
+    # create a map of package->repository
 
-def detect_cycle(graph, all_packages):
-    visited = set()
-    stack = set()
-    cycle_packages = []
+    package_repo_map = {}
+
+    for repository in repository_list:
+
+        for subdir, _, files in os.walk(root_dir + "/" + repository):
+
+            if "package.xml" in files:
+
+                if "CATKIN_IGNORE" in files:
+                    continue
+
+                package_path = os.path.join(subdir, "package.xml")
+
+                xml_content = clean_xml(package_path)           
+
+                root = ET.fromstring(xml_content)
+
+                name_elem = root.find("name")
+
+                package_name = name_elem.text.strip()
+
+                package_repo_map[package_name] = repository
+
+    # build the dependency map between the repositories
+
+    for repository in repository_list:
+
+        # print("walking over repository: {}".format(repository))
+
+        pruned_dependencies = set()
+
+        for subdir, _, files in os.walk(root_dir + "/" + repository):
+
+            if "package.xml" in files:
+
+                if "CATKIN_IGNORE" in files:
+                    continue
+
+                package_path = os.path.join(subdir, "package.xml")
+
+                xml_content = clean_xml(package_path)           
+
+                root = ET.fromstring(xml_content)
+
+                name_elem = root.find("name")
+
+                if name_elem is None:
+                    continue
+
+                package_name = name_elem.text.strip()
+                
+                dependencies = [dep.text.strip() for dep in root.findall("depend") if dep.text]
+                dependencies = dependencies + [dep.text.strip() for dep in root.findall("build_depend") if dep.text]
+
+                dependencies = dependencies + [dep.text.strip() for dep in root.findall("exec_depend") if dep.text]
+
+                for dependency in dependencies:
+
+                    # the dependency is not package within our repositories
+                    if dependency not in package_repo_map:
+                        # print("Dependency {} of the package {} is not within the package map".format(dependency, package_name))
+                        continue
     
-    def visit(pkg, path):
-        if pkg in stack:  # Cycle detected
-            cycle_packages.extend(path[path.index(pkg):] + [pkg])
-            return True
-        if pkg in visited:
-            return False
+                    # the dependency is satisfied by a package from this repository
+                    if package_repo_map[dependency] == repository:
+                        # print("Dependency {} of the package {} from repository {} is located within the repository".format(dependency, package_name, repository))
+                        continue
+
+                    # print("Appending {}".format(package_repo_map[dependency]))
+
+                    pruned_dependencies.add(package_repo_map[dependency])
+
+        # print("pruned_dependencies for {}: {}".format(repository, pruned_dependencies))
         
-        visited.add(pkg)
-        stack.add(pkg)
-        path.append(pkg)
-        for neighbor in graph[pkg]:
-            if visit(neighbor, path):
-                return True
-        stack.remove(pkg)
-        path.pop()
-        return False
+        repositories[repository] = pruned_dependencies
+
+    # print("repositories: {}".format(repositories))
     
-    for pkg in all_packages:
-        if pkg not in visited:
-            if visit(pkg, []):
-                return cycle_packages  # Return the cycle if found
-    return None
-
-def topological_sort(packages):
-
-    graph = defaultdict(set) # who depends on each package
-    indegree = defaultdict(int)
-    all_packages = set(packages.keys())
-    
-    # Build dependency graph
-    for pkg, info in packages.items():
-        for dep in info["dependencies"]:
-            if dep in all_packages:
-                graph[dep].add(pkg)
-                indegree[pkg] += 1
-
-    # Detect cycles before proceeding
-    cycle = detect_cycle(graph, all_packages)
-    if cycle:
-        raise ValueError(f"Cyclic dependency detected: {' -> '.join(cycle)}")
-    
-    # Initialize queue with packages having no dependencies
-    queue = deque([pkg for pkg in all_packages if indegree[pkg] == 0 and graph[pkg]])
-
-    for package in [pkg for pkg in all_packages if indegree[pkg] == 0 and not graph[pkg]]:
-        queue.append(package)
-
-    build_order = []
-    
-    while queue:
-        pkg = queue.popleft()
-        build_order.append(pkg)
-        
-        for dependent in graph[pkg]:
-            indegree[dependent] -= 1
-            if indegree[dependent] == 0:
-                queue.append(dependent)
-
-    for idx_large in range(0, len(build_order)-2):
-        for idx_small in range(0, len(build_order)-idx_large-1):
-
-            idx_left = idx_small
-            idx_right = idx_small+1
-
-            if build_order[idx_right] not in graph[build_order[idx_left]]:
-
-                left = copy.deepcopy(build_order[idx_left])
-                right = copy.deepcopy(build_order[idx_right])
-                build_order[idx_left] = right
-                build_order[idx_right] = left
-
-    # If all dependencies were not resolved, there's a cyclic dependency
-    # if len(build_order) != len(all_packages):
-    #     raise ValueError("Cyclic dependency detected in the package dependencies, build_order: {}, all_packagees: {}.".format(len(build_order), len(all_packages)))
-
-    return build_order
+    return repositories
 
 def main(root_dir):
 
-    packages, package_paths = find_packages(root_dir)
+    packages = find_packages(root_dir)
 
-    try:
-        build_order = topological_sort(packages)
+    ts = graphlib.TopologicalSorter(packages)
 
-        for pkg in build_order:
-            print(package_paths[pkg])
+    ordered_list = [*tuple(ts.static_order())]
 
-    except ValueError as e:
-        print("Error:", e)
+    print(ordered_list)
 
 if __name__ == "__main__":
     import sys

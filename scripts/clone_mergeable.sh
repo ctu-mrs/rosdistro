@@ -5,8 +5,8 @@ LOCATION=~/git/mrs
 
 LISTS=(
   'mrs'
-  'nonbloom'
-  'thirdparty'
+  # 'nonbloom'
+  # 'thirdparty'
 )
 
 for ((i=0; i < ${#LISTS[*]}; i++));
@@ -53,7 +53,7 @@ do
 
       cd $LOCATION/$LIST
       echo "$0: nothing to be merged, deleting the repo"
-      rm -rf ./$PACKAGE
+      # rm -rf ./$PACKAGE
 
     fi
 

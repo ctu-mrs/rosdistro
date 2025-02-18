@@ -18,7 +18,7 @@ VARIANT=$2
 ARCH=$3
 REPOSITORY=$4
 BASE_IMAGE=$5
-REPOSITORY_PATH=$MY_PATH/docker_builder
+REPOSITORY_PATH=$MY_PATH/docker_nonbloom_builder
 ARTIFACTS_FOLDER=/tmp/artifacts
 ARTIFACTS_FOLDER=/tmp/artifacts
 
@@ -56,9 +56,6 @@ $MY_PATH/wait_for_docker.sh
 
 BUILDER_IMAGE=ctumrs/ros:noetic_builder
 TRANSPORT_IMAGE=alpine:latest
-
-REPOSITORY_PATH=./repository
-ARTIFACTS_PATH=./artifacts
 
 cd $MY_PATH/docker_nonbloom_builder
 

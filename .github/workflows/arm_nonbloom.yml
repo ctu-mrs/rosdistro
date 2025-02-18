@@ -53,7 +53,7 @@ jobs:
           token: ${{ secrets.PUSH_TOKEN }}
       - id: generate
         run: |
-          JOB_STRATEGY_MATRIX=$(./.ci/get_nonbloom_build_matrix.sh mrs unstable arm64)
+          JOB_STRATEGY_MATRIX=$(./.ci/get_nonbloom_build_matrix.sh nonbloom unstable arm64)
           cat /tmp/log.txt
           echo "packages=$JOB_STRATEGY_MATRIX" >> "$GITHUB_OUTPUT"
 

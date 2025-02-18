@@ -22,5 +22,7 @@ trap 'echo "$0: \"${last_command}\" command failed with exit code $?"' ERR
 VARIANT=$1
 ARTIFACTS_FOLDER=/etc/docker/artifacts
 
+cd /etc/docker/repository
+
 # call the build script within the clone repository
-/etc/docker/repository/.ci/build_package.sh $VARIANT $ARTIFACTS_FOLDER
+./.ci/build_package.sh $VARIANT $ARTIFACTS_FOLDER

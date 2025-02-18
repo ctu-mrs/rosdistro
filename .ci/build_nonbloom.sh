@@ -24,8 +24,6 @@ ARTIFACTS_FOLDER=/tmp/artifacts
 
 YAML_FILE=${LIST}.yaml
 
-cd $MY_PATH
-
 REPO=$(./.ci/get_repo_source.py $YAML_FILE $VARIANT $ARCH $REPOSITORY)
 
 mkdir -p $REPOSITORY_PATH

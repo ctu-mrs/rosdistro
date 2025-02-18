@@ -3,9 +3,9 @@ name: arm_thirdparty
 on:
   workflow_dispatch:
 
-  push:
-    branches:
-      - "containerized"
+  # push:
+  #   branches:
+  #     - "containerized"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}

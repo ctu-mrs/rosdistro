@@ -15,17 +15,16 @@ MY_PATH=`( cd "$MY_PATH" && pwd )`
 
 LIST=$1
 VARIANT=$2
-REPOSITORY=$3
-BASE_IMAGE=$4
+ARCH=$3
+REPOSITORY=$4
+BASE_IMAGE=$5
 REPOSITORY_PATH=$MY_PATH/docker_builder
 ARTIFACTS_FOLDER=/tmp/artifacts
 ARTIFACTS_FOLDER=/tmp/artifacts
 
 YAML_FILE=${LIST}.yaml
 
-sudo apt-get -y install dpkg-dev
-
-ARCH=$(dpkg-architecture -qDEB_HOST_ARCH)
+cd $MY_PATH
 
 REPO=$(./.ci/get_repo_source.py $YAML_FILE $VARIANT $ARCH $REPOSITORY)
 

@@ -86,7 +86,7 @@ jobs:
           token: ${{ secrets.PUSH_TOKEN }}
       - id: build
         run: |
-          .ci/build_nonbloom.sh mrs unstable arm64 "${{ matrix.job }}" ctumrs/ros_noetic:2025-02-05
+          .ci/build_nonbloom.sh nonbloom unstable arm64 "${{ matrix.job }}" ctumrs/ros_noetic:2025-02-05
           ls /tmp/artifacts
       - name: Delete old artifacts
         uses: geekyeggo/delete-artifact@v5

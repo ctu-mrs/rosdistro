@@ -86,7 +86,6 @@ echo "$0: copying artifacts"
 
 # copy the artifacts for the next build job
 cp -r ./cache/etc/docker/artifacts/* $ARTIFACTS_FOLDER/
-mv $ARTIFACTS_FOLDER/rosdep.yaml $ARTIFACTS_FOLDER/$ROSDEP_FILE
 
 echo "$0: "
 echo "$0: artifacts are:"

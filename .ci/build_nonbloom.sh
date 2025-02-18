@@ -39,10 +39,9 @@ git clone $URL --recurse-submodules --branch $BRANCH repository
 
 echo "$0: repository cloned"
 
-cd $WORK_DIR/$PACKAGE/
+cd repository
 
 if [[ "$GITMAN" == "True" ]]; then
-  cd repository
   pipx install gitman
   [[ -e .gitman.yml || -e .gitman.yaml ]] && gitman install
 fi

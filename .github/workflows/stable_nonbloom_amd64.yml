@@ -6,6 +6,10 @@ on:
   # schedule:
   #   - cron:  '0 14 * * *'
 
+  # push:
+  #   branches:
+  #     - containerized_stable
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
 

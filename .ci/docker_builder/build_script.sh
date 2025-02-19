@@ -139,16 +139,19 @@ for PACKAGE in $BUILD_ORDER; do
 
     DEBS=(../*.deb)
 
-    if [ $FIND_METAPACKAGE -eq 0 ]; then
-      echo "$0: installing artifacts from $ARTIFACTS_FOLDER"
-      [ -e "${DEBS[0]}" ] && apt-get -y install --allow-downgrades ../*.deb || echo "$0: no artifacts to be installed"
-      echo "$0: moving the artifact to $ARTIFACTS_FOLDER"
-      [ -e "${DEBS[0]}" ] && mv ../*.deb $ARTIFACTS_FOLDER || echo "$0: no artifacts to be moved"
-    else
-      echo "$0: moving the artifact to $ARTIFACTS_FOLDER/metarepositories"
-      mkdir -p $ARTIFACTS_FOLDER/metarepositories
-      [ -e "${DEBS[0]}" ] && mv ../*.deb $ARTIFACTS_FOLDER/metarepositories/ || echo "$0: no artifacts to be moved"
-    fi
+    # if [ $FIND_METAPACKAGE -eq 0 ]; then
+    #
+    echo "$0: installing artifacts from $ARTIFACTS_FOLDER"
+    [ -e "${DEBS[0]}" ] && apt-get -y install --allow-downgrades ../*.deb || echo "$0: no artifacts to be installed"
+
+    echo "$0: moving the artifact to $ARTIFACTS_FOLDER"
+    [ -e "${DEBS[0]}" ] && mv ../*.deb $ARTIFACTS_FOLDER || echo "$0: no artifacts to be moved"
+
+    # else
+    #   echo "$0: moving the artifact to $ARTIFACTS_FOLDER/metarepositories"
+    #   mkdir -p $ARTIFACTS_FOLDER/metarepositories
+    #   [ -e "${DEBS[0]}" ] && mv ../*.deb $ARTIFACTS_FOLDER/metarepositories/ || echo "$0: no artifacts to be moved"
+    # fi
 
     echo "$PACKAGE:
     ubuntu: [$DEB_NAME]

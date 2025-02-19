@@ -24,7 +24,6 @@ jobs:
       - id: init_artifacts
         run: |
           mkdir -p /tmp/artifacts
-          mkdir -p /tmp/artifacts/metarepositories
       - id: prime_image
         run: |
           ./.ci/prime_image/prime_image.sh ctumrs/ros_noetic:2025-02-05 unstable

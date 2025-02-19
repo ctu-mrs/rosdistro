@@ -1,11 +1,10 @@
-name: arm_thirdparty
+name: stable_nonbloom_amd64
 
 on:
   workflow_dispatch:
 
-  # push:
-  #   branches:
-  #     - "containerized"
+  # schedule:
+  #   - cron:  '0 14 * * *'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -13,7 +12,7 @@ concurrency:
 jobs:
 
   init-artifacts:
-    runs-on: ubuntu-22.04-arm
+    runs-on: ubuntu-22.04
     env:
       TOKEN: ${{ secrets.DOCKERHUB }}
     steps:
@@ -26,7 +25,7 @@ jobs:
           mkdir -p /tmp/artifacts
       - id: prime_image
         run: |
-          ./.ci/prime_image/prime_image.sh ctumrs/ros_noetic:2025-02-05 unstable
+          ./.ci/prime_image/prime_image.sh ctumrs/ros_noetic:2025-02-05 stable
       - name: Save artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -36,7 +35,7 @@ jobs:
 
   generate-jobs:
     needs: init-artifacts
-    runs-on: ubuntu-22.04-arm
+    runs-on: ubuntu-22.04
     outputs:
       packages: ${{ steps.generate.outputs.packages }}
     steps:
@@ -53,13 +52,13 @@ jobs:
           token: ${{ secrets.PUSH_TOKEN }}
       - id: generate
         run: |
-          JOB_STRATEGY_MATRIX=$(./.ci/get_build_matrix.sh thirdparty unstable arm64)
+          JOB_STRATEGY_MATRIX=$(./.ci/get_nonbloom_build_matrix.sh nonbloom stable amd64)
           cat /tmp/log.txt
           echo "packages=$JOB_STRATEGY_MATRIX" >> "$GITHUB_OUTPUT"
 
   build-job:
     needs: generate-jobs
-    runs-on: ubuntu-22.04-arm
+    runs-on: ubuntu-22.04
     timeout-minutes: 360 # 6 hour timeout
     strategy:
       matrix:
@@ -86,7 +85,7 @@ jobs:
           token: ${{ secrets.PUSH_TOKEN }}
       - id: build
         run: |
-          .ci/build.sh thirdparty unstable "${{ matrix.job }}" ctumrs/ros_noetic:2025-02-05
+          .ci/build_nonbloom.sh nonbloom stable amd64 "${{ matrix.job }}" ctumrs/ros_noetic:2025-02-05
           ls /tmp/artifacts
       - name: Delete old artifacts
         uses: geekyeggo/delete-artifact@v5
@@ -101,7 +100,7 @@ jobs:
           overwrite: true
 
   collect-artifacts:
-    runs-on: ubuntu-22.04-arm
+    runs-on: ubuntu-22.04
     needs: build-job
     env:
       PUSH_TOKEN: ${{ secrets.PUSH_TOKEN }}
@@ -113,8 +112,6 @@ jobs:
           path: /tmp/artifacts/
       - id: execute
         run: |
-          rm /tmp/artifacts/compiled.txt 2> /dev/null || true
-          rm /tmp/artifacts/compile_further.txt 2> /dev/null || true
           rm /tmp/artifacts/base_sha.txt 2> /dev/null || true
           rm /tmp/artifacts/builder.tar 2> /dev/null || true
       - uses: actions/checkout@v3
@@ -129,4 +126,4 @@ jobs:
           path: .ci_scripts
           token: ${{ secrets.PUSH_TOKEN }}
       - name: Deploy
-        run: .ci_scripts/package_build/push_to_ppa.sh unstable /tmp/artifacts
+        run: .ci_scripts/package_build/push_to_ppa.sh stable /tmp/artifacts
